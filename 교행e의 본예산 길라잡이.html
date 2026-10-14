@@ -195,7 +195,7 @@ body.mk-open{overflow:hidden}
 #view .budget-school-details>summary,#view .budget-schedule-details>summary{display:flex;align-items:center;gap:10px;width:auto!important;padding:14px 18px!important;font-size:17px!important;font-weight:800!important;color:var(--navy)!important;background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;list-style:none}
 #view .v-pri .budget-school-details>summary,#view.v-pri .budget-school-details>summary,#view.v-pri .budget-schedule-details>summary{border-left-color:var(--pri)}
 #view .budget-school-details>summary::-webkit-details-marker,#view .budget-schedule-details>summary::-webkit-details-marker{display:none}
-#view .budget-school-details>summary::after,#view .budget-schedule-details>summary::after{content:"펼치기 ▾";margin-left:auto;font-size:13px;font-weight:700;color:var(--muted)}
+#view .budget-school-details>summary::after,#view .budget-schedule-details>summary::after{content:"펼치기 ▾";margin-left:auto;white-space:nowrap;font-size:13px;font-weight:700;color:var(--muted)}
 #view .budget-school-details[open]>summary::after,#view .budget-schedule-details[open]>summary::after{content:"접기 ▴"}
 #view .sched h2{font-size:19px}
 #view .sched table{font-size:15.5px}
@@ -249,7 +249,40 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
   .step,.sched,.doc{break-inside:avoid;box-shadow:none}
 }
 </style>
-<link rel="stylesheet" href="design/dashboard.css">
+<link rel="stylesheet" href="design/dashboard.css?v=20261014-clean-menu">
+<style id="readable">
+/* 읽기 쉽게: 처음 쓰는 사람도 편하도록 글씨 크기만 키움 (모양·색은 design/ 그대로) */
+@media screen{
+  body{font-size:16px}
+  .top .ver{font-size:14.5px!important}.top .switch{font-size:15px!important}
+  .vhead h1 small{font-size:15px!important}.vhead p{font-size:15.5px!important}
+  .budget-guideline-label{font-size:12.5px!important}.budget-guideline-note{font-size:13.5px!important}.budget-guideline strong{font-size:16px!important}
+  .budget-guideline>.basis,.budget-guideline .basis-list{font-size:14.5px!important}.basis-note{font-size:14px!important}
+  .pickcard .tag{font-size:14px!important}.pickcard p{font-size:14.5px!important}.pickcard li{font-size:15px!important}.pickcard .go{font-size:15.5px!important}
+  #home .howto ol,.howto li{font-size:15px!important}.updates li span{font-size:15px}.updates time{font-size:14px!important}
+  .vars label,.vars .dates label{font-size:14.5px!important}.vars .note,.vars .xlbar small,.vars .dates-h small{font-size:13.5px!important}.vars .dates-h{font-size:15.5px!important}
+  .vars input{font-size:15px!important}.vars .xlbar b,.vars .xlbar button,.vars .xlbar .xlup{font-size:15px!important}
+  .sched td.law{font-size:14.5px!important}
+  .budget-rail-title{font-size:18px!important}.budget-rail-copy b{font-size:15px!important}
+  .budget-rail-number{font-size:12px!important;width:28px!important;height:28px!important}
+  .step-head h3{font-size:24px!important}.step-meta,.step-meta .when,.step-meta .who{font-size:14.5px!important}
+  .budget-task-column>h4,.budget-doc-column>h4{font-size:20px!important}
+  .todo li,.todo li span{font-size:16px!important}
+  .budget-law>summary{font-size:15px!important}.law-box{font-size:15px!important;line-height:1.85}
+  .budget-task-note{font-size:13.5px!important}
+  .doc-kind{font-size:12.5px!important}.doc-label{font-size:15px!important}.cbtn{font-size:15px!important}
+  .doc-title{font-size:17px!important}.doc-body{font-size:15.5px!important}
+  .budget-doc-tabs button{font-size:14px!important}
+  .attach .lb{font-size:13.5px!important}.attach a{font-size:14px!important}.attach .ext{font-size:12px!important}.attach .self{font-size:14px!important}
+  .attach.make button{font-size:14.5px!important}
+  footer.credit,footer.credit div,footer.credit a,footer.credit b{font-size:14px!important}
+  .mk-head h2{font-size:21px}.mk-tabs button{font-size:15px}.mk-edit{font-size:15px}.mk-help{font-size:14px}
+  .mk-drop{font-size:15.5px}.mk-drop small{font-size:13.5px}.mk-tools button{font-size:15px}.mk-sec h4{font-size:17px}
+  .mk-edit table{font-size:14.5px}.mk-edit th{font-size:13.5px}.mk-b,.mk-x{font-size:14.5px}.mk-biz{font-size:14px}
+  .mk-form label{font-size:14.5px}.mk-form input,.mk-form textarea{font-size:15px}
+  .toast{font-size:15px!important}
+}
+</style>
 </head>
 <body>
 
@@ -306,6 +339,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>글씨 전체적으로 크게(처음 쓰는 분도 읽기 쉽게)</span></li>
           <li><time>2026. 10. 14.</time><span>화면 정리: 위쪽 단추를 '홈'으로, 설정을 '한 번에 일정 업로드하기'로, 일정표 글씨 크게</span></li>
           <li><time>2026. 10. 14.</time><span>엑셀 올리기 모두 끌어 놓기(드래그 앤 드롭) 지원, 사립 [서식1]·[서식35] 한글 파일이 작게 인쇄되던 문제 고침</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 [서식3] 예산총칙 파일 빼기 → 에듀파인에서 다운로드</span></li>
@@ -439,7 +473,7 @@ pub: {
   steps: [
   { t:"본예산 편성 계획 수립 및 교직원 사전교육", when:"{P}. 12월 초", who:"행정실",
     law:"학교장은 지침이 시달되면 교직원에게 학교교육시책 및 예산편성에 필요한 <b>사전교육</b>을 실시합니다. <b>학교회계 규칙 제12조</b>(지침 인용) · 편성 계획과 사전교육은 <b>내부결재</b>로 남깁니다.",
-    todo:["편성 일정(아래 표) 확정","사전교육 일시·장소 정하기","예산요구서 제출 기한 정하기"],
+    todo:["편성 일정 확정 (위 '예산 편성 일정 한눈에 보기' 참고)","사전교육 일시·장소 정하기","예산요구서 제출 기한 정하기"],
     docs:[{ kind:"in", label:"편성 계획(내부결재)",
       title:"{Y}학년도 학교회계 본예산 편성 계획",
       body:"1. 관련\n  가. 「초·중등교육법」 제30조의3(학교회계의 운영)\n  나. 전북특별자치도교육청 예산과-[[gno|○○○○]]([[gdate.|{P}. ○○. ○○.]])\n2. {Y}학년도 학교회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원 사전교육: [[edu|{P}. 12. ○.(○)]]\n    2) 학교구성원 의견수렴: [[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]\n    3) 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지\n    4) 예산조정위원회 개최: {Y}. 1월 중(전입금 교부계획 통보 후)\n    5) 예산안 학교운영위원회 제출: {d30}까지\n    6) 학교운영위원회 심의: {d5}까지\n    7) 예산 확정 및 공개: 확정 후 10일 이내\n  다. 교직원 사전교육\n    1) 일시/장소: [[edu|{P}. 12. ○.(○)]] [[eduT|○○:○○]] / [[eduP|○○실]]\n    2) 대상: 전 교직원\n    3) 내용: {Y}학년도 학교교육시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출\n    1) 기한: [[req|{P}. 12. ○○.(○)]]까지\n    2) 방법: 부서(담당자)별 세입·세출예산요구서 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 각 1부.  끝.",
@@ -497,7 +531,7 @@ pri: {
   steps: [
   { t:"본예산 편성 계획 수립 및 사전교육", when:"{P}. 12월 초", who:"행정실",
     law:"학교장은 예산편성 전에 교직원에게 연간 학교운영시책 및 예산편성에 필요한 <b>사전교육</b>을 실시합니다(지침). [서식35] 확인사항: 사전교육 대상 — <b>교직원 및 학교운영위원</b>.",
-    todo:["편성 일정(아래 표) 확정","교직원·학교운영위원 사전교육 일정 정하기","예산요구서 제출 기한 정하기"],
+    todo:["편성 일정 확정 (위 '예산 편성 일정 한눈에 보기' 참고)","교직원·학교운영위원 사전교육 일정 정하기","예산요구서 제출 기한 정하기"],
     docs:[{ kind:"in", label:"편성 계획(내부결재)",
       title:"{Y}학년도 교비회계 본예산 편성 계획",
       body:"1. 관련\n  가. 「사학기관 재무·회계 규칙」\n  나. 전북특별자치도교육청 예산과-[[gno|○○○○]]([[gdate.|{P}. ○○. ○○.]])\n2. {Y}학년도 교비회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원·학교운영위원 사전교육: [[edu|{P}. 12. ○.(○)]]\n    2) 학교구성원 의견수렴: [[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]\n    3) 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지\n    4) 예산조정위원회 개최: {Y}. 1월 중\n    5) 학교운영위원회 심의: [[com|{Y}. 2. ○○.(○)]]\n    6) 법인 이사장에게 예산안 제출 및 이사회 의결: 회계연도 개시 전\n    7) 관할청 보고 및 누리집 공시: {d5}까지(개시 5일 전)\n  다. 사전교육\n    1) 일시/장소: [[edu|{P}. 12. ○.(○)]] [[eduT|○○:○○]] / [[eduP|○○실]]\n    2) 대상: 전 교직원 및 학교운영위원\n    3) 내용: {Y}학년도 학교운영시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지, 부서(담당자)별 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 1부.  끝.",
@@ -1394,6 +1428,6 @@ var start = (location.hash || "").replace("#", "");
 show(VERS[start] ? start : null);
 })();
 </script>
-<script src="design/dashboard.js"></script>
+<script src="design/dashboard.js?v=20261014-clean-menu"></script>
 </body>
 </html>

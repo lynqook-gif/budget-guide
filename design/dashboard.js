@@ -48,16 +48,6 @@
       if (i === selected) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
     });
   }
-  function updateProgress() {
-    Array.from(steps.children).forEach((step, i) => {
-      const inputs = Array.from(step.querySelectorAll('.todo input'));
-      const done = inputs.filter(input => input.checked).length;
-      const button = rail.querySelectorAll('nav button')[i];
-      if (!button) return;
-      button.querySelector('.budget-rail-status').textContent = done + ' / ' + inputs.length + ' 확인';
-      button.classList.toggle('complete', inputs.length > 0 && done === inputs.length);
-    });
-  }
   function chooseDoc(step, index) {
     const docs = Array.from(step.querySelectorAll('.doc'));
     docs.forEach((doc, i) => doc.classList.toggle('budget-doc-inactive', i !== index));
@@ -71,12 +61,10 @@
     const nav = rail.querySelector('nav'); nav.replaceChildren();
     Array.from(steps.children).forEach((step, i) => {
       const title = step.querySelector('h3').textContent;
-      const when = step.querySelector('.when').textContent;
       const button = document.createElement('button'); button.type = 'button';
-      button.innerHTML = '<span class="budget-rail-number"></span><span class="budget-rail-copy"><b></b><small></small><em class="budget-rail-status"></em></span>';
+      button.innerHTML = '<span class="budget-rail-number"></span><span class="budget-rail-copy"><b></b></span>';
       button.querySelector('.budget-rail-number').textContent = String(i + 1).padStart(2, '0');
       button.querySelector('b').textContent = title;
-      button.querySelector('small').textContent = when;
       button.addEventListener('click', () => select(i)); nav.append(button);
       const body = step.querySelector('.step-body');
       if (body.querySelector('.budget-task-column')) return;
@@ -105,7 +93,7 @@
       docs.forEach(doc => docsColumn.append(doc));
       body.append(task, docsColumn); chooseDoc(step, Math.min(docSelections[i] || 0, docs.length - 1));
     });
-    select(selected); updateProgress();
+    select(selected);
     document.body.classList.toggle('budget-working', !view.hidden);
   }
   new MutationObserver(arrange).observe(steps, {childList:true});
@@ -114,6 +102,5 @@
     const jump = event.target.closest('[data-jump]');
     if (jump) select(Number(jump.dataset.jump));
   }, true);
-  document.addEventListener('change', event => { if (event.target.matches('.todo input')) updateProgress(); });
   arrange();
 })();
