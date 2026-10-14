@@ -158,6 +158,58 @@ footer.credit b{color:var(--ink)}
   .step-head,.step-body{padding-left:14px;padding-right:14px}
   .doc-btns{margin-left:0}
 }
+/* 붙임 만들기 */
+.attach.make{background:#f4fbf6}
+.attach.make button{display:inline-flex;align-items:center;gap:6px;border:1px solid #9cc9ab;background:#fff;border-radius:8px;padding:5px 11px;font:inherit;font-size:13.5px;font-weight:700;color:#1d6f42;cursor:pointer}
+.attach.make button::before{content:"만들기";font-size:11px;font-weight:800;background:#1d6f42;color:#fff;border-radius:4px;padding:1px 5px}
+.attach.make button[data-make="reqForm"]::before{content:"엑셀"}
+.attach.make button:hover{border-color:#1d6f42;background:#eef7f1}
+body.mk-open{overflow:hidden}
+#maker{position:fixed;inset:0;z-index:1000;background:rgba(15,28,45,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow:auto}
+#maker[hidden]{display:none}
+.mk-box{background:#fff;border-radius:16px;width:100%;max-width:1180px;box-shadow:0 20px 60px -20px rgba(0,0,0,.5);overflow:hidden}
+.mk-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 20px;background:var(--navy);color:#fff}
+.mk-head h2{margin:0;font-size:19px;color:#fff}
+.mk-head .mk-close{margin-left:auto;border:1px solid #ffffff55;background:transparent;color:#fff;border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
+.mk-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px 0;border-bottom:1px solid var(--line)}
+.mk-tabs button{border:1px solid var(--line);border-bottom:0;background:#f5f8fc;border-radius:8px 8px 0 0;padding:8px 14px;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer}
+.mk-tabs button.on{background:#fff;color:var(--navy);font-weight:800;box-shadow:0 2px 0 #fff}
+.mk-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;padding:18px 20px 22px}
+.mk-edit{font-size:14px;color:var(--ink-2)}
+.mk-edit table{width:100%;border-collapse:collapse;font-size:13.5px}
+.mk-edit th,.mk-edit td{border-bottom:1px solid var(--line-soft);padding:6px 5px;text-align:left}
+.mk-edit th{background:#f5f8fc;font-size:12.5px}
+.mk-edit td.r,.mk-edit input.r{text-align:right}
+.mk-edit td.fn{font-size:12px;color:var(--muted);word-break:break-all}
+.mk-edit tr.sum td{font-weight:800;color:var(--navy)}
+.mk-grid input{width:100%;min-width:0;border:1px solid #c3d2e4;border-radius:6px;padding:5px 7px;font:inherit;font-size:13.5px}
+.mk-grid input[readonly]{background:#f5f8fc;border-color:transparent}
+.mk-steps{margin:0 0 14px;padding-left:20px;line-height:2.4}
+.mk-b{display:inline-flex;align-items:center;border:1px solid #1d6f42;background:#fff;color:#1d6f42;border-radius:8px;padding:5px 12px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+.mk-b.fill{background:#1d6f42;color:#fff}
+.mk-x{border:1px solid #e3b4b4;background:#fff;color:#b23b3b;border-radius:6px;padding:3px 9px;font:inherit;font-size:12.5px;cursor:pointer}
+.mk-help{font-size:13px;color:var(--muted)}
+.mk-empty{padding:14px;background:#f5f8fc;border-radius:10px;color:var(--ink-2)}
+.mk-form{display:grid;gap:10px}
+.mk-form label{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:13.5px}
+.mk-form small{font-weight:400;color:var(--muted)}
+.mk-form input,.mk-form textarea{border:1px solid #c3d2e4;border-radius:8px;padding:7px 9px;font:inherit;font-size:14px;font-weight:400;resize:vertical}
+.mk-out{display:flex;flex-direction:column;gap:10px}
+.mk-tools{display:flex;flex-wrap:wrap;gap:8px}
+.mk-tools button{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:8px;padding:7px 13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.mk-tools button.main{background:var(--navy);color:#fff}
+.mk-tools #mkXl{border-color:#1d6f42;color:#1d6f42}
+.mk-paper{border:1px solid #d5deea;border-radius:6px;background:#fff;padding:28px 30px;box-shadow:0 6px 18px -12px rgba(30,58,95,.45);color:#000;overflow-x:auto}
+@media (max-width:860px){.mk-main{grid-template-columns:1fr}.mk-paper{padding:18px 14px}}
+@media print{
+  body.mk-printing>*:not(#maker){display:none!important}
+  body.mk-printing #maker{position:static;display:block!important;background:none;padding:0;overflow:visible}
+  body.mk-printing .mk-box{box-shadow:none;max-width:none;border-radius:0}
+  body.mk-printing .mk-head,body.mk-printing .mk-tabs,body.mk-printing .mk-edit,body.mk-printing .mk-tools{display:none!important}
+  body.mk-printing .mk-main{display:block;padding:0}
+  body.mk-printing .mk-paper{border:0;box-shadow:none;padding:0}
+  @page{size:A4;margin:18mm 16mm}
+}
 @media print{
   .top,.vars,.backbar,.doc-btns,.toast,.pick,.howto .basis{display:none!important}
   body{background:#fff}
@@ -221,6 +273,7 @@ footer.credit b{color:var(--ink)}
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>붙임 자동 만들기: 선생님 예산요구서(엑셀) 취합 → 예산조정 결과표·회의록·편성 일정표, 한글 붙여넣기·인쇄·엑셀</span></li>
           <li><time>2026. 10. 14.</time><span>사립 단계 정리: 법인 예산편성요령 확인 단계 빼기(8단계)</span></li>
           <li><time>2026. 10. 14.</time><span>공문 속 날짜·장소 엑셀로 한 번에 넣기 (양식 내려받기 → 채워서 올리기)</span></li>
           <li><time>2026. 10. 14.</time><span>공문 속 ○○ 날짜·장소·회차 입력칸 추가, 카카오 오픈채팅 문의 추가</span></li>
@@ -233,7 +286,7 @@ footer.credit b{color:var(--ink)}
       <ol>
         <li>공립 또는 사립을 고르고, 위쪽에 <b>학교명·학년도</b>(사립은 법인명도)를 적으세요. 아래 일정과 공문 문구가 그 값으로 바뀝니다.</li>
         <li>단계별 카드에서 <b>제목 복사 · 본문 복사</b>를 눌러 업무관리시스템(K-에듀파인) 기안문에 붙여 넣으세요. ○○ 부분은 우리 학교에 맞게 고칩니다.</li>
-        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요.</li>
+        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요. <b>붙임 만들기</b>로 선생님들 예산요구서(엑셀)를 취합하고 예산조정 결과표·회의록·편성 일정표를 만들 수 있어요.</li>
         <li>할 일 체크 표시와 입력한 학교명은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</li>
       </ol>
     </div>
@@ -297,6 +350,19 @@ footer.credit b{color:var(--ink)}
   <div>문의: <a href="mailto:ican6363@naver.com">ican6363@naver.com</a></div>
   <div><a href="https://open.kakao.com/o/g4Tap2Ri" target="_blank" rel="noopener">카카오 오픈채팅 문의 ↗</a></div>
 </footer>
+<div id="maker" hidden>
+  <div class="mk-box" role="dialog" aria-modal="true" aria-labelledby="mkTitle">
+    <div class="mk-head"><h2 id="mkTitle"></h2><button type="button" class="mk-close" data-mk-close>닫기 ✕</button></div>
+    <div class="mk-tabs" id="mkTabs"></div>
+    <div class="mk-main">
+      <div class="mk-edit" id="mkEdit"></div>
+      <div class="mk-out">
+        <div class="mk-tools"><button type="button" class="main" id="mkCopy">한글에 붙여넣기용 복사</button><button type="button" id="mkPrint">인쇄 · PDF 저장</button><button type="button" id="mkXl">엑셀로 받기</button></div>
+        <div class="mk-paper" id="mkPaper"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -342,7 +408,7 @@ pub: {
     docs:[{ kind:"in", label:"편성 계획(내부결재)",
       title:"{Y}학년도 학교회계 본예산 편성 계획",
       body:"1. 관련\n  가. 「초·중등교육법」 제30조의3(학교회계의 운영)\n  나. 전북특별자치도교육청 예산과-[[gno|○○○○]]([[gdate.|{P}. ○○. ○○.]])\n2. {Y}학년도 학교회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원 사전교육: [[edu|{P}. 12. ○.(○)]]\n    2) 학교구성원 의견수렴: [[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]\n    3) 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지\n    4) 예산조정위원회 개최: {Y}. 1월 중(전입금 교부계획 통보 후)\n    5) 예산안 학교운영위원회 제출: {d30}까지\n    6) 학교운영위원회 심의: {d5}까지\n    7) 예산 확정 및 공개: 확정 후 10일 이내\n  다. 교직원 사전교육\n    1) 일시/장소: [[edu|{P}. 12. ○.(○)]] [[eduT|○○:○○]] / [[eduP|○○실]]\n    2) 대상: 전 교직원\n    3) 내용: {Y}학년도 학교교육시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출\n    1) 기한: [[req|{P}. 12. ○○.(○)]]까지\n    2) 방법: 부서(담당자)별 세입·세출예산요구서 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 각 1부.  끝.",
-      attach:["pub1","pub2"] }] },
+      attach:["pub1","pub2"], make:["sched"] }] },
   { t:"학교구성원 의견수렴", when:"{P}. 12월", who:"행정실",
     law:"학교장은 예산편성 과정에 학교구성원이 참여하도록 <b>의견을 수렴</b>합니다(누리집·가정통신문 등). 요구사업이 있으면 학교운영위원회 심의 때 설명하고 <b>회의록에 명기</b>하며, 예산 공개 때 반영 사업을 안내합니다. <b>학교회계 규칙 제12조</b>(지침 인용)",
     todo:["가정통신문 발송","학교 누리집 [예산참여]에 의견서 게시","들어온 의견 목록 정리(학운위 설명용)"],
@@ -356,15 +422,15 @@ pub: {
     docs:[{ kind:"memo", label:"교내 메신저 안내문",
       title:"[행정실] {Y}학년도 예산요구서 제출 안내 ([[req.|{P}. 12. ○○.]]까지)",
       body:"선생님들 안녕하세요. 행정실입니다.\n{Y}학년도 학교회계 본예산 편성을 위하여 부서(담당자)별 예산요구서를 받습니다.\n\n○ 제출 기한: [[req|{P}. 12. ○○.(○)]]까지\n○ 제출 서식: 세입예산요구서(해당 시), 세출예산요구서 (붙임)\n○ 작성 요령\n  - 세부사업별로 산출내역(단가×수량)을 구체적으로 적어 주세요.\n  - 전년도 예산액과 비교해 늘거나 준 이유를 적어 주세요.\n  - 목적사업비(교육청 지정 사업)는 공문의 사업 내용과 금액을 확인해 주세요.\n○ 제출 방법: 메신저 회신 또는 행정실 직접 제출\n\n문의: 행정실 ○○○ (☎ ○○○○)",
-      attach:["pub1","pub2"] }] },
+      attach:["pub1","pub2"], make:["reqForm","req"] }] },
   { t:"전입금 교부계획 확인 및 예산조정위원회", when:"교부계획 통보 {d50}까지 → {Y}. 1월 중 조정", who:"학교장(조정위원회)",
     must:true,
     law:"관할청은 회계연도 개시 <b>50일 전까지</b> 연간 전입금 총규모와 분기별 교부계획을 통보합니다(<b>학교회계 규칙 제11조</b>, 지침 인용). 학교장은 자체세입을 포함한 세입예산을 확정하고 <b>조정위원회(교직원회의 또는 부장회의)</b>에서 예산을 조정해 예산안을 확정합니다. <b>※ 내부결재 필수</b>",
     todo:["학교기본운영비·목적사업비 교부계획 공문 확인","부서 요구액 합계와 가용재원 비교표 만들기","조정위원회 개최·회의록 작성","결과 내부결재"],
     docs:[{ kind:"in", label:"조정위원회 결과(내부결재 필수)",
       title:"{Y}학년도 학교회계 예산조정위원회 개최 결과 보고",
-      body:"1. 관련: 전북특별자치도교육청 예산과-[[ano|○○○○]]([[alloc.|{Y}. ○○. ○○.]]) ({Y}학년도 학교회계전입금 교부계획 통보)\n2. {Y}학년도 학교회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: [[adj|{Y}. 1. ○○.(○)]] [[adjT|○○:○○]] / [[adjP|○○실]]\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 학교운영비전입금(학교기본운영비) ○○○,○○○천원\n    2) 목적사업비전입금 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 ○○○,○○○천원 → 조정액 ○○○,○○○천원\n  마. 주요 조정 내용\n    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)\n    2) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
-      attach:[], self:"결과표·회의록은 학교에서 작성" }] },
+      body:"1. 관련: 전북특별자치도교육청 예산과-[[ano|○○○○]]([[alloc.|{Y}. ○○. ○○.]]) ({Y}학년도 학교회계전입금 교부계획 통보)\n2. {Y}학년도 학교회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: [[adj|{Y}. 1. ○○.(○)]] [[adjT|○○:○○]] / [[adjP|○○실]]\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 학교운영비전입금(학교기본운영비) ○○○,○○○천원\n    2) 목적사업비전입금 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 [[_req|○○○,○○○]]천원 → 조정액 [[_adj|○○○,○○○]]천원\n  마. 주요 조정 내용\n[[_adjList|    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)]]\n    [[_adjNext|2]]) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
+      attach:[], make:["adj","minutes","req"] }] },
   { t:"예산안 학교운영위원회 제출", when:"{d30}까지 (개시 30일 전)", who:"학교장",
     must:true,
     law:"학교의 장은 세입세출예산안을 편성하여 <b>회계연도가 시작되기 30일 전까지</b> 학교운영위원회에 제출해야 합니다. <b>「초·중등교육법」 제30조의3제2항</b> · 위원장은 심의 회의 <b>7일 전까지</b> 위원에게 예산안을 통지합니다(학교회계 규칙 제14조, 지침 인용).",
@@ -400,7 +466,7 @@ pri: {
     docs:[{ kind:"in", label:"편성 계획(내부결재)",
       title:"{Y}학년도 교비회계 본예산 편성 계획",
       body:"1. 관련\n  가. 「사학기관 재무·회계 규칙」\n  나. 전북특별자치도교육청 예산과-[[gno|○○○○]]([[gdate.|{P}. ○○. ○○.]])\n2. {Y}학년도 교비회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원·학교운영위원 사전교육: [[edu|{P}. 12. ○.(○)]]\n    2) 학교구성원 의견수렴: [[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]\n    3) 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지\n    4) 예산조정위원회 개최: {Y}. 1월 중\n    5) 학교운영위원회 심의: [[com|{Y}. 2. ○○.(○)]]\n    6) 법인 이사장에게 예산안 제출 및 이사회 의결: 회계연도 개시 전\n    7) 관할청 보고 및 누리집 공시: {d5}까지(개시 5일 전)\n  다. 사전교육\n    1) 일시/장소: [[edu|{P}. 12. ○.(○)]] [[eduT|○○:○○]] / [[eduP|○○실]]\n    2) 대상: 전 교직원 및 학교운영위원\n    3) 내용: {Y}학년도 학교운영시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출: [[req|{P}. 12. ○○.(○)]]까지, 부서(담당자)별 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 1부.  끝.",
-      attach:["pri1"] }] },
+      attach:["pri1"], make:["sched"] }] },
   { t:"학교구성원 의견수렴", when:"{P}. 12월", who:"행정실",
     law:"학교장은 예산편성 과정에 학교구성원이 참여하도록 <b>의견을 수렴</b>합니다(누리집·가정통신문 등). 요구사업이 있으면 학교운영위원회 심의 때 설명하고 <b>회의록에 명기</b>합니다. 학교운영지원비 등 예산편성에는 학부모 의견을 들어야 합니다(<b>「사학기관 재무·회계 규칙」 제16조</b>, 지침 인용). [서식35]: 누리집 <b>예산참여 코너</b> 운영 여부 확인.",
     todo:["가정통신문 발송","누리집 [예산참여] 코너에 의견서 게시","들어온 의견 목록 정리(학운위·이사회 설명용)"],
@@ -414,15 +480,15 @@ pri: {
     docs:[{ kind:"memo", label:"교내 메신저 안내문",
       title:"[행정실] {Y}학년도 예산요구서 제출 안내 ([[req.|{P}. 12. ○○.]]까지)",
       body:"선생님들 안녕하세요. 행정실입니다.\n{Y}학년도 교비회계 본예산 편성을 위하여 부서(담당자)별 예산요구서를 받습니다.\n\n○ 제출 기한: [[req|{P}. 12. ○○.(○)]]까지\n○ 제출 서식: 세입·세출예산요구서 (붙임)\n○ 작성 요령\n  - 세부사업별로 산출내역(단가×수량)을 구체적으로 적어 주세요.\n  - 전년도 예산액과 비교해 늘거나 준 이유를 적어 주세요.\n  - 총액배분사업비·목적사업비는 교육청 사업 내용과 금액을 확인해 주세요.\n○ 제출 방법: 메신저 회신 또는 행정실 직접 제출\n\n문의: 행정실 ○○○ (☎ ○○○○)",
-      attach:["pri1"] }] },
+      attach:["pri1"], make:["reqForm","req"] }] },
   { t:"전입금 교부계획 확인 및 예산조정위원회", when:"교부계획 통보 {d50}까지 → {Y}. 1월 중 조정", who:"학교장(조정위원회)",
     must:true,
     law:"회계연도 개시 <b>50일 전까지</b> 전입금 교부계획이 통지되면 자체세입을 포함한 세입예산을 확정하고, 가용재원 안에서 <b>조정위원회(교직원회의 또는 부장회의)</b>로 예산을 조정해 예산안을 확정합니다(2026 교비회계 예산편성 절차). <b>※ 내부결재 필수</b>",
     todo:["재정결함보조금·총액배분사업비·목적사업비 교부계획 확인","부서 요구액 합계와 가용재원 비교표 만들기","조정위원회 개최·회의록 작성","결과 내부결재"],
     docs:[{ kind:"in", label:"조정위원회 결과(내부결재 필수)",
       title:"{Y}학년도 교비회계 예산조정위원회 개최 결과 보고",
-      body:"1. 관련: 전북특별자치도교육청 예산과-[[ano|○○○○]]([[alloc.|{Y}. ○○. ○○.]]) ({Y}학년도 교비회계 전입금 교부계획 통보)\n2. {Y}학년도 교비회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: [[adj|{Y}. 1. ○○.(○)]] [[adjT|○○:○○]] / [[adjP|○○실]]\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 교육비특별회계 이전수입(재정결함보조금 등) ○○○,○○○천원\n    2) 목적사업비 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 ○○○,○○○천원 → 조정액 ○○○,○○○천원\n  마. 주요 조정 내용\n    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)\n    2) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
-      attach:[], self:"결과표·회의록은 학교에서 작성" }] },
+      body:"1. 관련: 전북특별자치도교육청 예산과-[[ano|○○○○]]([[alloc.|{Y}. ○○. ○○.]]) ({Y}학년도 교비회계 전입금 교부계획 통보)\n2. {Y}학년도 교비회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: [[adj|{Y}. 1. ○○.(○)]] [[adjT|○○:○○]] / [[adjP|○○실]]\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 교육비특별회계 이전수입(재정결함보조금 등) ○○○,○○○천원\n    2) 목적사업비 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 [[_req|○○○,○○○]]천원 → 조정액 [[_adj|○○○,○○○]]천원\n  마. 주요 조정 내용\n[[_adjList|    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)]]\n    [[_adjNext|2]]) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
+      attach:[], make:["adj","minutes","req"] }] },
   { t:"학교운영위원회 심의", when:"{Y}. 2월 (이사회 제출 전)", who:"학교장 → 학교운영위원회",
     law:"학교장은 교비회계 예산안을 <b>학교운영위원회의 심의</b>를 거쳐 법인 이사장에게 제출합니다. <b>「초·중등교육법」 제32조제1항제2호</b>(학교의 예산안과 결산 — 사립학교도 심의) · 요구사업이 있으면 설명하고 회의록에 명기합니다.",
     todo:["예산총칙·세입세출예산서 준비","학교운영위원회 안건 제출(내부결재)","요구사업 설명 → 회의록 명기","회의록 사본 확보(관할청 보고 때 첨부)"],
@@ -496,6 +562,7 @@ function fill(t){
   var v = vals(), Y = v.Y;
   // [[키|기본값]] — 입력한 날짜·장소로 바꾸고, 비어 있으면 기본값(○○). 키 뒤 "." = 요일 없이
   t = t.replace(/\[\[(\w+)(\.?)\|([^\]]*)\]\]/g, function(m, k, nowd, d){
+    if (k.charAt(0) === "_") return computed(k) || d;
     var x = load("budget-" + k, "").trim(); if (!x) return d;
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(x); if (!p) return x;
     var dt = new Date(+p[1], p[2] - 1, +p[3]);
@@ -542,6 +609,9 @@ function render(){
       html += '<div class="doc" data-step="' + i + '" data-doc="' + k + '"><div class="doc-top"><span class="doc-kind ' + kd[1] + '">' + kd[0] + '</span><span class="doc-label">' + esc(d.label) + '</span>' +
         '<span class="doc-btns"><button type="button" class="cbtn" data-copy="title">제목 복사</button><button type="button" class="cbtn" data-copy="body">본문 복사</button></span></div>' +
         '<p class="doc-title">' + esc(fill(d.title)) + '</p><pre class="doc-body">' + esc(fill(d.body)) + '</pre>';
+      if (d.make){
+        html += '<div class="attach make"><span class="lb">붙임 만들기</span>' + d.make.map(function(m){ return '<button type="button" data-make="' + m + '">' + MK_BTN[m] + '</button>'; }).join("") + '</div>';
+      }
       if (d.attach.length || d.self){
         html += '<div class="attach"><span class="lb">붙임</span>' + d.attach.map(function(a){
           var f = FILES[a]; return '<a href="' + f[0] + '" download="' + esc(f[1]) + '"><span class="ext">HWP</span>' + esc(f[2]) + '</a>';
@@ -706,6 +776,288 @@ document.getElementById("xlUp").addEventListener("change", function(e){
     rd.readAsArrayBuffer(file);
   }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 올려 주세요."); });
 });
+
+/* ---------- 붙임 만들기·예산요구서 취합 (이 브라우저 안에서만) ---------- */
+var MK_NAME = { sched: "편성 일정표", req: "예산요구서 취합", adj: "예산조정 결과표", minutes: "예산조정위원회 회의록" };
+var MK_BTN = { sched: "편성 일정표 만들기", reqForm: "선생님용 예산요구서 엑셀 양식", req: "제출된 예산요구서 취합", adj: "예산조정 결과표 만들기", minutes: "조정위원회 회의록 만들기" };
+var SCHROWS = {
+  pub: [
+    ["교직원 사전교육(학교교육시책·예산편성 방향)", "[[edu|{P}. 12. ○.(○)]]", "행정실"],
+    ["학교구성원 의견수렴(가정통신문·누리집)", "[[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]", "행정실"],
+    ["부서별 예산요구서 제출", "[[req|{P}. 12. ○○.(○)]]까지", "각 부서 → 행정실"],
+    ["학교회계전입금 교부계획 통보", "{d50}까지", "교육청"],
+    ["예산조정위원회 개최", "[[adj|{Y}. 1월 중]]", "예산조정위원회"],
+    ["예산안 학교운영위원회 제출", "{d30}까지", "학교장"],
+    ["예·결산소위원회 심사", "[[sub|{Y}. 2. ○.(○)]]", "예·결산소위원회"],
+    ["학교운영위원회 심의", "[[com|{d5}까지]]", "학교운영위원회"],
+    ["예산 확정 및 공개", "[[pubd|확정 후 10일 이내]]", "학교장"]
+  ],
+  pri: [
+    ["교직원·학교운영위원 사전교육", "[[edu|{P}. 12. ○.(○)]]", "행정실"],
+    ["학교구성원 의견수렴(가정통신문·누리집)", "[[op.|{P}. 12. ○.]] ~ [[opE.|{P}. 12. 31.]]", "행정실"],
+    ["부서별 예산요구서 제출", "[[req|{P}. 12. ○○.(○)]]까지", "각 부서 → 행정실"],
+    ["전입금 교부계획 확인", "{d50}까지", "교육청"],
+    ["예산조정위원회 개최", "[[adj|{Y}. 1월 중]]", "예산조정위원회"],
+    ["학교운영위원회 심의", "[[com|{Y}. 2월]]", "학교운영위원회"],
+    ["법인 이사장에게 예산안 제출", "회계연도 개시 전", "학교장"],
+    ["이사회 의결 및 예산 확정", "[[brd|회계연도 개시 전]]", "이사회"],
+    ["관할청 보고 및 누리집 공시", "{d5}까지", "이사장(학교 작성)"]
+  ]
+};
+function jget(k, d){ try{ var v = JSON.parse(load(k, "")); return v == null ? d : v; }catch(e){ return d; } }
+function jset(k, v){ save(k, JSON.stringify(v)); }
+function won(n){ return (Math.round(n) || 0).toLocaleString("ko-KR"); }
+function num(v){ if (typeof v === "number") return isFinite(v) ? v : 0; var s = String(v == null ? "" : v).replace(/[,원\s]/g, ""); var n = parseFloat(s); return isFinite(n) ? n : 0; }
+function chon(n){ return won(Math.round(n / 1000)); }
+function reqFiles(){ return jget("budget-req-" + state.ver, []); }
+// 부서·세부사업별 요구액 합계
+function reqAgg(){
+  var map = {}, order = [];
+  reqFiles().forEach(function(f){ f.items.forEach(function(it){
+    var key = f.dept + "|" + (it.biz || "(사업명 없음)");
+    if (!map[key]){ map[key] = { dept: f.dept, biz: it.biz || "(사업명 없음)", req: 0, prev: 0 }; order.push(key); }
+    map[key].req += it.amt; map[key].prev += it.prev;
+  }); });
+  return order.map(function(k){ return map[k]; });
+}
+// 조정 결과 줄: 취합 결과 + 직접 넣은 줄, 조정액·사유는 저장값 유지
+function adjRows(){
+  var st = jget("budget-adj-" + state.ver, { rows: [] }), keep = {}, out = [];
+  st.rows.forEach(function(r){ keep[r.dept + "|" + r.biz] = r; });
+  reqAgg().forEach(function(a){
+    var o = keep[a.dept + "|" + a.biz];
+    out.push({ dept: a.dept, biz: a.biz, req: a.req, adj: o && o.adj !== "" && o.adj != null ? o.adj : a.req, why: o ? o.why || "" : "", manual: false });
+    if (o) o.used = true;
+  });
+  st.rows.forEach(function(r){ if (r.manual) out.push(r); });
+  return out;
+}
+function saveAdj(rows){ jset("budget-adj-" + state.ver, { rows: rows.map(function(r){ return { dept: r.dept, biz: r.biz, req: r.req, adj: r.adj, why: r.why, manual: r.manual }; }) }); }
+function adjSum(rows){ var a = 0, b = 0; rows.forEach(function(r){ a += num(r.req); b += num(r.adj); }); return [a, b]; }
+// 문안 속 자동 값: [[_키|기본값]]
+function computed(k){
+  if (!state.ver) return "";
+  var rows = adjRows(); if (!rows.length) return "";
+  var s = adjSum(rows);
+  if (k === "_req") return chon(s[0]);
+  if (k === "_adj") return chon(s[1]);
+  var ch = rows.filter(function(r){ return num(r.req) !== num(r.adj); });
+  if (k === "_adjList"){
+    if (!ch.length) return "    1) 조정 없음(부서 요구액대로 반영)";
+    return ch.map(function(r, i){ return "    " + (i + 1) + ") " + r.biz + "(" + r.dept + "): " + chon(num(r.req)) + "천원 → " + chon(num(r.adj)) + "천원(사유: " + (r.why || "○○○") + ")"; }).join("\n");
+  }
+  if (k === "_adjNext") return String(Math.max(ch.length, 1) + 1);
+  return "";
+}
+
+/* 공문용 표 (한글에 붙여 넣어도 칸선이 유지되도록 인라인 스타일) */
+var TS = 'style="border-collapse:collapse;width:100%;font-size:10.5pt;font-family:\'맑은 고딕\',sans-serif"';
+function td(t, o){ o = o || {}; return '<td' + (o.cs ? ' colspan="' + o.cs + '"' : '') + ' style="border:1px solid #000;padding:5px 7px;text-align:' + (o.al || "center") + ';vertical-align:middle' + (o.bg ? ';background:#e8eef6;font-weight:bold' : '') + (o.al === "right" || o.nw ? ';white-space:nowrap' : '') + (o.w ? ';width:' + o.w : '') + '">' + t + '</td>'; }
+function th(t, w){ return td(t, { bg: 1, w: w, nw: 1 }); }
+function paperHead(title){ return '<p style="text-align:center;font-size:16pt;font-weight:bold;margin:0 0 6px">' + esc(title) + '</p><p style="text-align:right;margin:0 0 8px;font-size:10pt">' + esc(fill("{S}")) + '</p>'; }
+
+function mkSched(){
+  var rows = SCHROWS[state.ver].map(function(r, i){ return '<tr>' + td(i + 1, { w: "8%" }) + td(esc(r[0]), { al: "left" }) + td(esc(fill(r[1]))) + td(esc(r[2])) + '</tr>'; }).join("");
+  return { edit: '<p class="mk-help">설정 칸(학교명·공문 날짜)에 넣은 날짜가 그대로 들어가요. 비어 있으면 ○○로 나와요.</p>',
+    paper: paperHead(fill("{Y}학년도 본예산 편성 일정표")) + '<table ' + TS + '><tr>' + th("순") + th("추진 내용") + th("일정") + th("담당") + '</tr>' + rows + '</table>',
+    xl: function(){ return [["순", "추진 내용", "일정", "담당"]].concat(SCHROWS[state.ver].map(function(r, i){ return [i + 1, r[0], fill(r[1]), r[2]]; })); } };
+}
+function mkReq(){
+  var files = reqFiles(), all = 0;
+  var list = files.length ? '<table class="mk-files"><tr><th>부서</th><th>담당</th><th>건수</th><th>요구액(원)</th><th>파일</th><th></th></tr>' + files.map(function(f, i){
+    var s = 0; f.items.forEach(function(it){ s += it.amt; }); all += s;
+    return '<tr><td>' + esc(f.dept) + '</td><td>' + esc(f.who || "") + '</td><td>' + f.items.length + '</td><td class="r">' + won(s) + '</td><td class="fn">' + esc(f.file) + '</td><td><button type="button" class="mk-x" data-mk-del="' + i + '">빼기</button></td></tr>';
+  }).join("") + '<tr class="sum"><td colspan="3">합계 (' + files.length + '개 부서)</td><td class="r">' + won(all) + '</td><td colspan="2"></td></tr></table>' : '<p class="mk-empty">아직 올린 요구서가 없어요.</p>';
+  var edit = '<ol class="mk-steps"><li><button type="button" class="mk-b" data-make="reqForm">선생님용 예산요구서 엑셀 양식 받기</button> → 메신저로 선생님들께 보내기</li>' +
+    '<li><label class="mk-b fill">받은 엑셀 파일 올리기 (여러 개 한 번에)<input type="file" id="mkReqUp" accept=".xlsx,.xls" multiple hidden></label></li>' +
+    '<li>아래 취합표를 확인하고 <b>예산조정 결과표</b>로 넘어가기 <button type="button" class="mk-b" data-make="adj">결과표 만들기 →</button></li></ol>' + list +
+    (files.length ? '<p><button type="button" class="mk-x" data-mk-clear>올린 요구서 모두 지우기</button></p>' : '');
+  var body = "", n = 0;
+  files.forEach(function(f){
+    var s = 0;
+    f.items.forEach(function(it){ n++; s += it.amt; body += '<tr>' + td(esc(f.dept), { nw: 1 }) + td(esc(it.biz), { al: "left" }) + td(esc(it.item), { al: "left" }) + td(it.price ? won(it.price) : "", { al: "right" }) + td(it.qty || "") + td(won(it.amt), { al: "right" }) + td(it.prev ? won(it.prev) : "", { al: "right" }) + td(esc(it.note), { al: "left" }) + '</tr>'; });
+    body += '<tr>' + td(esc(f.dept) + " 소계", { cs: 5, bg: 1 }) + td(won(s), { al: "right", bg: 1 }) + td("", { cs: 2, bg: 1 }) + '</tr>';
+  });
+  var paper = paperHead(fill("{Y}학년도 세출예산요구서 취합표")) + (n ? '<table ' + TS + '><tr>' + th("부서") + th("세부사업") + th("내용(품목)") + th("단가") + th("수량") + th("요구액(원)") + th("전년도(원)") + th("비고") + '</tr>' + body + '<tr>' + td("총계", { cs: 5, bg: 1 }) + td(won(all), { al: "right", bg: 1 }) + td("", { cs: 2, bg: 1 }) + '</tr></table>' : '<p style="color:#888">요구서를 올리면 여기에 취합표가 나와요.</p>');
+  return { edit: edit, paper: paper, xl: function(){
+    var a = [["부서", "담당", "세부사업", "내용(품목)", "단가", "수량", "요구액(원)", "전년도(원)", "비고"]];
+    reqFiles().forEach(function(f){ f.items.forEach(function(it){ a.push([f.dept, f.who || "", it.biz, it.item, it.price || "", it.qty || "", it.amt, it.prev || "", it.note]); }); });
+    var b = [["부서", "세부사업", "요구액(원)", "전년도(원)"]].concat(reqAgg().map(function(r){ return [r.dept, r.biz, r.req, r.prev]; }));
+    return { "전체 내역": a, "부서·사업별 합계": b };
+  } };
+}
+function mkAdj(){
+  var rows = adjRows(), s = adjSum(rows);
+  var edit = (rows.length ? '' : '<p class="mk-empty">먼저 <button type="button" class="mk-b" data-make="req">예산요구서 취합</button>을 하거나, 아래 [줄 추가]로 직접 넣으세요.</p>') +
+    '<table class="mk-grid"><tr><th>부서</th><th>세부사업</th><th>요구액(원)</th><th>조정액(원)</th><th>조정 사유</th><th></th></tr>' + rows.map(function(r, i){
+      var ro = r.manual ? "" : " readonly";
+      return '<tr data-i="' + i + '"><td><input data-f="dept" value="' + esc(r.dept) + '"' + ro + '></td><td><input data-f="biz" value="' + esc(r.biz) + '"' + ro + '></td><td><input data-f="req" class="r" value="' + won(num(r.req)) + '"' + ro + '></td><td><input data-f="adj" class="r" value="' + won(num(r.adj)) + '"></td><td><input data-f="why" value="' + esc(r.why || "") + '" placeholder="줄였을 때 이유"></td><td>' + (r.manual ? '<button type="button" class="mk-x" data-mk-rm="' + i + '">빼기</button>' : '') + '</td></tr>';
+    }).join("") + '</table><p><button type="button" class="mk-b" data-mk-add>+ 줄 추가</button> <span class="mk-help">취합에서 온 줄은 조정액·사유만 고치면 돼요. 고친 값은 조정위원회 결과 문안에 자동으로 들어가요.</span></p>';
+  var body = rows.map(function(r, i){ var d = num(r.adj) - num(r.req);
+    return '<tr>' + td(i + 1) + td(esc(r.dept)) + td(esc(r.biz), { al: "left" }) + td(won(num(r.req)), { al: "right" }) + td(won(num(r.adj)), { al: "right" }) + td(d ? (d > 0 ? "+" : "") + won(d) : "-", { al: "right" }) + td(esc(r.why || ""), { al: "left" }) + '</tr>'; }).join("");
+  var paper = paperHead(fill("{Y}학년도 예산조정 결과표")) + '<p style="text-align:right;margin:0 0 4px;font-size:9.5pt">(단위: 원)</p><table ' + TS + '><tr>' + th("순") + th("부서") + th("세부사업") + th("요구액") + th("조정액") + th("증감") + th("조정 사유") + '</tr>' + (body || '<tr>' + td("&nbsp;", { cs: 7 }) + '</tr>') +
+    '<tr>' + td("합계", { cs: 3, bg: 1 }) + td(won(s[0]), { al: "right", bg: 1 }) + td(won(s[1]), { al: "right", bg: 1 }) + td(s[1] - s[0] ? won(s[1] - s[0]) : "-", { al: "right", bg: 1 }) + td("", { bg: 1 }) + '</tr></table>';
+  return { edit: edit, paper: paper, xl: function(){
+    var a = [["순", "부서", "세부사업", "요구액(원)", "조정액(원)", "증감(원)", "조정 사유"]];
+    adjRows().forEach(function(r, i){ a.push([i + 1, r.dept, r.biz, num(r.req), num(r.adj), num(r.adj) - num(r.req), r.why || ""]); });
+    var t = adjSum(adjRows()); a.push(["합계", "", "", t[0], t[1], t[1] - t[0], ""]); return a;
+  } };
+}
+var MT_DEF = {
+  attend: "위원장 교감 ○○○, 위원 ○○○(교무부장), ○○○(연구부장), ○○○(행정실장) 등 ○명",
+  absent: "없음",
+  agenda: "{Y}학년도 세입·세출예산안 조정"
+};
+function mkMinutes(){
+  var m = jget("budget-mt-" + state.ver, {}), rows = adjRows(), s = adjSum(rows);
+  var talkDef = rows.length ? "부서별 예산요구서 " + rows.length + "건(요구액 " + won(s[0]) + "원)을 가용재원 범위에서 검토함.\n" + computed("_adjList").split("\n").map(function(l){ return l.trim(); }).join("\n") : "부서별 예산요구서를 가용재원 범위에서 검토함.\n○○○ 사업: ○○○";
+  var decDef = rows.length ? "부서 요구액 " + won(s[0]) + "원을 " + won(s[1]) + "원으로 조정함(붙임 예산조정 결과표 참조)." : "부서 요구액 ○○○원을 ○○○원으로 조정함(붙임 예산조정 결과표 참조).";
+  function v(k, d){ return m[k] != null && m[k] !== "" ? m[k] : d; }
+  var edit = '<div class="mk-form">' +
+    '<label>참석 위원<textarea data-mt="attend" rows="2">' + esc(v("attend", MT_DEF.attend)) + '</textarea></label>' +
+    '<label>불참 위원<input data-mt="absent" value="' + esc(v("absent", MT_DEF.absent)) + '"></label>' +
+    '<label>안건<input data-mt="agenda" value="' + esc(fill(v("agenda", MT_DEF.agenda))) + '"></label>' +
+    '<label>회의 내용 <small>비워 두면 결과표 내용으로 자동</small><textarea data-mt="talk" rows="4" placeholder="' + esc(talkDef) + '">' + esc(m.talk || "") + '</textarea></label>' +
+    '<label>결정 사항 <small>비워 두면 자동</small><textarea data-mt="dec" rows="2" placeholder="' + esc(decDef) + '">' + esc(m.dec || "") + '</textarea></label></div>' +
+    '<p class="mk-help">일시·장소는 설정 칸의 조정위원회 날짜·시각·장소에서 가져와요.</p>';
+  function nl(t){ return esc(t).replace(/\n/g, "<br>"); }
+  var when = fill("[[adj|{Y}. 1. ○○.(○)]] [[adjT|○○:○○]]"), where = fill("[[adjP|○○실]]");
+  var paper = paperHead(fill("{Y}학년도 예산조정위원회 회의록")) + '<table ' + TS + '>' +
+    '<tr>' + th("일시", "18%") + td(esc(when), { al: "left" }) + '</tr><tr>' + th("장소") + td(esc(where), { al: "left" }) + '</tr>' +
+    '<tr>' + th("참석 위원") + td(nl(v("attend", MT_DEF.attend)), { al: "left" }) + '</tr><tr>' + th("불참 위원") + td(nl(v("absent", MT_DEF.absent)), { al: "left" }) + '</tr>' +
+    '<tr>' + th("안건") + td(nl(fill(v("agenda", MT_DEF.agenda))), { al: "left" }) + '</tr>' +
+    '<tr>' + th("회의 내용") + td(nl(m.talk || talkDef), { al: "left" }) + '</tr>' +
+    '<tr>' + th("결정 사항") + td(nl(m.dec || decDef), { al: "left" }) + '</tr></table>' +
+    '<p style="text-align:right;margin:22px 0 0;line-height:2.2">위원장 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (서명)<br>기록자 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (서명)</p>';
+  return { edit: edit, paper: paper };
+}
+var MK = { sched: mkSched, req: mkReq, adj: mkAdj, minutes: mkMinutes }, mkCur = null, mkData = null;
+function mkOpen(t){
+  if (t === "reqForm"){ reqTemplate(); return; }
+  mkCur = t; document.getElementById("maker").hidden = false; document.body.classList.add("mk-open"); mkDraw(true);
+}
+function mkDraw(full){
+  mkData = MK[mkCur]();
+  document.getElementById("mkTitle").textContent = MK_NAME[mkCur];
+  document.getElementById("mkTabs").innerHTML = ["req", "adj", "minutes", "sched"].map(function(k){ return '<button type="button" data-make="' + k + '"' + (k === mkCur ? ' class="on"' : '') + '>' + MK_NAME[k] + '</button>'; }).join("");
+  if (full) document.getElementById("mkEdit").innerHTML = mkData.edit;
+  document.getElementById("mkPaper").innerHTML = mkData.paper;
+  document.getElementById("mkXl").hidden = !mkData.xl;
+}
+function mkClose(){ document.getElementById("maker").hidden = true; document.body.classList.remove("mk-open"); if (state.ver) render(); }
+
+/* 선생님용 예산요구서 양식 */
+function reqTemplate(){
+  needXLSX().then(function(X){
+    var a = [[fill("{Y}학년도 세출예산요구서")], [], ["부서", "", "담당자", ""], [], ["세부사업", "내용(품목)", "단가(원)", "수량", "요구액(원)", "전년도 예산(원)", "늘거나 준 이유·비고"]];
+    for (var i = 0; i < 40; i++) a.push(["", "", "", "", null, "", ""]);
+    var ws = X.utils.aoa_to_sheet(a);
+    for (var r = 6; r <= 45; r++) ws["E" + r] = { t: "n", f: 'IF(AND(C' + r + '<>"",D' + r + '<>""),C' + r + '*D' + r + ',"")' };
+    ws["A47"] = { t: "s", v: "합계" }; ws["E47"] = { t: "n", f: "SUM(E6:E45)" };
+    ws["!ref"] = "A1:G47";
+    ws["!cols"] = [{ wch: 22 }, { wch: 28 }, { wch: 12 }, { wch: 7 }, { wch: 14 }, { wch: 14 }, { wch: 28 }];
+    ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }];
+    var g = [["작성 방법"], ["1. '부서'와 '담당자' 칸을 꼭 채워 주세요."], ["2. 세부사업마다 품목을 한 줄씩 적고 단가·수량을 넣으면 요구액이 자동 계산돼요."], ["3. 요구액을 직접 적어도 돼요(단가·수량 없이)."], ["4. 전년도와 비교해 늘거나 준 이유를 적어 주세요."], ["5. 저장한 파일을 행정실에 보내 주세요. (파일 이름은 상관없어요)"]];
+    var wb = X.utils.book_new();
+    X.utils.book_append_sheet(wb, ws, "예산요구서");
+    X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(g), "작성 방법");
+    X.writeFile(wb, fill("{Y}학년도_세출예산요구서_양식.xlsx"));
+    toast("선생님용 양식을 받았어요. 메신저로 보내 주세요.");
+  }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 눌러 주세요."); });
+}
+/* 올린 요구서 읽기 */
+var COLS = { biz: /세부\s*사업|사업\s*명|^사업$/, item: /내용|품목|산출/, price: /단가/, qty: /수량/, amt: /요구\s*액|금액|소요\s*액|예산\s*액/, prev: /전년/, note: /사유|비고/ };
+function parseReq(X, wb, fname){
+  var rows = X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: "" });
+  var dept = "", who = "", hr = -1, col = {};
+  for (var i = 0; i < Math.min(rows.length, 15); i++){
+    var r = rows[i];
+    for (var c = 0; c < r.length; c++){
+      var s = String(r[c]).replace(/\s/g, "");
+      if (/^부서(명)?$/.test(s) && !dept){ for (var k = c + 1; k < r.length; k++) if (String(r[k]).trim()){ dept = String(r[k]).trim(); break; } }
+      if (/^담당(자)?$/.test(s) && !who){ for (var k2 = c + 1; k2 < r.length; k2++) if (String(r[k2]).trim()){ who = String(r[k2]).trim(); break; } }
+    }
+    if (hr < 0 && r.some(function(x){ return COLS.biz.test(String(x)); })){
+      hr = i;
+      r.forEach(function(x, ci){ var t = String(x); for (var key in COLS) if (col[key] == null && COLS[key].test(t) && !(key === "amt" && COLS.prev.test(t))) { col[key] = ci; break; } });
+    }
+  }
+  if (hr < 0) return null;
+  if (!dept) dept = fname.replace(/\.[^.]+$/, "");
+  var items = [], lastBiz = "";
+  for (var j = hr + 1; j < rows.length; j++){
+    var w = rows[j], g = function(key){ return col[key] == null ? "" : w[col[key]]; };
+    var biz = String(g("biz")).trim(), item = String(g("item")).trim();
+    if (/^(합\s*계|총\s*계|소\s*계)$/.test(biz)) continue;
+    var price = num(g("price")), qty = num(g("qty")), amt = num(g("amt")) || price * qty;
+    if (!amt) continue;
+    if (biz) lastBiz = biz; else biz = lastBiz;
+    items.push({ biz: biz, item: item, price: price, qty: qty, amt: amt, prev: num(g("prev")), note: String(g("note")).trim() });
+  }
+  return { file: fname, dept: dept, who: who, items: items };
+}
+document.addEventListener("change", function(e){
+  if (e.target.id === "mkReqUp"){
+    var fl = Array.prototype.slice.call(e.target.files); e.target.value = "";
+    if (!fl.length) return;
+    needXLSX().then(function(X){
+      var files = reqFiles(), ok = 0, bad = [];
+      var next = function(i){
+        if (i >= fl.length){ jset("budget-req-" + state.ver, files); mkDraw(true); toast(ok + "개 파일을 취합했어요." + (bad.length ? " 못 읽은 파일: " + bad.join(", ") : "")); return; }
+        var rd = new FileReader();
+        rd.onload = function(){
+          try{
+            var p = parseReq(X, X.read(new Uint8Array(rd.result), { type: "array" }), fl[i].name);
+            if (p && p.items.length){ files = files.filter(function(f){ return f.file !== p.file; }); files.push(p); ok++; } else bad.push(fl[i].name);
+          }catch(err){ bad.push(fl[i].name); }
+          next(i + 1);
+        };
+        rd.readAsArrayBuffer(fl[i]);
+      };
+      next(0);
+    }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 올려 주세요."); });
+  }
+});
+document.addEventListener("input", function(e){
+  var t = e.target;
+  if (t.dataset.mt){ var m = jget("budget-mt-" + state.ver, {}); m[t.dataset.mt] = t.value; jset("budget-mt-" + state.ver, m); mkDraw(false); }
+  if (t.dataset.f && t.closest(".mk-grid")){
+    var rows = adjRows(), i = +t.closest("tr").dataset.i, f = t.dataset.f;
+    rows[i][f] = (f === "req" || f === "adj") ? num(t.value) : t.value;
+    saveAdj(rows); mkDraw(false);
+  }
+});
+document.addEventListener("focusout", function(e){
+  var t = e.target; if ((t.dataset.f === "req" || t.dataset.f === "adj") && t.closest(".mk-grid")) t.value = won(num(t.value));
+});
+document.addEventListener("click", function(e){
+  var t = e.target;
+  var mk = t.closest("[data-make]"); if (mk){ mkOpen(mk.dataset.make); return; }
+  if (t.closest("[data-mk-close]") || t.id === "maker"){ mkClose(); return; }
+  if (t.closest("[data-mk-add]")){ var rows = adjRows(); rows.push({ dept: "", biz: "", req: 0, adj: 0, why: "", manual: true }); saveAdj(rows); mkDraw(true); return; }
+  var rm = t.closest("[data-mk-rm]"); if (rm){ var r2 = adjRows(); r2.splice(+rm.dataset.mkRm, 1); saveAdj(r2); mkDraw(true); return; }
+  var del = t.closest("[data-mk-del]"); if (del){ var fs = reqFiles(); fs.splice(+del.dataset.mkDel, 1); jset("budget-req-" + state.ver, fs); mkDraw(true); return; }
+  if (t.closest("[data-mk-clear]")){ jset("budget-req-" + state.ver, []); mkDraw(true); toast("올린 요구서를 모두 지웠어요."); return; }
+  if (t.closest("#mkPrint")){ document.body.classList.add("mk-printing"); window.print(); return; }
+  if (t.closest("#mkCopy")){
+    var p = document.getElementById("mkPaper"), rg = document.createRange(), sel = window.getSelection();
+    rg.selectNodeContents(p); sel.removeAllRanges(); sel.addRange(rg);
+    var ok = false; try{ ok = document.execCommand("copy"); }catch(er){}
+    sel.removeAllRanges();
+    toast(ok ? "복사했어요. 한글 문서에 붙여 넣으면 표 그대로 들어가요." : "복사가 안 되면 표를 직접 끌어서 복사하세요.");
+    return;
+  }
+  if (t.closest("#mkXl") && mkData && mkData.xl){
+    needXLSX().then(function(X){
+      var d = mkData.xl(), wb = X.utils.book_new();
+      if (Array.isArray(d)) X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(d), MK_NAME[mkCur].slice(0, 30));
+      else for (var n in d) X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(d[n]), n);
+      X.writeFile(wb, fill("{Y}학년도_") + MK_NAME[mkCur].replace(/\s/g, "_") + ".xlsx");
+    }, function(){ toast("인터넷 연결이 필요해요."); });
+  }
+});
+window.addEventListener("afterprint", function(){ document.body.classList.remove("mk-printing"); });
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !document.getElementById("maker").hidden) mkClose(); });
 
 syncInputs();
 var start = (location.hash || "").replace("#", "");
