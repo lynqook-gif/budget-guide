@@ -6,7 +6,7 @@
   const homeHero = document.querySelector('.hero');
   const signHeading = document.createElement('h1');
   const signImage = document.createElement('img');
-  signImage.src = 'design/home-signboard-thin.png';
+  signImage.src = 'design/home-signboard-refined.png';
   signImage.alt = '교행e의 본예산 길라잡이';
   signImage.width = 2172; signImage.height = 724;
   signImage.className = 'budget-sign-image';

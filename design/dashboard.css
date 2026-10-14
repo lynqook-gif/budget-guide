@@ -155,3 +155,53 @@
  .budget-rail nav button.complete:not(.selected) .budget-rail-number{background:transparent;border-color:#7795b9;color:inherit}
  .budget-rail nav button.complete.selected .budget-rail-number{background:#0869e8;border-color:#85b9ff;color:#fff}
 }
+/* Quiet typography and fewer nested boxes: screen presentation only. */
+@media screen{
+ body{font-family:BudgetPretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;font-weight:400;letter-spacing:-.012em;color:#35485e;background:#f6f8fb}
+ #home .pick{background:#fff;border:1px solid #e6ecf3;border-radius:14px;padding:8px 16px;gap:0;box-shadow:none}
+ #home .pickcard,#home .pickcard.pri{background:transparent;border:0;border-top:0;border-radius:0;box-shadow:none;padding:25px 26px;transition:background .15s;transform:none}
+ #home .pickcard.pri{border-left:1px solid #e7edf4}
+ #home .pickcard:hover,#home .pickcard.pri:hover{transform:none;box-shadow:none;background:#f8fafd;border-color:#e7edf4}
+ #home .pickcard h2{font-size:26px;font-weight:650;letter-spacing:-.035em;line-height:1.5}
+ #home .pickcard .tag,#home .pickcard.pri .tag{font-size:12px;font-weight:500;color:#788a9f;letter-spacing:0}
+ #home .pickcard>p{font-size:13px;color:#788a9f;margin-top:12px}
+ #home .pickcard ul,#home .pickcard.pri ul{background:none;border:0;border-radius:0;padding:8px 0 8px 16px;margin:6px 0;color:#5d7189;font-size:14px;line-height:1.95}
+ #home .pickcard .go,#home .pickcard.pri .go{background:none;border:0;border-top:1px solid #edf1f6;border-radius:0;padding:14px 0 0;text-align:left;font-size:14px;font-weight:600;color:#3472b7}
+ #home .howto{border:0;background:transparent;padding:20px 8px;border-radius:0}
+ #home .howto h3{font-weight:600}#home .howto ol{font-size:14px;line-height:1.95;color:#657991}
+ .budget-guideline{background:transparent;border:0;border-bottom:1px solid #e0e8f1;border-radius:0;padding:11px 4px;margin-bottom:18px}
+ .budget-guideline-label{background:none;padding:0;color:#73869f;font-size:12px;font-weight:500}
+ .budget-guideline strong{font-weight:600;font-size:13px}.budget-guideline-note{font-size:12px}
+ .brand{font-size:22px;font-weight:650;letter-spacing:-.025em}.vhead h1{font-size:25px;font-weight:650;letter-spacing:-.035em}.vhead p{font-size:14px;line-height:1.8}
+ .budget-workspace{border:1px solid #e5ebf3;box-shadow:none;border-radius:12px}
+ .budget-rail{background:#203d5e}.budget-rail nav button{border-radius:7px;padding:12px 10px;min-height:48px;gap:11px}
+ .budget-rail-copy b{font-size:14px;font-weight:500;line-height:1.65;letter-spacing:0}.budget-rail-title{font-size:15px;font-weight:600;letter-spacing:0}
+ .budget-rail-number{border:0;background:#ffffff0d;border-radius:5px;width:24px;height:24px;font-size:10px;font-weight:500}.selected .budget-rail-number{background:#ffffff15;color:#fff}
+ .budget-rail nav button.selected{background:#31597f}.step-head h3{font-size:23px;font-weight:600;letter-spacing:-.03em}
+ .step-head .step-no{background:none;color:#839ab4;font-size:15px;font-weight:500;width:24px;height:32px}
+ .step-meta .when{background:none;padding:0;color:#788ba2;font-weight:400}.step-meta .who{padding:0;font-weight:400;color:#788ba2}
+ .budget-task-column>h4,.budget-doc-column>h4{font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:18px}
+ .todo{gap:0}.todo li{border:0;border-bottom:1px solid #edf1f6;border-radius:0;padding:15px 2px;background:none;font-size:15px;line-height:1.85}
+ .todo li:has(input:checked){background:none}.todo input{width:18px;height:18px;margin-top:5px}
+ .budget-task-note{font-size:12px;color:#8797aa}.budget-law{margin-top:22px}.budget-law .law-box{background:#f7f9fc;border-radius:4px}
+ .budget-doc-column{background:#fbfcfe}
+ .doc{border:0;border-radius:0;background:transparent}.doc-top,.v-pri .doc-top{background:transparent;border-bottom:1px solid #e5ebf3;padding:0 0 14px;gap:8px}
+ .doc-label{font-size:13px;font-weight:500;color:#5d7592}.doc-kind{font-size:10px;font-weight:500;border-radius:4px}
+ .doc-btns{gap:8px;margin-top:5px}.cbtn{font-size:12px;font-weight:500;padding:8px 12px;min-height:34px;border-radius:6px;border-color:#dce6f3}
+ .cbtn:last-child{background:#315f95;border-color:#315f95}.doc-title{border:0;padding:20px 0 12px;font-size:16px;font-weight:600;line-height:1.8;letter-spacing:-.01em}
+ .doc-title::before{font-size:11px;letter-spacing:0;margin-bottom:6px}.doc-body{padding:12px 0 22px;font-size:15px;line-height:1.95;font-weight:400;letter-spacing:0;color:#3b4c60}
+ .attach{border-top:1px solid #e6ecf4;background:transparent;padding:16px 0}.attach a{background:#fff;border-color:#e1e8f2;border-radius:6px;font-size:12px;font-weight:500}
+ .budget-doc-tabs button{border-radius:5px;font-weight:500}
+}
+@media screen and (max-width:760px){
+ #home .pick{padding:4px 18px}.pick{grid-template-columns:1fr}
+ #home .pickcard,#home .pickcard.pri{padding:23px 2px;border:0}#home .pickcard.pri{border-top:1px solid #e7edf4}
+ #home .pickcard h2{font-size:24px}#home .pickcard ul{font-size:13px}
+ .budget-rail-copy b{font-size:12px}.step-head h3{font-size:21px}.todo li{font-size:14px}.doc-body{font-size:14px;line-height:1.95}.doc-title{font-size:15px}
+ .budget-guideline-note{font-size:11px}.budget-guideline{padding:10px 2px}
+}
+@media screen{
+ .budget-school-details,.budget-schedule-details{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+ .budget-school-details>summary,.budget-schedule-details>summary{border:0!important;border-bottom:1px solid #e4ebf3!important;border-left:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;font-size:14px!important;font-weight:500!important;padding:14px 4px!important;color:#526d8c!important}
+ #home .updates{border:0;border-radius:0;background:transparent;padding:22px 8px;box-shadow:none}#home .updates h3{font-size:16px;font-weight:600}
+}
