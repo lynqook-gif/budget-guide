@@ -61,6 +61,13 @@ main{max-width:1080px;margin:0 auto;padding:24px 20px 40px}
 .updates li:first-child{border-top:0}
 .updates time{flex:0 0 auto;font-weight:700;color:var(--navy);font-size:13px;padding-top:1px}
 @media (max-width:760px){.news{grid-template-columns:1fr}.updates li{flex-direction:column;gap:2px}}
+.sites{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:16px}
+.sites h3{margin:0 0 12px;font-size:17px;color:var(--navy)}
+.sites>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sites a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;padding:10px 16px;border:1px solid #c9d8ea;border-radius:10px;background:#f7faff;color:var(--navy);font-weight:700;font-size:15.5px;text-decoration:none}
+.sites a:hover{border-color:var(--blue);background:#eef4fd}
+@media (max-width:760px){.sites>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.sites{display:none}}
 .howto .basis{margin:10px 0 0;font-size:13.5px;color:var(--muted)}
 
 /* 안쪽 화면 */
@@ -339,6 +346,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>교행e 사이트 바로가기 추가 (전북교행길라잡이·법인회계·식단표·교복)</span></li>
           <li><time>2026. 10. 14.</time><span>글씨 전체적으로 크게(처음 쓰는 분도 읽기 쉽게)</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 한글 서식 8개를 hwpx로 바꿈 (2026. 10. 1.부터 hwp·xls 첨부 불가)</span></li>
           <li><time>2026. 10. 14.</time><span>화면 정리: 위쪽 단추를 '홈'으로, 설정을 '한 번에 일정 업로드하기'로, 일정표 글씨 크게</span></li>
@@ -353,6 +361,15 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
         </ul>
       </div>
     </div>
+    <section class="sites">
+      <h3>교행e 사이트 바로가기</h3>
+      <div>
+        <a href="https://jeonbuk-gyohaeng.pages.dev/" target="_blank" rel="noopener"><span>전북교행길라잡이</span><span aria-hidden="true">↗</span></a>
+        <a href="https://law.lynqook.workers.dev/" target="_blank" rel="noopener"><span>법인회계Master</span><span aria-hidden="true">↗</span></a>
+        <a href="https://lynqook-gif.github.io/food/" target="_blank" rel="noopener"><span>식단표 편집기</span><span aria-hidden="true">↗</span></a>
+        <a href="https://gyobok-guide.lynqook.workers.dev/" target="_blank" rel="noopener"><span>교복길라잡이</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
     <div class="howto">
       <h3>사용 방법</h3>
       <ol>
