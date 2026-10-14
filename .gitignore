@@ -1,0 +1,12 @@
+# 공개 저장소 — 도구 파일만 올린다
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.hwpx
+*.zip
+*.hwp
+!files/*.hwp
+AGENTS.md
+CLAUDE.md
+.claude/

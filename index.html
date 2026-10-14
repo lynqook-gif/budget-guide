@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교행e의 본예산 길라잡이</title>
+<style>
+:root{
+  --navy:#1e3a5f; --navy-2:#2b4c76; --blue:#2775ce; --blue-soft:#eaf3ff;
+  --ink:#1f2d3d; --ink-2:#4a5b70; --muted:#6b7c90; --line:#d6e0ec; --line-soft:#e8eef5;
+  --bg:#f3f7fc; --card:#fff; --green:#1f7a52; --green-soft:#e6f4ec; --red:#c2473b; --red-soft:#fbecea;
+  --pri:#6a3fb5; --pri-soft:#f1ebfb;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Pretendard","Malgun Gothic","맑은 고딕",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* 상단 */
+.top{background:var(--navy);color:#fff}
+.top-in{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;color:#fff;cursor:pointer;padding:0;font-weight:800;font-size:18px}
+.brand .e{color:#7fb6ff}
+.top .ver{margin-left:auto;font-size:13px;opacity:.85}
+.top .switch{border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;font-size:13.5px}
+.top .switch:hover{background:rgba(255,255,255,.12)}
+
+main{max-width:1080px;margin:0 auto;padding:24px 20px 40px}
+
+/* 첫 화면 */
+.hero{text-align:center;padding:26px 0 8px}
+.hero h1{margin:0 0 8px;font-size:30px;line-height:1.3;color:var(--navy)}
+.hero p{margin:0;color:var(--ink-2);font-size:16px}
+.pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:28px 0 18px}
+.pickcard{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:26px 26px 24px;cursor:pointer;box-shadow:0 6px 20px -14px rgba(30,58,95,.5);transition:border-color .15s,transform .15s}
+.pickcard:hover{border-color:var(--blue);transform:translateY(-2px)}
+.pickcard .tag{align-self:flex-start;font-size:13px;font-weight:700;padding:3px 12px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.pickcard.pri .tag{background:var(--pri-soft);color:var(--pri)}
+.pickcard.pri:hover{border-color:var(--pri)}
+.pickcard h2{margin:0;font-size:24px;color:var(--navy)}
+.pickcard p{margin:0;color:var(--ink-2)}
+.pickcard ul{margin:4px 0 0;padding-left:18px;color:var(--ink-2);font-size:14px}
+.pickcard .go{margin-top:6px;font-weight:700;color:var(--blue)}
+.pickcard.pri .go{color:var(--pri)}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+.howto h3{margin:0 0 8px;font-size:17px;color:var(--navy)}
+.howto ol{margin:0;padding-left:20px;color:var(--ink-2)}
+.howto .basis{margin:10px 0 0;font-size:13.5px;color:var(--muted)}
+
+/* 안쪽 화면 */
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.vhead h1{margin:0;font-size:26px;color:var(--navy);line-height:1.3}
+.vhead h1 small{display:block;font-size:14px;font-weight:700;color:var(--blue);margin-bottom:2px}
+.v-pri .vhead h1 small{color:var(--pri)}
+.vhead p{margin:4px 0 0;color:var(--ink-2)}
+
+.vars{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;padding:16px 18px;margin-bottom:18px}
+.v-pri .vars{border-left-color:var(--pri)}
+.vars label{display:flex;flex-direction:column;gap:4px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.vars input{min-height:38px;padding:6px 10px;border:1px solid #c3d2e4;border-radius:8px;background:#fff;font-weight:400;color:var(--ink)}
+.vars input[data-v="S"]{width:13em}
+.vars input[data-v="C"]{width:13em}
+.vars input[data-v="Y"]{width:6.5em}
+.vars .note{flex-basis:100%;margin:0;font-size:13px;color:var(--muted)}
+
+.sched{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.sched h2{margin:0 0 10px;font-size:18px;color:var(--navy)}
+.sched table{width:100%;border-collapse:collapse;font-size:14.5px}
+.sched th,.sched td{border-bottom:1px solid var(--line-soft);padding:9px 8px;text-align:left;vertical-align:top}
+.sched th{background:#f5f8fc;color:var(--ink-2);font-size:13.5px}
+.sched td.no{width:3em;color:var(--muted);font-weight:700}
+.sched td.when{white-space:nowrap;font-weight:700;color:var(--navy)}
+.sched td.law{font-size:13px;color:var(--muted)}
+.sched tr.must td.when{color:var(--red)}
+.sched .jump{border:0;background:none;padding:0;color:var(--ink);cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:#b9c9dc;text-underline-offset:3px}
+.sched .jump:hover{color:var(--blue)}
+
+.steps{display:flex;flex-direction:column;gap:18px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;scroll-margin-top:14px}
+.step-head{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--line-soft);background:#fafcff}
+.step-no{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:800}
+.v-pri .step-no{background:var(--pri)}
+.step-head h3{margin:0;font-size:19px;color:var(--navy);line-height:1.4}
+.step-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px;font-size:13.5px;color:var(--ink-2)}
+.step-meta .when{font-weight:700;color:var(--red)}
+.step-meta .who{color:var(--green);font-weight:700}
+.step-body{padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.todo{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.todo label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.todo input{margin-top:5px;width:17px;height:17px;accent-color:var(--green);flex:none}
+.todo input:checked+span{color:var(--muted);text-decoration:line-through}
+.law-box{font-size:13.5px;color:var(--ink-2);background:#f5f8fc;border-radius:8px;padding:9px 12px}
+.law-box b{color:var(--navy)}
+
+.doc{border:1px solid #cfdcec;border-radius:12px;overflow:hidden}
+.doc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:var(--blue-soft);border-bottom:1px solid #cfdcec}
+.v-pri .doc-top{background:var(--pri-soft)}
+.doc-kind{font-size:12.5px;font-weight:800;padding:2px 9px;border-radius:6px;background:var(--navy);color:#fff}
+.doc-kind.out{background:var(--green)}
+.doc-kind.memo{background:#8a6d1f}
+.doc-label{font-weight:700;color:var(--navy)}
+.doc-btns{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.cbtn{border:1px solid #b9cbe2;background:#fff;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--navy)}
+.cbtn:hover{border-color:var(--blue);color:var(--blue)}
+.cbtn.done{background:var(--green);border-color:var(--green);color:#fff}
+.doc-title{margin:0;padding:12px 16px 4px;font-weight:800;font-size:16px;color:var(--ink)}
+.doc-title::before{content:"제목  ";color:var(--muted);font-weight:600;font-size:13.5px}
+.doc-body{margin:0;padding:6px 16px 14px;white-space:pre-wrap;font:14.5px/1.85 "Malgun Gothic","맑은 고딕",sans-serif;color:var(--ink)}
+.attach{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px;border-top:1px dashed #cfdcec;background:#fbfdff}
+.attach .lb{font-size:13px;font-weight:700;color:var(--muted);align-self:center}
+.attach a{display:inline-flex;align-items:center;gap:6px;border:1px solid #c9d8ea;background:#fff;border-radius:8px;padding:5px 11px;font-size:13.5px;font-weight:600;color:var(--navy);text-decoration:none}
+.attach a:hover{border-color:var(--blue);color:var(--blue)}
+.ext{font-size:11px;font-weight:800;padding:1px 5px;border-radius:4px;background:#2b6cb0;color:#fff}
+.attach .self{font-size:13px;color:var(--muted)}
+.tip{font-size:13.5px;color:#7a5a12;background:#fff7e3;border-radius:8px;padding:9px 12px}
+
+.backbar{display:flex;justify-content:center;margin:26px 0 0}
+.backbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 22px;cursor:pointer;font-weight:700;color:var(--navy)}
+
+footer.credit{max-width:1080px;margin:0 auto;padding:22px 20px 34px;text-align:center;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);line-height:1.9}
+footer.credit b{color:var(--ink)}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1b2a3c;color:#fff;border-radius:9px;padding:9px 16px;font-size:14px;z-index:20;box-shadow:0 8px 24px -10px rgba(0,0,0,.5)}
+
+@media (max-width:760px){
+  .pick{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+  .sched td.law{display:none}
+  .sched th.law{display:none}
+  .step-head,.step-body{padding-left:14px;padding-right:14px}
+  .doc-btns{margin-left:0}
+}
+@media print{
+  .top,.vars,.backbar,.doc-btns,.toast,.pick,.howto .basis{display:none!important}
+  body{background:#fff}
+  .step,.sched,.doc{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <button class="brand" type="button" data-home><span>교행<span class="e">e</span>의 본예산 길라잡이</span></button>
+    <span class="ver" id="verName"></span>
+    <button class="switch" type="button" data-home id="switchBtn" hidden>공립·사립 다시 고르기</button>
+  </div>
+</header>
+
+<main>
+  <!-- 첫 화면: 공립 / 사립 고르기 -->
+  <section id="home">
+    <div class="hero">
+      <h1>본예산 편성, 절차마다 내부결재까지</h1>
+      <p>우리 학교에 맞는 쪽을 고르면 편성 일정과 단계별 내부결재 제목·본문, 붙임 한글 서식이 나옵니다.</p>
+    </div>
+    <div class="pick">
+      <button class="pickcard" type="button" data-go="pub">
+        <span class="tag">공립학교</span>
+        <h2>학교회계</h2>
+        <p>「학교회계 예산편성 및 운영지침」 기준</p>
+        <ul>
+          <li>예산안 학교운영위원회 제출: 회계연도 개시 30일 전까지</li>
+          <li>학교운영위원회 심의: 개시 5일 전까지</li>
+          <li>예·결산소위원회, 예산 확정 후 10일 이내 공개</li>
+        </ul>
+        <span class="go">공립학교로 들어가기 →</span>
+      </button>
+      <button class="pickcard pri" type="button" data-go="pri">
+        <span class="tag">사립학교</span>
+        <h2>교비회계</h2>
+        <p>「사학기관 예산편성 및 운영지침(교비회계)」 기준</p>
+        <ul>
+          <li>학교운영위원회 심의 후 법인 이사장에게 예산안 제출</li>
+          <li>이사회 의결 → 학교장 송부 (회계연도 개시 전)</li>
+          <li>관할청 보고 및 누리집 공시 (개시 5일 전)</li>
+        </ul>
+        <span class="go">사립학교로 들어가기 →</span>
+      </button>
+    </div>
+    <div class="howto">
+      <h3>사용 방법</h3>
+      <ol>
+        <li>공립 또는 사립을 고르고, 위쪽에 <b>학교명·학년도</b>(사립은 법인명도)를 적으세요. 아래 일정과 공문 문구가 그 값으로 바뀝니다.</li>
+        <li>단계별 카드에서 <b>제목 복사 · 본문 복사</b>를 눌러 업무관리시스템(K-에듀파인) 기안문에 붙여 넣으세요. ○○ 부분은 우리 학교에 맞게 고칩니다.</li>
+        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요.</li>
+        <li>할 일 체크 표시와 입력한 학교명은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</li>
+      </ol>
+      <p class="basis">기준: 전북특별자치도교육청 「2026학년도 학교회계 예산편성 및 운영지침」(학교회계규칙 변경사항 반영), 「2026학년도 사학기관 예산편성 및 운영지침(교비회계)」, 「2026 학교(교비)회계 예산편성 절차」. 2027학년도 지침이 시달되면 기한·서식 변경 여부를 다시 확인하세요. 법정 기한은 「초·중등교육법」 제30조의3(법제처 확인)을 따릅니다.</p>
+    </div>
+  </section>
+
+  <!-- 안쪽 화면 -->
+  <section id="view" hidden>
+    <div class="vhead">
+      <div>
+        <h1><small id="vTag"></small><span id="vTitle"></span></h1>
+        <p id="vDesc"></p>
+      </div>
+    </div>
+    <div class="vars" id="vars">
+      <label>학교명<input type="text" data-v="S" placeholder="예: ○○고등학교" autocomplete="off"></label>
+      <label id="corpField">법인명<input type="text" data-v="C" placeholder="예: 학교법인 ○○학원" autocomplete="off"></label>
+      <label>학년도<input type="number" data-v="Y" min="2026" max="2040" step="1"></label>
+      <p class="note">비워 두면 ○○로 나옵니다. 학년도를 바꾸면 일정 날짜와 공문 속 연도가 함께 바뀝니다. 입력값은 이 브라우저에만 저장돼요.</p>
+    </div>
+    <div class="sched">
+      <h2>편성 일정 한눈에 보기</h2>
+      <table>
+        <thead><tr><th>단계</th><th>할 일</th><th>기한</th><th class="law">근거</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+    <div class="steps" id="steps"></div>
+    <div class="backbar"><button type="button" data-home>← 공립·사립 다시 고르기</button></div>
+  </section>
+</main>
+
+<footer class="credit">
+  <div>제작자: <b>정주고등학교 박지은</b></div>
+  <div>문의: <a href="mailto:ican6363@naver.com">ican6363@naver.com</a></div>
+</footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- 저장 (이 브라우저에만) ---------- */
+function load(k, d){ try{ var v = localStorage.getItem(k); return v === null ? d : v; }catch(e){ return d; } }
+function save(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+
+/* ---------- 날짜 ---------- */
+var WD = ["일","월","화","수","목","금","토"];
+function fmt(d){ return d.getFullYear() + ". " + (d.getMonth()+1) + ". " + d.getDate() + ".(" + WD[d.getDay()] + ")"; }
+// 회계연도 개시(Y.3.1.) "n일 전까지" = 개시일에서 n+1일 앞 (지침 예시: 2026.3.1. 30일 전 → 2026.1.29.)
+function before(Y, n){ return new Date(Y, 2, 1 - (n + 1)); }
+function lastFeb(Y){ return new Date(Y, 2, 0); }
+
+/* ---------- 공통 문구 ---------- */
+var FILES = {
+  pubLetter: ["files/pub-parent-letter.hwp", "가정통신문(본예산 편성 의견 참여).hwp", "가정통신문 — 본예산 편성 의견 참여"],
+  pub1: ["files/pub-form1-revenue-request.hwp", "[서식1] 세입예산요구서.hwp", "[서식1] 세입예산요구서"],
+  pub2: ["files/pub-form2-expense-request.hwp", "[서식2] 세출예산요구서.hwp", "[서식2] 세출예산요구서"],
+  pub3: ["files/pub-form3-general-provisions.hwp", "[서식3] 예산총칙(예시).hwp", "[서식3] 예산총칙(예시)"],
+  pub18: ["files/pub-form18-subcommittee-rules.hwp", "[서식18] 예결산소위원회 규정(안).hwp", "[서식18] 예·결산소위원회 규정(안)"],
+  pub19: ["files/pub-form19-subcommittee-report.hwp", "[서식19] 예결산소위원회 심사보고서.hwp", "[서식19] 예·결산소위원회 심사보고서"],
+  priLetter: ["files/pri-parent-letter.hwp", "가정통신문(교비회계 본예산 편성 의견 참여).hwp", "가정통신문 — 본예산 편성 의견 참여"],
+  pri1: ["files/pri-form1-budget-request.hwp", "[서식1] 세입·세출예산요구서.hwp", "[서식1] 세입·세출예산요구서"],
+  pri3: ["files/pri-form3-general-provisions.hwp", "[서식3] 예산총칙(예시).hwp", "[서식3] 예산총칙(예시)"],
+  pri35: ["files/pri-form35-checklist.hwp", "[서식35] 교비회계 예산편성 및 결산 확인사항.hwp", "[서식35] 예산편성 및 결산 확인사항"]
+};
+
+/* 단계 데이터
+   {Y}=학년도 {P}=전년도 {S}=학교명 {C}=법인명 {d50}{d30}{d5}{dEnd}=기한
+   kind: in(내부결재) out(시행문) memo(교내 안내) */
+var VERS = {
+pub: {
+  tag: "공립학교", title: "학교회계 본예산 편성", acct: "학교회계",
+  desc: "교육청 지침 접수부터 학교운영위원회 심의, 예산 공개까지 8단계입니다.",
+  steps: [
+  { t:"예산편성 및 운영지침 접수·공람", when:"{P}. 11월 말 (교육청 시달)", who:"행정실",
+    law:"교육감은 회계연도 개시 3개월 전(11. 30.)까지 학교회계 예산편성 기본지침을 시달합니다. <b>학교회계 규칙 제10조</b>(지침 인용)",
+    todo:["교육청 지침 공문 접수 후 전 교직원 공람","올해 바뀐 내용(편성기준·과목·서식) 따로 표시해 두기"],
+    docs:[{ kind:"in", label:"지침 알림(공람)",
+      title:"{Y}학년도 학교회계 예산편성 및 운영지침 알림",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 학교회계 예산편성 및 운영지침을 다음과 같이 알려드리오니, 부서별 {Y}학년도 사업계획 수립 및 예산요구서 작성에 참고하시기 바랍니다.\n  가. 주요 내용: 학교회계 예산편성 기본방향, 세입·세출 예산편성 기준, 예산과정 및 일정\n  나. 협조 사항: 부서(담당자)별 {Y}학년도 사업계획 검토 및 소요예산 파악\n\n붙임  {Y}학년도 학교회계 예산편성 및 운영지침 1부.  끝.",
+      attach:[], self:"교육청 공문 붙임 그대로" }] },
+  { t:"본예산 편성 계획 수립 및 교직원 사전교육", when:"{P}. 12월 초", who:"행정실",
+    law:"학교장은 지침이 시달되면 교직원에게 학교교육시책 및 예산편성에 필요한 <b>사전교육</b>을 실시합니다. <b>학교회계 규칙 제12조</b>(지침 인용) · 편성 계획과 사전교육은 <b>내부결재</b>로 남깁니다.",
+    todo:["편성 일정(아래 표) 확정","사전교육 일시·장소 정하기","예산요구서 제출 기한 정하기"],
+    docs:[{ kind:"in", label:"편성 계획(내부결재)",
+      title:"{Y}학년도 학교회계 본예산 편성 계획",
+      body:"1. 관련\n  가. 「초·중등교육법」 제30조의3(학교회계의 운영)\n  나. 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 학교회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원 사전교육: {P}. 12. ○.(○)\n    2) 학교구성원 의견수렴: {P}. 12. ○. ~ {P}. 12. 31.\n    3) 예산요구서 제출: {P}. 12. ○○.(○)까지\n    4) 예산조정위원회 개최: {Y}. 1월 중(전입금 교부계획 통보 후)\n    5) 예산안 학교운영위원회 제출: {d30}까지\n    6) 학교운영위원회 심의: {d5}까지\n    7) 예산 확정 및 공개: 확정 후 10일 이내\n  다. 교직원 사전교육\n    1) 일시/장소: {P}. 12. ○.(○) ○○:○○ / ○○실\n    2) 대상: 전 교직원\n    3) 내용: {Y}학년도 학교교육시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출\n    1) 기한: {P}. 12. ○○.(○)까지\n    2) 방법: 부서(담당자)별 세입·세출예산요구서 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 각 1부.  끝.",
+      attach:["pub1","pub2"] }] },
+  { t:"학교구성원 의견수렴", when:"{P}. 12월", who:"행정실",
+    law:"학교장은 예산편성 과정에 학교구성원이 참여하도록 <b>의견을 수렴</b>합니다(누리집·가정통신문 등). 요구사업이 있으면 학교운영위원회 심의 때 설명하고 <b>회의록에 명기</b>하며, 예산 공개 때 반영 사업을 안내합니다. <b>학교회계 규칙 제12조</b>(지침 인용)",
+    todo:["가정통신문 발송","학교 누리집 [예산참여]에 의견서 게시","들어온 의견 목록 정리(학운위 설명용)"],
+    docs:[{ kind:"in", label:"의견수렴 실시(내부결재)",
+      title:"{Y}학년도 학교회계 본예산 편성 의견수렴 실시",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 학교회계 예산편성에 학교구성원의 의견을 반영하기 위하여 다음과 같이 의견수렴을 실시하고자 합니다.\n  가. 기간: {P}. 12. ○. ~ {P}. 12. 31.\n  나. 대상: 학생, 학부모, 교직원, 학교운영위원\n  다. 방법: 가정통신문 발송, 학교 누리집 [예산참여] 게시\n  라. 결과 활용\n    1) 예산조정위원회에서 반영 여부 검토\n    2) 학교운영위원회 예산 심의 시 요구사업 설명 및 회의록 명기\n    3) 예산 공개 시 의견 반영 사업 안내\n\n붙임  가정통신문 1부.  끝.",
+      attach:["pubLetter"] }] },
+  { t:"예산요구서 제출 안내", when:"{P}. 12월 (사전교육 직후)", who:"전 교직원 → 행정실",
+    law:"교직원은 교육과정 운영과 학교운영에 필요한 경비를 적은 <b>세입·세출예산요구서</b>를 개인별 또는 부서별로 제출합니다. [서식1]·[서식2]",
+    todo:["교내 메신저로 서식과 기한 안내","제출 현황 확인·독려"],
+    docs:[{ kind:"memo", label:"교내 메신저 안내문",
+      title:"[행정실] {Y}학년도 예산요구서 제출 안내 ({P}. 12. ○○.까지)",
+      body:"선생님들 안녕하세요. 행정실입니다.\n{Y}학년도 학교회계 본예산 편성을 위하여 부서(담당자)별 예산요구서를 받습니다.\n\n○ 제출 기한: {P}. 12. ○○.(○)까지\n○ 제출 서식: 세입예산요구서(해당 시), 세출예산요구서 (붙임)\n○ 작성 요령\n  - 세부사업별로 산출내역(단가×수량)을 구체적으로 적어 주세요.\n  - 전년도 예산액과 비교해 늘거나 준 이유를 적어 주세요.\n  - 목적사업비(교육청 지정 사업)는 공문의 사업 내용과 금액을 확인해 주세요.\n○ 제출 방법: 메신저 회신 또는 행정실 직접 제출\n\n문의: 행정실 ○○○ (☎ ○○○○)",
+      attach:["pub1","pub2"] }] },
+  { t:"전입금 교부계획 확인 및 예산조정위원회", when:"교부계획 통보 {d50}까지 → {Y}. 1월 중 조정", who:"학교장(조정위원회)",
+    must:true,
+    law:"관할청은 회계연도 개시 <b>50일 전까지</b> 연간 전입금 총규모와 분기별 교부계획을 통보합니다(<b>학교회계 규칙 제11조</b>, 지침 인용). 학교장은 자체세입을 포함한 세입예산을 확정하고 <b>조정위원회(교직원회의 또는 부장회의)</b>에서 예산을 조정해 예산안을 확정합니다. <b>※ 내부결재 필수</b>",
+    todo:["학교기본운영비·목적사업비 교부계획 공문 확인","부서 요구액 합계와 가용재원 비교표 만들기","조정위원회 개최·회의록 작성","결과 내부결재"],
+    docs:[{ kind:"in", label:"조정위원회 결과(내부결재 필수)",
+      title:"{Y}학년도 학교회계 예산조정위원회 개최 결과 보고",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({Y}. ○○. ○○.) ({Y}학년도 학교회계전입금 교부계획 통보)\n2. {Y}학년도 학교회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: {Y}. 1. ○○.(○) ○○:○○ / ○○실\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 학교운영비전입금(학교기본운영비) ○○○,○○○천원\n    2) 목적사업비전입금 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 ○○○,○○○천원 → 조정액 ○○○,○○○천원\n  마. 주요 조정 내용\n    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)\n    2) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
+      attach:[], self:"결과표·회의록은 학교에서 작성" }] },
+  { t:"예산안 학교운영위원회 제출", when:"{d30}까지 (개시 30일 전)", who:"학교장",
+    must:true,
+    law:"학교의 장은 세입세출예산안을 편성하여 <b>회계연도가 시작되기 30일 전까지</b> 학교운영위원회에 제출해야 합니다. <b>「초·중등교육법」 제30조의3제2항</b> · 위원장은 심의 회의 <b>7일 전까지</b> 위원에게 예산안을 통지합니다(학교회계 규칙 제14조, 지침 인용).",
+    todo:["예산총칙·세입세출예산서·세부사업설명서 출력","학교운영위원회 안건 제출(내부결재)","회의 7일 전 위원 통지 확인"],
+    docs:[{ kind:"in", label:"학운위 심의 요청(내부결재)",
+      title:"{Y}학년도 학교회계 세입·세출예산안 학교운영위원회 심의 요청",
+      body:"1. 관련: 「초·중등교육법」 제30조의3(학교회계의 운영)\n2. {Y}학년도 학교회계 세입·세출예산안을 붙임과 같이 편성하여 학교운영위원회에 심의를 요청하고자 합니다.\n  가. 예산 규모: 세입·세출 각각 ○○○,○○○,○○○원\n  나. 제출 기한: {d30}까지(회계연도 개시 30일 전)\n  다. 심의 일정(안): 예·결산소위원회 {Y}. 2. ○.(○), 학교운영위원회 {Y}. 2. ○○.(○)\n  라. 위원 통지: 회의 개최 7일 전까지 예산안 송부\n  마. 학교구성원 의견수렴 결과: 요구사업 ○건(반영 ○건, 미반영 ○건) — 심의 시 설명\n\n붙임  1. {Y}학년도 학교회계 예산총칙 1부.\n      2. {Y}학년도 학교회계 세입·세출예산서 1부.\n      3. 세부사업설명서 1부.  끝.",
+      attach:["pub3"] }] },
+  { t:"예·결산소위원회 심사 및 학교운영위원회 심의", when:"{d5}까지 (개시 5일 전)", who:"학교운영위원회",
+    must:true,
+    law:"학교운영위원회는 예산안을 <b>회계연도가 시작되기 5일 전까지</b> 심의합니다. <b>「초·중등교육법」 제30조의3제3항</b> · 심의 효율화를 위해 <b>예·결산소위원회</b>를 구성합니다(학생 수 100명 미만 학교는 생략 가능). 학교장은 제안 설명을 하고, 학운위는 학교장 동의 없이 세출예산 각 목을 증액하거나 새 목을 둘 수 없습니다(학교회계 규칙 제14조, 지침 인용).",
+    todo:["예·결산소위원회 심사(심사보고서 작성)","학교운영위원회 본회의 — 학교장 제안 설명","학교구성원 요구사업 설명 → 회의록에 명기","심의 결과 받기"],
+    docs:[{ kind:"in", label:"심의 결과 보고 및 예산 확정(내부결재)",
+      title:"{Y}학년도 학교회계 본예산 학교운영위원회 심의 결과 보고 및 예산 확정",
+      body:"1. 관련: 「초·중등교육법」 제30조의3(학교회계의 운영)\n2. {Y}학년도 학교회계 세입·세출예산안에 대한 학교운영위원회 심의 결과를 다음과 같이 보고하고, 예산을 확정하고자 합니다.\n  가. 예·결산소위원회 심사: {Y}. 2. ○.(○), 심사 결과 ○○\n  나. 학교운영위원회 심의: 제○○회 학교운영위원회({Y}. 2. ○○.(○))\n  다. 심의 결과: 원안 의결(또는 수정 의결 — 수정 내용: ○○○)\n  라. 확정 예산: 세입·세출 각각 ○○○,○○○,○○○원\n  마. 학교구성원 요구사업 설명 및 회의록 명기 여부: 명기함\n\n붙임  1. 예·결산소위원회 심사보고서 1부.\n      2. 학교운영위원회 회의록(사본) 1부.\n      3. {Y}학년도 학교회계 세입·세출예산서 1부.  끝.",
+      attach:["pub19","pub18"] }] },
+  { t:"예산 확정 및 공개", when:"{dEnd}까지 확정 → 확정 후 10일 이내 공개", who:"학교장",
+    law:"학교장은 학교회계 세입·세출예산을 확정하고, <b>확정 후 10일 이내</b>에 누리집 탑재·가정통신문 등으로 공개합니다(지침 예산편성 절차). 예산 공개 때 <b>학교구성원 의견 반영 사업</b>을 안내합니다. 개시 전까지 확정되지 않으면 인건비 등은 전년도 예산에 준하여 집행할 수 있습니다(「초·중등교육법」 제30조의3제4항).",
+    todo:["K-에듀파인 예산 확정 처리","학교 누리집 예산 공개(의견 반영 사업 포함)","가정통신문 안내(필요 시)"],
+    docs:[{ kind:"in", label:"예산 공개(내부결재)",
+      title:"{Y}학년도 학교회계 본예산 공개",
+      body:"1. 관련: 「초·중등교육법」 제30조의3(학교회계의 운영)\n2. 확정된 {Y}학년도 학교회계 본예산을 다음과 같이 공개하고자 합니다.\n  가. 공개 내용: 예산총칙, 세입·세출예산서, 학교구성원 의견 반영 사업\n  나. 공개 방법: 학교 누리집 [예산공개] 게시(및 가정통신문 안내)\n  다. 공개 일자: {Y}. ○. ○.(예산 확정 후 10일 이내)\n\n붙임  1. {Y}학년도 학교회계 세입·세출예산서 1부.\n      2. 학교구성원 의견 반영 사업 목록 1부.  끝.",
+      attach:[] }] }
+  ]
+},
+pri: {
+  tag: "사립학교", title: "교비회계 본예산 편성", acct: "교비회계",
+  desc: "지침 접수부터 학교운영위원회 심의, 이사회 의결, 관할청 보고·공시까지 10단계입니다.",
+  steps: [
+  { t:"사학기관 예산편성 및 운영지침 접수·공람", when:"{P}. 11월 말 ~ 12월 (교육청 시달)", who:"행정실",
+    law:"관할청(교육청)이 사학기관 예·결산 기준을 시달합니다(지침 예산편성 절차).",
+    todo:["교육청 지침 공문 접수 후 전 교직원 공람","교비회계·법인회계·부록 지침 함께 법인에 전달"],
+    docs:[{ kind:"in", label:"지침 알림(공람)",
+      title:"{Y}학년도 사학기관 예산편성 및 운영지침 알림",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 사학기관 예산편성 및 운영지침(교비회계)을 다음과 같이 알려드리오니, 부서별 {Y}학년도 사업계획 수립 및 예산요구서 작성에 참고하시기 바랍니다.\n  가. 주요 내용: 교비회계 예산편성 기본방향, 세입·세출 예산편성 기준, 예산과정 및 일정\n  나. 협조 사항: 부서(담당자)별 {Y}학년도 사업계획 검토 및 소요예산 파악\n\n붙임  {Y}학년도 사학기관 예산편성 및 운영지침(교비회계) 1부.  끝.",
+      attach:[], self:"교육청 공문 붙임 그대로" }] },
+  { t:"법인 예산편성요령 확인", when:"예산 편성 전", who:"이사장(법인)",
+    law:"법인의 이사장은 「사학기관 재무·회계 규칙」 제4조의 기본원칙에 따라 <b>예산을 편성하기 전에</b> 법인과 학교에 적용할 예산편성 요령을 정해야 합니다. <b>「사학기관 재무·회계 규칙」 제12조</b>(지침 인용, 2025. 4. 18. 개정으로 '개시 2월 이전' 기한 삭제)",
+    todo:["법인의 예산편성요령 받기(없으면 법인에 요청)","교직원에게 함께 알리기"],
+    docs:[{ kind:"in", label:"편성요령 알림(공람)",
+      title:"{Y}학년도 {C} 예산편성요령 알림",
+      body:"1. 관련: {C}-○○○({P}. ○○. ○○.)\n2. {C}에서 정한 {Y}학년도 예산편성요령을 다음과 같이 알려드리오니 교비회계 예산 편성에 참고하시기 바랍니다.\n  가. 근거: 「사학기관 재무·회계 규칙」 제12조\n  나. 주요 내용: ○○○\n\n붙임  {Y}학년도 예산편성요령 1부.  끝.",
+      attach:[], self:"법인이 정한 편성요령 그대로" }] },
+  { t:"본예산 편성 계획 수립 및 사전교육", when:"{P}. 12월 초", who:"행정실",
+    law:"학교장은 예산편성 전에 교직원에게 연간 학교운영시책 및 예산편성에 필요한 <b>사전교육</b>을 실시합니다(지침). [서식35] 확인사항: 사전교육 대상 — <b>교직원 및 학교운영위원</b>.",
+    todo:["편성 일정(아래 표) 확정","교직원·학교운영위원 사전교육 일정 정하기","예산요구서 제출 기한 정하기"],
+    docs:[{ kind:"in", label:"편성 계획(내부결재)",
+      title:"{Y}학년도 교비회계 본예산 편성 계획",
+      body:"1. 관련\n  가. 「사학기관 재무·회계 규칙」\n  나. 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 교비회계 본예산 편성을 위하여 다음과 같이 계획을 수립하고자 합니다.\n  가. 기본 방향\n    1) 학교교육계획과 연계한 사업 중심의 예산 편성\n    2) 학교구성원(학생·학부모·교직원) 의견 수렴 및 반영\n    3) 가용재원 범위 안에서 사업 우선순위에 따른 편성\n  나. 추진 일정\n    1) 교직원·학교운영위원 사전교육: {P}. 12. ○.(○)\n    2) 학교구성원 의견수렴: {P}. 12. ○. ~ {P}. 12. 31.\n    3) 예산요구서 제출: {P}. 12. ○○.(○)까지\n    4) 예산조정위원회 개최: {Y}. 1월 중\n    5) 학교운영위원회 심의: {Y}. 2. ○○.(○)\n    6) 법인 이사장에게 예산안 제출 및 이사회 의결: 회계연도 개시 전\n    7) 관할청 보고 및 누리집 공시: {d5}까지(개시 5일 전)\n  다. 사전교육\n    1) 일시/장소: {P}. 12. ○.(○) ○○:○○ / ○○실\n    2) 대상: 전 교직원 및 학교운영위원\n    3) 내용: {Y}학년도 학교운영시책 및 예산편성 방향, 예산요구서 작성 방법\n  라. 예산요구서 제출: {P}. 12. ○○.(○)까지, 부서(담당자)별 작성 후 행정실 제출\n\n붙임  1. {Y}학년도 본예산 편성 일정표 1부.\n      2. 세입·세출예산요구서 서식 1부.  끝.",
+      attach:["pri1"] }] },
+  { t:"학교구성원 의견수렴", when:"{P}. 12월", who:"행정실",
+    law:"학교장은 예산편성 과정에 학교구성원이 참여하도록 <b>의견을 수렴</b>합니다(누리집·가정통신문 등). 요구사업이 있으면 학교운영위원회 심의 때 설명하고 <b>회의록에 명기</b>합니다. 학교운영지원비 등 예산편성에는 학부모 의견을 들어야 합니다(<b>「사학기관 재무·회계 규칙」 제16조</b>, 지침 인용). [서식35]: 누리집 <b>예산참여 코너</b> 운영 여부 확인.",
+    todo:["가정통신문 발송","누리집 [예산참여] 코너에 의견서 게시","들어온 의견 목록 정리(학운위·이사회 설명용)"],
+    docs:[{ kind:"in", label:"의견수렴 실시(내부결재)",
+      title:"{Y}학년도 교비회계 본예산 편성 의견수렴 실시",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({P}. ○○. ○○.)\n2. {Y}학년도 교비회계 예산편성에 학교구성원의 의견을 반영하기 위하여 다음과 같이 의견수렴을 실시하고자 합니다.\n  가. 기간: {P}. 12. ○. ~ {P}. 12. 31.\n  나. 대상: 학생, 학부모, 교직원, 학교운영위원\n  다. 방법: 가정통신문 발송, 학교 누리집 [예산참여] 게시\n  라. 결과 활용\n    1) 예산조정위원회에서 반영 여부 검토\n    2) 학교운영위원회·이사회 심의 시 요구사업 설명 및 회의록 명기\n    3) 예산 공시 시 의견 반영 사업 안내\n\n붙임  가정통신문 1부.  끝.",
+      attach:["priLetter"] }] },
+  { t:"예산요구서 제출 안내", when:"{P}. 12월 (사전교육 직후)", who:"전 교직원 → 행정실",
+    law:"교직원으로 하여금 교육과정 및 학교운영에 필요한 경비를 적은 <b>예산요구서</b>를 사업담당자별로 제출하게 합니다(지침 예산편성 절차). [서식1]",
+    todo:["교내 메신저로 서식과 기한 안내","제출 현황 확인·독려"],
+    docs:[{ kind:"memo", label:"교내 메신저 안내문",
+      title:"[행정실] {Y}학년도 예산요구서 제출 안내 ({P}. 12. ○○.까지)",
+      body:"선생님들 안녕하세요. 행정실입니다.\n{Y}학년도 교비회계 본예산 편성을 위하여 부서(담당자)별 예산요구서를 받습니다.\n\n○ 제출 기한: {P}. 12. ○○.(○)까지\n○ 제출 서식: 세입·세출예산요구서 (붙임)\n○ 작성 요령\n  - 세부사업별로 산출내역(단가×수량)을 구체적으로 적어 주세요.\n  - 전년도 예산액과 비교해 늘거나 준 이유를 적어 주세요.\n  - 총액배분사업비·목적사업비는 교육청 사업 내용과 금액을 확인해 주세요.\n○ 제출 방법: 메신저 회신 또는 행정실 직접 제출\n\n문의: 행정실 ○○○ (☎ ○○○○)",
+      attach:["pri1"] }] },
+  { t:"전입금 교부계획 확인 및 예산조정위원회", when:"교부계획 통보 {d50}까지 → {Y}. 1월 중 조정", who:"학교장(조정위원회)",
+    must:true,
+    law:"회계연도 개시 <b>50일 전까지</b> 전입금 교부계획이 통지되면 자체세입을 포함한 세입예산을 확정하고, 가용재원 안에서 <b>조정위원회(교직원회의 또는 부장회의)</b>로 예산을 조정해 예산안을 확정합니다(2026 교비회계 예산편성 절차). <b>※ 내부결재 필수</b>",
+    todo:["재정결함보조금·총액배분사업비·목적사업비 교부계획 확인","부서 요구액 합계와 가용재원 비교표 만들기","조정위원회 개최·회의록 작성","결과 내부결재"],
+    docs:[{ kind:"in", label:"조정위원회 결과(내부결재 필수)",
+      title:"{Y}학년도 교비회계 예산조정위원회 개최 결과 보고",
+      body:"1. 관련: 전북특별자치도교육청 예산과-○○○○({Y}. ○○. ○○.) ({Y}학년도 교비회계 전입금 교부계획 통보)\n2. {Y}학년도 교비회계 세입·세출예산안 확정을 위한 예산조정위원회 결과를 다음과 같이 보고합니다.\n  가. 일시/장소: {Y}. 1. ○○.(○) ○○:○○ / ○○실\n  나. 참석: 교감, 부장교사, 행정실장 등 ○명\n  다. 세입 규모: 총 ○○○,○○○천원\n    1) 교육비특별회계 이전수입(재정결함보조금 등) ○○○,○○○천원\n    2) 목적사업비 ○○,○○○천원\n    3) 수익자부담수입 ○○,○○○천원\n    4) 기타(전년도이월금 등) ○,○○○천원\n  라. 조정 결과: 부서 요구액 ○○○,○○○천원 → 조정액 ○○○,○○○천원\n  마. 주요 조정 내용\n    1) ○○○ 사업: ○,○○○천원 → ○,○○○천원(사유: ○○○)\n    2) 학교구성원 의견 반영 사업: ○○○\n\n붙임  1. 예산조정 결과표 1부.\n      2. 예산조정위원회 회의록 1부.  끝.",
+      attach:[], self:"결과표·회의록은 학교에서 작성" }] },
+  { t:"학교운영위원회 심의", when:"{Y}. 2월 (이사회 제출 전)", who:"학교장 → 학교운영위원회",
+    law:"학교장은 교비회계 예산안을 <b>학교운영위원회의 심의</b>를 거쳐 법인 이사장에게 제출합니다. <b>「초·중등교육법」 제32조제1항제2호</b>(학교의 예산안과 결산 — 사립학교도 심의) · 요구사업이 있으면 설명하고 회의록에 명기합니다.",
+    todo:["예산총칙·세입세출예산서 준비","학교운영위원회 안건 제출(내부결재)","요구사업 설명 → 회의록 명기","회의록 사본 확보(관할청 보고 때 첨부)"],
+    docs:[{ kind:"in", label:"학운위 심의 요청(내부결재)",
+      title:"{Y}학년도 교비회계 세입·세출예산안 학교운영위원회 심의 요청",
+      body:"1. 관련: 「초·중등교육법」 제32조(기능)\n2. {Y}학년도 교비회계 세입·세출예산안을 붙임과 같이 편성하여 학교운영위원회에 심의를 요청하고자 합니다.\n  가. 예산 규모: 세입·세출 각각 ○○○,○○○,○○○원\n  나. 심의 일정(안): 제○○회 학교운영위원회 {Y}. 2. ○○.(○)\n  다. 학교구성원 의견수렴 결과: 요구사업 ○건(반영 ○건, 미반영 ○건) — 심의 시 설명\n  라. 심의 후 조치: 법인 이사장에게 예산안 제출(회계연도 개시 전)\n\n붙임  1. {Y}학년도 교비회계 예산총칙 1부.\n      2. {Y}학년도 교비회계 세입·세출예산서 1부.  끝.",
+      attach:["pri3"] }] },
+  { t:"예산안 법인 이사장 제출", when:"회계연도 개시 전 — 관할청 보고({d5}) 전에 마치기", who:"학교장 → 이사장",
+    must:true,
+    law:"학교에 속하는 회계의 예산은 학교의 장이 편성하여 <b>매 회계연도 개시 전에</b> 법인 이사장에게 제출해야 합니다. <b>「사학기관 재무·회계 규칙」 제16조제2항</b>(지침 인용, 2025. 4. 18. 개정 — 종전 '개시 1월 전까지')",
+    todo:["학운위 심의 결과 반영","예산안·학운위 회의록 사본을 법인에 제출(시행문)"],
+    docs:[{ kind:"out", label:"법인 제출 시행문",
+      title:"{Y}학년도 교비회계 세입·세출예산안 제출",
+      body:"수신  {C} 이사장\n\n1. 관련: 「사학기관 재무·회계 규칙」 제16조\n2. {Y}학년도 {S} 교비회계 세입·세출예산안을 학교운영위원회 심의를 거쳐 붙임과 같이 제출하오니 이사회 의결을 받아 주시기 바랍니다.\n  가. 예산 규모: 세입·세출 각각 ○○○,○○○,○○○원\n  나. 학교운영위원회 심의: 제○○회({Y}. 2. ○○.) — 원안(수정) 의결\n\n붙임  1. {Y}학년도 교비회계 세입·세출예산서 1부.\n      2. 학교운영위원회 회의록(사본) 1부.  끝.",
+      attach:[] }] },
+  { t:"이사회 의결 결과 접수 및 예산 확정", when:"회계연도 개시 전 — 관할청 보고({d5}) 전에 마치기", who:"이사장 → 학교장",
+    must:true,
+    law:"이사장은 제출받은 예산안을 <b>매 회계연도 개시 전에</b> 이사회 의결을 받아 학교의 장에게 송부해야 합니다. <b>「사학기관 재무·회계 규칙」 제16조제3항</b>(지침 인용) · [서식35]: 이사회 심의 결과를 통보받았는지 확인.",
+    todo:["이사회 의결 결과 공문 접수","K-에듀파인 예산 확정 처리","이사회 회의록 사본 확보(관할청 보고 때 첨부)"],
+    docs:[{ kind:"in", label:"예산 확정(내부결재)",
+      title:"{Y}학년도 교비회계 본예산 이사회 의결 결과 보고 및 예산 확정",
+      body:"1. 관련: {C}-○○○({Y}. ○○. ○○.)\n2. {Y}학년도 교비회계 세입·세출예산안에 대한 이사회 의결 결과를 다음과 같이 보고하고, 예산을 확정하고자 합니다.\n  가. 학교운영위원회 심의: 제○○회({Y}. 2. ○○.)\n  나. 이사회 의결: {Y}. 2. ○○.(○) — 원안(수정) 의결\n  다. 확정 예산: 세입·세출 각각 ○○○,○○○,○○○원\n\n붙임  1. 이사회 회의록(사본) 1부.\n      2. {Y}학년도 교비회계 세입·세출예산서 1부.  끝.",
+      attach:[] }] },
+  { t:"관할청 보고 및 누리집 공시", when:"{d5}까지 (개시 5일 전)", who:"이사장(학교 작성)",
+    must:true,
+    law:"학교법인은 교비회계 예산서를 <b>매 회계연도 개시 5일 이전</b>에 관계 부속서류를 첨부하여 관할청에 보고하고, 해당 학교 누리집에 <b>1년간 공개</b>합니다. <b>「사립학교법 시행령」 제14조</b>(지침 인용) · 예산서 제출 때 [서식2~12]에 학교운영위원회 회의록(사본)·이사회 회의록(사본)을 첨부합니다(지침). 기한 안에 못 내면 사유를 지체 없이 보고합니다.",
+    todo:["예산서(서식2~12) 출력·확인","학운위·이사회 회의록 사본 첨부","교육청에 보고(시행문)","누리집 예산 공시(의견 반영 사업 포함, 1년간)","[서식35] 확인사항 점검"],
+    docs:[{ kind:"out", label:"관할청 보고 시행문",
+      title:"{Y}학년도 교비회계 본예산서 보고",
+      body:"수신  전북특별자치도교육감(참조: 예산과장)\n\n1. 관련: 「사립학교법 시행령」 제14조(예산과 결산의 보고 및 공시)\n2. {Y}학년도 {S} 교비회계 본예산서를 붙임과 같이 보고합니다.\n  가. 예산 규모: 세입·세출 각각 ○○○,○○○,○○○원\n  나. 학교운영위원회 심의: {Y}. 2. ○○.\n  다. 이사회 의결: {Y}. 2. ○○.\n  라. 누리집 공시: {Y}. 2. ○○.(1년간 게재)\n\n붙임  1. {Y}학년도 교비회계 세입·세출예산서(서식2~12) 1부.\n      2. 학교운영위원회 회의록(사본) 1부.\n      3. 이사회 회의록(사본) 1부.  끝.",
+      attach:["pri35"] }] }
+  ]
+}
+};
+
+/* 공립 일정표 근거·기한 (단계 순서와 같음) */
+var SCHED = {
+  pub: [
+    ["{P}. 11월 말","학교회계 규칙 제10조(지침)"],
+    ["{P}. 12월 초","학교회계 규칙 제12조(지침)"],
+    ["{P}. 12월","학교회계 규칙 제12조(지침)"],
+    ["{P}. 12월","지침 [서식1]·[서식2]"],
+    ["교부계획 {d50}까지 → 1월 중","학교회계 규칙 제11조(지침)"],
+    ["{d30}까지","초·중등교육법 제30조의3제2항"],
+    ["{d5}까지","초·중등교육법 제30조의3제3항"],
+    ["확정 후 10일 이내 공개","지침 예산편성 절차"]
+  ],
+  pri: [
+    ["{P}. 11월 말 ~ 12월","지침 예산편성 절차"],
+    ["예산 편성 전","사학기관 재무·회계 규칙 제12조"],
+    ["{P}. 12월 초","지침"],
+    ["{P}. 12월","사학기관 재무·회계 규칙 제16조(지침)"],
+    ["{P}. 12월","지침 [서식1]"],
+    ["교부계획 {d50}까지 → 1월 중","교비회계 예산편성 절차"],
+    ["{Y}. 2월","초·중등교육법 제32조제1항"],
+    ["개시 전 (관할청 보고 {d5} 전)","사학기관 재무·회계 규칙 제16조제2항"],
+    ["개시 전 (관할청 보고 {d5} 전)","사학기관 재무·회계 규칙 제16조제3항"],
+    ["{d5}까지","사립학교법 시행령 제14조"]
+  ]
+};
+
+/* ---------- 값 채우기 ---------- */
+var state = { ver: null };
+function vals(){
+  var Y = parseInt(load("budget-Y", ""), 10);
+  if (!(Y >= 2000 && Y <= 2100)) Y = defaultYear();
+  return { Y: Y, S: load("budget-S", "").trim(), C: load("budget-C", "").trim() };
+}
+function defaultYear(){
+  var now = new Date(); // 9월 이후면 다음 학년도 예산을 편성
+  return now.getMonth() >= 8 ? now.getFullYear() + 1 : now.getFullYear();
+}
+function fill(t){
+  var v = vals(), Y = v.Y;
+  var map = {
+    Y: String(Y), P: String(Y - 1),
+    S: v.S || "○○학교", C: v.C || "학교법인 ○○학원",
+    d50: fmt(before(Y, 50)), d30: fmt(before(Y, 30)), d5: fmt(before(Y, 5)), dEnd: fmt(lastFeb(Y))
+  };
+  return t.replace(/\{(Y|P|S|C|d50|d30|d5|dEnd)\}/g, function(m, k){ return map[k]; });
+}
+function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+/* ---------- 그리기 ---------- */
+var KIND = { "in": ["내부결재",""], out: ["시행문","out"], memo: ["교내 안내","memo"] };
+function render(){
+  var ver = state.ver, V = VERS[ver];
+  document.getElementById("view").className = ver === "pri" ? "v-pri" : "v-pub";
+  document.getElementById("vTag").textContent = V.tag;
+  document.getElementById("vTitle").textContent = fill("{Y}학년도 " + V.title);
+  document.getElementById("vDesc").textContent = V.desc;
+  document.getElementById("verName").textContent = V.tag + " · " + V.acct;
+  document.getElementById("corpField").hidden = ver !== "pri";
+
+  var sb = "";
+  V.steps.forEach(function(s, i){
+    var sc = SCHED[ver][i];
+    sb += '<tr' + (s.must ? ' class="must"' : '') + '><td class="no">' + (i+1) + '</td><td><button type="button" class="jump" data-jump="' + i + '">' + esc(s.t) + '</button></td><td class="when">' + esc(fill(sc[0])) + '</td><td class="law">' + esc(sc[1]) + '</td></tr>';
+  });
+  document.getElementById("schedBody").innerHTML = sb;
+
+  var html = "";
+  V.steps.forEach(function(s, i){
+    html += '<article class="step" id="step-' + i + '"><div class="step-head"><span class="step-no">' + (i+1) + '</span><div><h3>' + esc(s.t) + '</h3>' +
+      '<div class="step-meta"><span class="when">' + esc(fill(s.when)) + '</span><span class="who">' + esc(s.who) + '</span></div></div></div><div class="step-body">';
+    html += '<div class="law-box">' + fill(s.law) + '</div>';
+    html += '<ul class="todo">' + s.todo.map(function(t, k){
+      var key = "budget-chk-" + ver + "-" + i + "-" + k;
+      return '<li><label><input type="checkbox" data-chk="' + key + '"' + (load(key, "") === "1" ? " checked" : "") + '><span>' + esc(t) + '</span></label></li>';
+    }).join("") + '</ul>';
+    s.docs.forEach(function(d, k){
+      var kd = KIND[d.kind];
+      html += '<div class="doc" data-step="' + i + '" data-doc="' + k + '"><div class="doc-top"><span class="doc-kind ' + kd[1] + '">' + kd[0] + '</span><span class="doc-label">' + esc(d.label) + '</span>' +
+        '<span class="doc-btns"><button type="button" class="cbtn" data-copy="title">제목 복사</button><button type="button" class="cbtn" data-copy="body">본문 복사</button></span></div>' +
+        '<p class="doc-title">' + esc(fill(d.title)) + '</p><pre class="doc-body">' + esc(fill(d.body)) + '</pre>';
+      if (d.attach.length || d.self){
+        html += '<div class="attach"><span class="lb">붙임</span>' + d.attach.map(function(a){
+          var f = FILES[a]; return '<a href="' + f[0] + '" download="' + esc(f[1]) + '"><span class="ext">HWP</span>' + esc(f[2]) + '</a>';
+        }).join("") + (d.self ? '<span class="self">' + esc(d.self) + '</span>' : '') + '</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div></article>';
+  });
+  document.getElementById("steps").innerHTML = html;
+}
+
+function show(ver){
+  state.ver = ver;
+  document.getElementById("home").hidden = !!ver;
+  document.getElementById("view").hidden = !ver;
+  document.getElementById("switchBtn").hidden = !ver;
+  if (!ver){ document.getElementById("verName").textContent = ""; document.title = "교행e의 본예산 길라잡이"; }
+  else { render(); document.title = VERS[ver].tag + " 본예산 · 교행e의 본예산 길라잡이"; }
+  save("budget-ver", ver || "");
+  try{ history.replaceState(null, "", ver ? "#" + ver : location.pathname); }catch(e){}
+  window.scrollTo(0, 0);
+}
+
+/* ---------- 입력칸 ---------- */
+var inputs = document.querySelectorAll("#vars input");
+function syncInputs(){
+  var v = vals();
+  inputs.forEach(function(el){ var k = el.dataset.v; el.value = k === "Y" ? v.Y : v[k]; });
+}
+inputs.forEach(function(el){
+  el.addEventListener("input", function(){
+    var k = el.dataset.v, val = el.value;
+    if (k === "Y"){ var n = parseInt(val, 10); if (!(n >= 2000 && n <= 2100)) return; val = String(n); }
+    save("budget-" + k, val);
+    if (state.ver) render();
+  });
+});
+
+/* ---------- 복사 ---------- */
+function toast(msg){
+  var t = document.getElementById("toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.tm); toast.tm = setTimeout(function(){ t.hidden = true; }, 1600);
+}
+function copyText(text){
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise(function(ok, no){
+    var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy") ? ok() : no(); }catch(e){ no(e); } finally{ ta.remove(); }
+  });
+}
+
+document.addEventListener("click", function(e){
+  var go = e.target.closest("[data-go]"); if (go){ show(go.dataset.go); return; }
+  if (e.target.closest("[data-home]")){ show(null); return; }
+  var j = e.target.closest("[data-jump]");
+  if (j){ document.getElementById("step-" + j.dataset.jump).scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  var c = e.target.closest("[data-copy]");
+  if (c){
+    var box = c.closest(".doc"), d = VERS[state.ver].steps[box.dataset.step].docs[box.dataset.doc];
+    var text = fill(c.dataset.copy === "title" ? d.title : d.body);
+    copyText(text).then(function(){
+      c.classList.add("done"); var o = c.textContent; c.textContent = "복사됨 ✓";
+      setTimeout(function(){ c.classList.remove("done"); c.textContent = o; }, 1300);
+      toast((c.dataset.copy === "title" ? "제목" : "본문") + "을 복사했어요. 기안문에 붙여 넣으세요.");
+    }, function(){ toast("복사가 안 되면 글자를 직접 끌어서 복사하세요."); });
+  }
+});
+document.addEventListener("change", function(e){
+  var k = e.target.dataset && e.target.dataset.chk;
+  if (k) save(k, e.target.checked ? "1" : "");
+});
+
+syncInputs();
+var start = (location.hash || "").replace("#", "");
+show(VERS[start] ? start : null);
+})();
+</script>
+</body>
+</html>
