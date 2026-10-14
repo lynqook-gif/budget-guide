@@ -189,6 +189,24 @@ body.mk-open{overflow:hidden}
 .mk-b.fill{background:#1d6f42;color:#fff}
 .mk-x{border:1px solid #e3b4b4;background:#fff;color:#b23b3b;border-radius:6px;padding:3px 9px;font:inherit;font-size:12.5px;cursor:pointer}
 .mk-help{font-size:13px;color:var(--muted)}
+.mk-warn{color:#b26a00;font-size:11.5px}
+.mk-sec{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;background:#fbfdff}
+.mk-sec h4{margin:0 0 6px;font-size:15.5px;color:var(--navy)}
+.mk-sec p{margin:8px 0}
+.mk-lab{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;margin:8px 0}
+.mk-lab input{border:1px solid #c3d2e4;border-radius:8px;padding:7px 9px;font:inherit;font-size:14px;font-weight:400}
+.mk-bizbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0;font-size:13.5px;color:var(--navy)}
+.mk-biz{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff;padding:6px 10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:2px 10px;font-size:13px}
+.mk-biz small{color:var(--muted)}
+.mk-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:10px 0}
+.mk-stats div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.mk-stats small{display:block;font-size:11.5px;color:var(--muted)}
+.mk-stats b{font-size:14px;color:var(--navy)}
+.mk-warnlist{margin:6px 0;padding:8px 12px 8px 26px;background:#fdf4de;border-radius:8px;font-size:13px}
+.mk-view{display:flex;gap:6px;flex-wrap:wrap}
+.mk-view button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.mk-view button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media (max-width:860px){.mk-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .mk-empty{padding:14px;background:#f5f8fc;border-radius:10px;color:var(--ink-2)}
 .mk-form{display:grid;gap:10px}
 .mk-form label{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:13.5px}
@@ -205,7 +223,7 @@ body.mk-open{overflow:hidden}
   body.mk-printing>*:not(#maker){display:none!important}
   body.mk-printing #maker{position:static;display:block!important;background:none;padding:0;overflow:visible}
   body.mk-printing .mk-box{box-shadow:none;max-width:none;border-radius:0}
-  body.mk-printing .mk-head,body.mk-printing .mk-tabs,body.mk-printing .mk-edit,body.mk-printing .mk-tools{display:none!important}
+  body.mk-printing .mk-head,body.mk-printing .mk-tabs,body.mk-printing .mk-edit,body.mk-printing .mk-tools,body.mk-printing .mk-viewbar{display:none!important}
   body.mk-printing .mk-main{display:block;padding:0}
   body.mk-printing .mk-paper{border:0;box-shadow:none;padding:0}
   @page{size:A4;margin:18mm 16mm}
@@ -273,6 +291,7 @@ body.mk-open{overflow:hidden}
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>예산요구안 서식·취합: 에듀파인 기초자료로 노란 칸 배포 서식 만들기(요구금액 자동 수식), 회수한 파일 한꺼번에 취합·검산, 취합본 엑셀(통합내역·확인필요·부서별·사업별 소계)</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 자동 만들기: 선생님 예산요구서(엑셀) 취합 → 예산조정 결과표·회의록·편성 일정표, 한글 붙여넣기·인쇄·엑셀</span></li>
           <li><time>2026. 10. 14.</time><span>사립 단계 정리: 법인 예산편성요령 확인 단계 빼기(8단계)</span></li>
           <li><time>2026. 10. 14.</time><span>공문 속 날짜·장소 엑셀로 한 번에 넣기 (양식 내려받기 → 채워서 올리기)</span></li>
@@ -286,7 +305,7 @@ body.mk-open{overflow:hidden}
       <ol>
         <li>공립 또는 사립을 고르고, 위쪽에 <b>학교명·학년도</b>(사립은 법인명도)를 적으세요. 아래 일정과 공문 문구가 그 값으로 바뀝니다.</li>
         <li>단계별 카드에서 <b>제목 복사 · 본문 복사</b>를 눌러 업무관리시스템(K-에듀파인) 기안문에 붙여 넣으세요. ○○ 부분은 우리 학교에 맞게 고칩니다.</li>
-        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요. <b>붙임 만들기</b>로 선생님들 예산요구서(엑셀)를 취합하고 예산조정 결과표·회의록·편성 일정표를 만들 수 있어요.</li>
+        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요. <b>붙임 만들기</b>로 선생님들 예산요구안(엑셀)을 취합하고 예산조정 결과표·회의록·편성 일정표를 만들 수 있어요.</li>
         <li>할 일 체크 표시와 입력한 학교명은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</li>
       </ol>
     </div>
@@ -358,6 +377,7 @@ body.mk-open{overflow:hidden}
       <div class="mk-edit" id="mkEdit"></div>
       <div class="mk-out">
         <div class="mk-tools"><button type="button" class="main" id="mkCopy">한글에 붙여넣기용 복사</button><button type="button" id="mkPrint">인쇄 · PDF 저장</button><button type="button" id="mkXl">엑셀로 받기</button></div>
+        <div class="mk-viewbar" id="mkView"></div>
         <div class="mk-paper" id="mkPaper"></div>
       </div>
     </div>
@@ -778,8 +798,8 @@ document.getElementById("xlUp").addEventListener("change", function(e){
 });
 
 /* ---------- 붙임 만들기·예산요구서 취합 (이 브라우저 안에서만) ---------- */
-var MK_NAME = { sched: "편성 일정표", req: "예산요구서 취합", adj: "예산조정 결과표", minutes: "예산조정위원회 회의록" };
-var MK_BTN = { sched: "편성 일정표 만들기", reqForm: "선생님용 예산요구서 엑셀 양식", req: "제출된 예산요구서 취합", adj: "예산조정 결과표 만들기", minutes: "조정위원회 회의록 만들기" };
+var MK_NAME = { sched: "편성 일정표", req: "예산요구안 취합", adj: "예산조정 결과표", minutes: "예산조정위원회 회의록" };
+var MK_BTN = { sched: "편성 일정표 만들기", reqForm: "선생님께 보낼 예산요구안 서식 만들기", req: "제출된 예산요구안 취합", adj: "예산조정 결과표 만들기", minutes: "조정위원회 회의록 만들기" };
 var SCHROWS = {
   pub: [
     ["교직원 사전교육(학교교육시책·예산편성 방향)", "[[edu|{P}. 12. ○.(○)]]", "행정실"],
@@ -809,15 +829,14 @@ function jset(k, v){ save(k, JSON.stringify(v)); }
 function won(n){ return (Math.round(n) || 0).toLocaleString("ko-KR"); }
 function num(v){ if (typeof v === "number") return isFinite(v) ? v : 0; var s = String(v == null ? "" : v).replace(/[,원\s]/g, ""); var n = parseFloat(s); return isFinite(n) ? n : 0; }
 function chon(n){ return won(Math.round(n / 1000)); }
-function reqFiles(){ return jget("budget-req-" + state.ver, []); }
-// 부서·세부사업별 요구액 합계
+// 제출 부서·세부사업별 요구액 합계 (취합 자료에서)
 function reqAgg(){
   var map = {}, order = [];
-  reqFiles().forEach(function(f){ f.items.forEach(function(it){
-    var key = f.dept + "|" + (it.biz || "(사업명 없음)");
-    if (!map[key]){ map[key] = { dept: f.dept, biz: it.biz || "(사업명 없음)", req: 0, prev: 0 }; order.push(key); }
-    map[key].req += it.amt; map[key].prev += it.prev;
-  }); });
+  reqAll().forEach(function(r){
+    var b = r.사업 && r.항목 && r.항목 !== r.사업 ? r.사업 + " · " + r.항목 : (r.사업 || r.항목 || "(사업명 없음)"), key = r.부서 + "|" + b;
+    if (!map[key]){ map[key] = { dept: r.부서, biz: b, req: 0, prev: 0 }; order.push(key); }
+    map[key].req += r.요구금액; map[key].prev += r.전년 || 0;
+  });
   return order.map(function(k){ return map[k]; });
 }
 // 조정 결과 줄: 취합 결과 + 직접 넣은 줄, 조정액·사유는 저장값 유지
@@ -861,30 +880,6 @@ function mkSched(){
   return { edit: '<p class="mk-help">설정 칸(학교명·공문 날짜)에 넣은 날짜가 그대로 들어가요. 비어 있으면 ○○로 나와요.</p>',
     paper: paperHead(fill("{Y}학년도 본예산 편성 일정표")) + '<table ' + TS + '><tr>' + th("순") + th("추진 내용") + th("일정") + th("담당") + '</tr>' + rows + '</table>',
     xl: function(){ return [["순", "추진 내용", "일정", "담당"]].concat(SCHROWS[state.ver].map(function(r, i){ return [i + 1, r[0], fill(r[1]), r[2]]; })); } };
-}
-function mkReq(){
-  var files = reqFiles(), all = 0;
-  var list = files.length ? '<table class="mk-files"><tr><th>부서</th><th>담당</th><th>건수</th><th>요구액(원)</th><th>파일</th><th></th></tr>' + files.map(function(f, i){
-    var s = 0; f.items.forEach(function(it){ s += it.amt; }); all += s;
-    return '<tr><td>' + esc(f.dept) + '</td><td>' + esc(f.who || "") + '</td><td>' + f.items.length + '</td><td class="r">' + won(s) + '</td><td class="fn">' + esc(f.file) + '</td><td><button type="button" class="mk-x" data-mk-del="' + i + '">빼기</button></td></tr>';
-  }).join("") + '<tr class="sum"><td colspan="3">합계 (' + files.length + '개 부서)</td><td class="r">' + won(all) + '</td><td colspan="2"></td></tr></table>' : '<p class="mk-empty">아직 올린 요구서가 없어요.</p>';
-  var edit = '<ol class="mk-steps"><li><button type="button" class="mk-b" data-make="reqForm">선생님용 예산요구서 엑셀 양식 받기</button> → 메신저로 선생님들께 보내기</li>' +
-    '<li><label class="mk-b fill">받은 엑셀 파일 올리기 (여러 개 한 번에)<input type="file" id="mkReqUp" accept=".xlsx,.xls" multiple hidden></label></li>' +
-    '<li>아래 취합표를 확인하고 <b>예산조정 결과표</b>로 넘어가기 <button type="button" class="mk-b" data-make="adj">결과표 만들기 →</button></li></ol>' + list +
-    (files.length ? '<p><button type="button" class="mk-x" data-mk-clear>올린 요구서 모두 지우기</button></p>' : '');
-  var body = "", n = 0;
-  files.forEach(function(f){
-    var s = 0;
-    f.items.forEach(function(it){ n++; s += it.amt; body += '<tr>' + td(esc(f.dept), { nw: 1 }) + td(esc(it.biz), { al: "left" }) + td(esc(it.item), { al: "left" }) + td(it.price ? won(it.price) : "", { al: "right" }) + td(it.qty || "") + td(won(it.amt), { al: "right" }) + td(it.prev ? won(it.prev) : "", { al: "right" }) + td(esc(it.note), { al: "left" }) + '</tr>'; });
-    body += '<tr>' + td(esc(f.dept) + " 소계", { cs: 5, bg: 1 }) + td(won(s), { al: "right", bg: 1 }) + td("", { cs: 2, bg: 1 }) + '</tr>';
-  });
-  var paper = paperHead(fill("{Y}학년도 세출예산요구서 취합표")) + (n ? '<table ' + TS + '><tr>' + th("부서") + th("세부사업") + th("내용(품목)") + th("단가") + th("수량") + th("요구액(원)") + th("전년도(원)") + th("비고") + '</tr>' + body + '<tr>' + td("총계", { cs: 5, bg: 1 }) + td(won(all), { al: "right", bg: 1 }) + td("", { cs: 2, bg: 1 }) + '</tr></table>' : '<p style="color:#888">요구서를 올리면 여기에 취합표가 나와요.</p>');
-  return { edit: edit, paper: paper, xl: function(){
-    var a = [["부서", "담당", "세부사업", "내용(품목)", "단가", "수량", "요구액(원)", "전년도(원)", "비고"]];
-    reqFiles().forEach(function(f){ f.items.forEach(function(it){ a.push([f.dept, f.who || "", it.biz, it.item, it.price || "", it.qty || "", it.amt, it.prev || "", it.note]); }); });
-    var b = [["부서", "세부사업", "요구액(원)", "전년도(원)"]].concat(reqAgg().map(function(r){ return [r.dept, r.biz, r.req, r.prev]; }));
-    return { "전체 내역": a, "부서·사업별 합계": b };
-  } };
 }
 function mkAdj(){
   var rows = adjRows(), s = adjSum(rows);
@@ -933,7 +928,7 @@ function mkMinutes(){
 }
 var MK = { sched: mkSched, req: mkReq, adj: mkAdj, minutes: mkMinutes }, mkCur = null, mkData = null;
 function mkOpen(t){
-  if (t === "reqForm"){ reqTemplate(); return; }
+  if (t === "reqForm") t = "req";
   mkCur = t; document.getElementById("maker").hidden = false; document.body.classList.add("mk-open"); mkDraw(true);
 }
 function mkDraw(full){
@@ -941,82 +936,379 @@ function mkDraw(full){
   document.getElementById("mkTitle").textContent = MK_NAME[mkCur];
   document.getElementById("mkTabs").innerHTML = ["req", "adj", "minutes", "sched"].map(function(k){ return '<button type="button" data-make="' + k + '"' + (k === mkCur ? ' class="on"' : '') + '>' + MK_NAME[k] + '</button>'; }).join("");
   if (full) document.getElementById("mkEdit").innerHTML = mkData.edit;
+  document.getElementById("mkView").innerHTML = mkData.view || "";
   document.getElementById("mkPaper").innerHTML = mkData.paper;
   document.getElementById("mkXl").hidden = !mkData.xl;
 }
 function mkClose(){ document.getElementById("maker").hidden = true; document.body.classList.remove("mk-open"); if (state.ver) render(); }
 
-/* 선생님용 예산요구서 양식 */
-function reqTemplate(){
-  needXLSX().then(function(X){
-    var a = [[fill("{Y}학년도 세출예산요구서")], [], ["부서", "", "담당자", ""], [], ["세부사업", "내용(품목)", "단가(원)", "수량", "요구액(원)", "전년도 예산(원)", "늘거나 준 이유·비고"]];
-    for (var i = 0; i < 40; i++) a.push(["", "", "", "", null, "", ""]);
-    var ws = X.utils.aoa_to_sheet(a);
-    for (var r = 6; r <= 45; r++) ws["E" + r] = { t: "n", f: 'IF(AND(C' + r + '<>"",D' + r + '<>""),C' + r + '*D' + r + ',"")' };
-    ws["A47"] = { t: "s", v: "합계" }; ws["E47"] = { t: "n", f: "SUM(E6:E45)" };
-    ws["!ref"] = "A1:G47";
-    ws["!cols"] = [{ wch: 22 }, { wch: 28 }, { wch: 12 }, { wch: 7 }, { wch: 14 }, { wch: 14 }, { wch: 28 }];
-    ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }];
-    var g = [["작성 방법"], ["1. '부서'와 '담당자' 칸을 꼭 채워 주세요."], ["2. 세부사업마다 품목을 한 줄씩 적고 단가·수량을 넣으면 요구액이 자동 계산돼요."], ["3. 요구액을 직접 적어도 돼요(단가·수량 없이)."], ["4. 전년도와 비교해 늘거나 준 이유를 적어 주세요."], ["5. 저장한 파일을 행정실에 보내 주세요. (파일 이름은 상관없어요)"]];
-    var wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws, "예산요구서");
-    X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(g), "작성 방법");
-    X.writeFile(wb, fill("{Y}학년도_세출예산요구서_양식.xlsx"));
-    toast("선생님용 양식을 받았어요. 메신저로 보내 주세요.");
-  }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 눌러 주세요."); });
+/* 예산요구안 서식 만들기·취합 — 「예산요구안 서식·취합 도구」(교행e) 방식 */
+var REQ_HEAD = ["부서명","세부사업명","세부항목명","원가통계비목명","산출내역","산출식","요구금액","사업담당자","전년산출식","전년요구금액","증감"];
+var REQ_W = [12.8,18.8,20.8,16.8,16.8,26,13,10,26,13,13];
+var XINK = "FF16202B", XRULE = "FFB9B2A6", XHEAD = "FFEDEBE4", XIN = "FFFFF6D4", XNOTE = "FFB4232A";
+var xthin = {style:"thin",color:{argb:XRULE}}, xmed = {style:"medium",color:{argb:XINK}};
+function xbox(c, b){ c.border = b || {top:xthin,left:xthin,bottom:xthin,right:xthin}; }
+function xfill(c, argb){ c.fill = {type:"pattern",pattern:"solid",fgColor:{argb:argb}}; }
+function XF(size, bold, color){ return {name:"맑은 고딕",size:size,bold:!!bold,color:{argb:color||XINK}}; }
+var EXCELJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js";
+function needExcelJS(){
+  if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
+  return new Promise(function(ok, no){
+    var s = document.createElement("script"); s.src = EXCELJS_URL;
+    s.onload = function(){ ok(window.ExcelJS); }; s.onerror = function(){ no(new Error("load")); };
+    document.head.appendChild(s);
+  });
 }
-/* 올린 요구서 읽기 */
-var COLS = { biz: /세부\s*사업|사업\s*명|^사업$/, item: /내용|품목|산출/, price: /단가/, qty: /수량/, amt: /요구\s*액|금액|소요\s*액|예산\s*액/, prev: /전년/, note: /사유|비고/ };
-function parseReq(X, wb, fname){
-  var rows = X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: "" });
-  var dept = "", who = "", hr = -1, col = {};
-  for (var i = 0; i < Math.min(rows.length, 15); i++){
-    var r = rows[i];
-    for (var c = 0; c < r.length; c++){
-      var s = String(r[c]).replace(/\s/g, "");
-      if (/^부서(명)?$/.test(s) && !dept){ for (var k = c + 1; k < r.length; k++) if (String(r[k]).trim()){ dept = String(r[k]).trim(); break; } }
-      if (/^담당(자)?$/.test(s) && !who){ for (var k2 = c + 1; k2 < r.length; k2++) if (String(r[k2]).trim()){ who = String(r[k2]).trim(); break; } }
-    }
-    if (hr < 0 && r.some(function(x){ return COLS.biz.test(String(x)); })){
-      hr = i;
-      r.forEach(function(x, ci){ var t = String(x); for (var key in COLS) if (col[key] == null && COLS[key].test(t) && !(key === "amt" && COLS.prev.test(t))) { col[key] = ci; break; } });
+function saveBuf(buf, name){
+  var blob = new Blob([buf], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+  var url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
+}
+// 검산: 산출식의 숫자를 모두 곱함 (배포 양식의 엑셀 수식과 같은 규칙)
+function calcFormula(s){
+  if (s == null || s === "") return null;
+  var t = String(s).replace(/[,\s]/g, ""), nums = t.match(/\d+(?:\.\d+)?/g);
+  if (!nums || !nums.length) return null;
+  var v = 1; for (var i = 0; i < nums.length; i++) v *= Number(nums[i]);
+  return v;
+}
+function toNum(v){
+  if (v == null || v === "") return 0;
+  if (typeof v === "number") return v;
+  var n = Number(String(v).replace(/[^0-9.\-]/g, "")); return isNaN(n) ? 0 : n;
+}
+// 산출식(F열) → 요구금액(G열) 자동 계산 엑셀 수식 (매크로 없음, 숨김열 P~W 사용)
+var NUMARR = "{1;2;3;4;5;6;7;8;9;10;11;12;13;14;15}";
+function segNum(seg){ return "IFERROR(LOOKUP(9.9E307,--LEFT(" + seg + "," + NUMARR + ")),\"\")"; }
+function autoCalcHelpers(ws, rn){
+  var F = "F"+rn, P = "P"+rn, Q = "Q"+rn, R = "R"+rn, T = "T"+rn, V = "V"+rn;
+  ws.getCell(P).value = {formula:"SUBSTITUTE(SUBSTITUTE("+F+',",",""),CHAR(32),"")'};
+  ws.getCell(Q).value = {formula:'IF(ISERR(FIND("*",'+P+')),'+P+',LEFT('+P+',FIND("*",'+P+')-1))'};
+  ws.getCell(R).value = {formula:'IF(ISERR(FIND("*",'+P+')),"",MID('+P+',FIND("*",'+P+')+1,999))'};
+  ws.getCell("S"+rn).value = {formula:'IF('+R+'="","",IF(ISERR(FIND("*",'+R+')),'+R+',LEFT('+R+',FIND("*",'+R+')-1)))'};
+  ws.getCell(T).value = {formula:'IF('+R+'="","",IF(ISERR(FIND("*",'+R+')),"",MID('+R+',FIND("*",'+R+')+1,999)))'};
+  ws.getCell("U"+rn).value = {formula:'IF('+T+'="","",IF(ISERR(FIND("*",'+T+')),'+T+',LEFT('+T+',FIND("*",'+T+')-1)))'};
+  ws.getCell(V).value = {formula:'IF('+T+'="","",IF(ISERR(FIND("*",'+T+')),"",MID('+T+',FIND("*",'+T+')+1,999)))'};
+  ws.getCell("W"+rn).value = {formula:'IF('+V+'="","",'+V+')'};
+}
+function autoCalcFormula(rn){
+  var F = "F"+rn, Q = "Q"+rn, S = "S"+rn, U = "U"+rn, W = "W"+rn;
+  return "IF("+F+'="","",IFERROR(IF('+Q+'="","",('+segNum(Q)+")*IF("+S+'="",1,'+segNum(S)+")*IF("+U+'="",1,'+segNum(U)+")*IF("+W+'="",1,'+segNum(W)+')),""))';
+}
+function readSheet(X, wb){
+  var name = wb.SheetNames.indexOf("세출예산서식") >= 0 ? "세출예산서식" : wb.SheetNames[0];
+  var rows = X.utils.sheet_to_json(wb.Sheets[name], {header:1, raw:true, defval:""}), hIdx = -1;
+  for (var r = 0; r < Math.min(rows.length, 20); r++){
+    var line = (rows[r] || []).join("|");
+    if (line.indexOf("세부사업명") >= 0 && line.indexOf("세부항목명") >= 0){ hIdx = r; break; }
+  }
+  if (hIdx < 0) return null;
+  var map = {};
+  (rows[hIdx] || []).forEach(function(hd, i){ var k = String(hd || "").replace(/\s/g, ""); if (k && map[k] == null) map[k] = i; });
+  return {rows:rows, head:hIdx, map:map};
+}
+function readMeta(rows, hIdx){
+  var meta = {dept:"", mgr:""}, isLabel = function(t){ return /^(부서|담당자|담당|행정실장|교감|결재)/.test(t); };
+  for (var r = 0; r < hIdx; r++){
+    var row = rows[r] || [];
+    for (var c = 0; c < row.length; c++){
+      var txt = String(row[c] == null ? "" : row[c]).trim(); if (!txt) continue;
+      var key = /^부서/.test(txt) ? "dept" : (/^담당자/.test(txt) ? "mgr" : null);
+      if (!key || meta[key]) continue;
+      var aft = txt.split(/[:：]/)[1];
+      if (aft && aft.trim()){ meta[key] = aft.trim(); continue; }
+      for (var d = 1; d <= 3; d++){
+        var nx = String(row[c+d] == null ? "" : row[c+d]).trim(); if (!nx) continue;
+        if (!isLabel(nx)) meta[key] = nx; break;
+      }
     }
   }
-  if (hr < 0) return null;
-  if (!dept) dept = fname.replace(/\.[^.]+$/, "");
-  var items = [], lastBiz = "";
-  for (var j = hr + 1; j < rows.length; j++){
-    var w = rows[j], g = function(key){ return col[key] == null ? "" : w[col[key]]; };
-    var biz = String(g("biz")).trim(), item = String(g("item")).trim();
-    if (/^(합\s*계|총\s*계|소\s*계)$/.test(biz)) continue;
-    var price = num(g("price")), qty = num(g("qty")), amt = num(g("amt")) || price * qty;
-    if (!amt) continue;
-    if (biz) lastBiz = biz; else biz = lastBiz;
-    items.push({ biz: biz, item: item, price: price, qty: qty, amt: amt, prev: num(g("prev")), note: String(g("note")).trim() });
+  return meta;
+}
+function cleanName(fn){
+  return fn.replace(/\.[^.]+$/, "").replace(/^\([^()]*\([^()]*\)\)\s*/, "").replace(/\d{2,4}\s*(학년도|년도|년)/g, " ")
+    .replace(/본예산|예산\s*요구안|교원용|행정실용|취합본|\(첨부\)/g, " ").replace(/[_()]/g, " ").replace(/\s+/g, " ").trim();
+}
+function sheetRecs(s){
+  var out = [];
+  for (var r = s.head + 1; r < s.rows.length; r++){
+    var row = s.rows[r] || [], rec = {};
+    REQ_HEAD.forEach(function(hd){ var i = s.map[hd]; rec[hd] = (i == null) ? "" : (row[i] == null ? "" : row[i]); });
+    out.push(rec);
   }
-  return { file: fname, dept: dept, who: who, items: items };
+  return out;
+}
+function readBook(file){
+  return needXLSX().then(function(X){
+    return new Promise(function(res, rej){
+      var fr = new FileReader();
+      fr.onload = function(e){ try{ res([X, X.read(new Uint8Array(e.target.result), {type:"array"})]); }catch(err){ rej(new Error("엑셀 파일로 읽지 못했어요")); } };
+      fr.onerror = function(){ rej(new Error("파일을 읽지 못했어요")); };
+      fr.readAsArrayBuffer(file);
+    });
+  });
+}
+/* 1단계: 에듀파인 기초자료 → 배포용 서식 */
+var reqMaster = [], reqBiz = [], reqMsg = "";
+function loadMaster(file){
+  readBook(file).then(function(p){
+    var s = readSheet(p[0], p[1]);
+    if (!s) throw new Error("머리글을 찾지 못했어요. '세부사업명' 열이 있는 파일인지 확인해 주세요.");
+    reqMaster = sheetRecs(s).filter(function(m){ return String(m["세부사업명"]).trim() || String(m["세부항목명"]).trim(); });
+    if (!reqMaster.length) throw new Error("읽을 자료가 없어요.");
+    var cnt = {};
+    reqMaster.forEach(function(m){ var k = String(m["세부사업명"]).trim() || "(사업명 없음)"; cnt[k] = (cnt[k] || 0) + 1; });
+    reqBiz = Object.keys(cnt).sort(function(a, b){ return a.localeCompare(b, "ko"); }).map(function(k){ return {name:k, count:cnt[k], on:true}; });
+    reqMsg = "<b>" + esc(file.name) + "</b> — " + reqMaster.length + "행, 세부사업 " + reqBiz.length + "개";
+    mkDraw(true);
+  }).catch(function(err){ reqMsg = '<span class="mk-warn">' + esc(err.message || "파일을 열지 못했어요.") + "</span>"; mkDraw(true); });
+}
+function reqPicked(){
+  var on = {}; reqBiz.forEach(function(b){ if (b.on) on[b.name] = 1; });
+  return reqMaster.filter(function(m){ return on[String(m["세부사업명"]).trim() || "(사업명 없음)"]; });
+}
+function buildForm(EJ, rows, title){
+  var wb = new EJ.Workbook();
+  var ws = wb.addWorksheet("세출예산서식", {views:[{state:"frozen", ySplit:4}],
+    pageSetup:{paperSize:9, orientation:"landscape", fitToPage:true, fitToWidth:1, fitToHeight:0, margins:{left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2}}});
+  REQ_W.forEach(function(w, i){ ws.getColumn(i+1).width = w; });
+  ws.getColumn(12).width = 5; ws.getColumn(13).width = 10; ws.getColumn(14).width = 10; ws.getColumn(15).width = 10;
+  ws.mergeCells("A1:K1");
+  var t = ws.getCell("A1"); t.value = title; t.font = XF(17, true); t.alignment = {horizontal:"center", vertical:"middle"}; ws.getRow(1).height = 34;
+  ws.mergeCells("L2:L3");
+  var lab = ws.getCell("L2"); lab.value = "결재"; lab.font = XF(10, true, "FFFFFFFF");
+  lab.alignment = {horizontal:"center", vertical:"middle", textRotation:"vertical"}; xfill(lab, XINK); xbox(lab, {top:xmed, left:xmed, bottom:xmed, right:xthin});
+  ["M","N","O"].forEach(function(col, i){
+    var hh = ws.getCell(col + "2"); hh.value = ["담당","행정실장","교감"][i]; hh.font = XF(9.5, true);
+    hh.alignment = {horizontal:"center", vertical:"middle"}; xfill(hh, XHEAD); xbox(hh, {top:xmed, left:xthin, bottom:xthin, right: i === 2 ? xmed : xthin});
+    xbox(ws.getCell(col + "3"), {top:xthin, left:xthin, bottom:xmed, right: i === 2 ? xmed : xthin});
+  });
+  ws.getRow(2).height = 19; ws.getRow(3).height = 52;
+  ws.mergeCells("A3:D3");
+  var note = ws.getCell("A3"); note.value = "노란 칸을 채워 주세요 — 부서, 담당자, 산출내역, 산출식 (요구금액은 산출식에서 자동 계산)";
+  note.font = XF(10, true, XNOTE); note.alignment = {horizontal:"left", vertical:"middle"};
+  var le = ws.getCell("E3"); le.value = "부서"; le.font = XF(10.5, true); le.alignment = {horizontal:"right", vertical:"middle"};
+  ws.mergeCells("F3:G3"); var ie = ws.getCell("F3"); ie.font = XF(11); ie.alignment = {horizontal:"center", vertical:"middle"}; xfill(ie, XIN); xbox(ie);
+  var lh = ws.getCell("H3"); lh.value = "담당자"; lh.font = XF(10.5, true); lh.alignment = {horizontal:"right", vertical:"middle"};
+  ws.mergeCells("I3:J3"); var ih = ws.getCell("I3"); ih.font = XF(11); ih.alignment = {horizontal:"center", vertical:"middle"}; xfill(ih, XIN); xbox(ih);
+  var hr = ws.getRow(4);
+  REQ_HEAD.forEach(function(hd, i){ var c = hr.getCell(i+1); c.value = hd; c.font = XF(10, true); c.alignment = {horizontal:"center", vertical:"middle", wrapText:true}; xfill(c, XHEAD); xbox(c, {top:xmed, left:xthin, bottom:xmed, right:xthin}); });
+  hr.height = 30;
+  rows.forEach(function(m, i){
+    var rn = 5 + i, r = ws.getRow(rn);
+    var vals = ["", m["세부사업명"], m["세부항목명"], m["원가통계비목명"], m["산출내역"], null, null, null, m["전년산출식"], toNum(m["전년요구금액"]) || null, null];
+    vals.forEach(function(v, ci){
+      var c = r.getCell(ci+1);
+      if (v !== null && v !== undefined) c.value = v;
+      c.font = XF(10); xbox(c);
+      c.alignment = {vertical:"middle", horizontal: (ci === 6 || ci === 9 || ci === 10) ? "right" : (ci === 7 ? "center" : "left")};
+    });
+    xfill(r.getCell(5), XIN); xfill(r.getCell(6), XIN);
+    autoCalcHelpers(ws, rn);
+    r.getCell(7).value = {formula: autoCalcFormula(rn)}; r.getCell(7).numFmt = "#,##0";
+    r.getCell(10).numFmt = "#,##0";
+    r.getCell(11).value = {formula:"N(G" + rn + ")-N(J" + rn + ")"}; r.getCell(11).numFmt = "#,##0";
+    r.height = 18;
+  });
+  ["P","Q","R","S","T","U","V","W"].forEach(function(col){ ws.getColumn(col).hidden = true; ws.getColumn(col).width = 12; });
+  ws.autoFilter = {from:{row:4, column:1}, to:{row:4 + rows.length, column:11}};
+  var g = wb.addWorksheet("작성안내");
+  g.getColumn(1).width = 6; g.getColumn(2).width = 78; g.mergeCells("A1:B1");
+  var gt = g.getCell("A1"); gt.value = "예산요구안 작성 안내"; gt.font = XF(14, true); gt.alignment = {vertical:"middle"}; g.getRow(1).height = 30;
+  [["1","맨 위 노란 칸에 부서와 담당자를 적습니다."],
+   ["2","머리글의 필터 단추를 눌러 내가 맡은 세부사업만 골라 봅니다."],
+   ["3","노란 칸 두 개를 채웁니다 — 산출내역, 산출식."],
+   ["4","산출식은 000원*00명*00회 형식으로 적습니다.  예) 10,000원*10명*5회"],
+   ["5","요구금액은 산출식을 적으면 자동으로 계산됩니다. 직접 고치지 않습니다."],
+   ["6","산출식에 * 로 이어 적은 숫자를 곱해 계산합니다. 쉼표·단위(원·명·회 등)는 그대로 적어도 됩니다."],
+   ["7","증감도 자동으로 계산되니 건드리지 않습니다."],
+   ["8","목록에 없는 항목은 비슷한 행을 복사해 해당 사업 근처에 행 삽입 후 붙여 넣습니다."],
+   ["9","다 쓰면 저장해서 행정실에 보냅니다."]].forEach(function(row, i){
+    var r = g.getRow(3 + i);
+    r.getCell(1).value = row[0]; r.getCell(1).font = XF(10, true, XNOTE); r.getCell(1).alignment = {horizontal:"center", vertical:"middle"};
+    r.getCell(2).value = row[1]; r.getCell(2).font = XF(10.5); r.getCell(2).alignment = {vertical:"middle", wrapText:true}; r.height = 22;
+  });
+  return wb;
+}
+function makeForm(blank){
+  var rows = blank ? [] : reqPicked();
+  if (blank) for (var i = 0; i < 60; i++) rows.push({});
+  if (!rows.length){ toast("사업을 하나 이상 골라 주세요."); return; }
+  needExcelJS().then(function(EJ){
+    var title = (document.getElementById("mkReqTitle") || {}).value || fill("{Y}학년도 본예산 예산요구안");
+    var safe = title.replace(/[\\\/:*?"<>|]/g, " ").replace(/\s+/g, " ").trim();
+    return buildForm(EJ, rows, title).xlsx.writeBuffer().then(function(buf){ saveBuf(buf, safe + ".xlsx"); toast("배포용 서식을 내려받았어요. 메신저로 선생님들께 보내 주세요."); });
+  }).catch(function(){ toast("엑셀 만들기 기능을 불러오지 못했어요. 인터넷 연결을 확인해 주세요."); });
+}
+/* 2단계: 회수한 파일 취합 */
+function reqStore(){ return jget("budget-req2-" + state.ver, []); }
+function reqAll(){ return reqStore().reduce(function(a, s){ return a.concat(s.rows || []); }, []); }
+function addReqFiles(files){
+  var jobs = Array.prototype.slice.call(files).map(function(f){
+    return readBook(f).then(function(p){
+      var s = readSheet(p[0], p[1]);
+      if (!s) return {file:f.name, error:"머리글을 찾지 못했어요", rows:[], sum:0};
+      var meta = readMeta(s.rows, s.head), rows = [], last = {사업:"", 항목:"", 비목:""};
+      var dept = meta.dept || cleanName(f.name);
+      sheetRecs(s).forEach(function(rec){
+        var amt = toNum(rec["요구금액"]), fml = String(rec["산출식"] || "").trim();
+        var biz = String(rec["세부사업명"] || "").trim(), sub = String(rec["세부항목명"] || "").trim(), cost = String(rec["원가통계비목명"] || "").trim();
+        if (/^(합\s*계|총\s*계|소\s*계)/.test(biz)) return;
+        biz = biz || last.사업; sub = sub || last.항목; cost = cost || last.비목;
+        last = {사업:biz, 항목:sub, 비목:cost};
+        if (amt === 0 && fml === "") return;
+        var check = calcFormula(fml);
+        rows.push({ 부서: dept || String(rec["부서명"] || "").trim(), 사업: biz, 항목: sub, 비목: cost,
+          내역: String(rec["산출내역"] || "").replace(/\s*\n\s*/g, " ").trim(), 산출식: fml.replace(/\s*\n\s*/g, " "),
+          요구금액: amt || (check || 0), 검산: check, 전년식: String(rec["전년산출식"] || "").trim(), 전년: toNum(rec["전년요구금액"]),
+          파일: f.name, 어긋남: (check != null && amt > 0 && Math.abs(check - amt) > 0.5), 빈금액: amt === 0 });
+      });
+      return {file:f.name, dept:dept, mgr:meta.mgr, rows:rows, sum:rows.reduce(function(a, b){ return a + b.요구금액; }, 0)};
+    }).catch(function(err){ return {file:f.name, error:err.message || "열지 못했어요", rows:[], sum:0}; });
+  });
+  Promise.all(jobs).then(function(res){
+    var store = reqStore();
+    res.forEach(function(r){ var i = store.findIndex(function(s){ return s.file === r.file; }); if (i >= 0) store[i] = r; else store.push(r); });
+    jset("budget-req2-" + state.ver, store); mkDraw(true);
+    var ok = res.filter(function(r){ return !r.error; }).length;
+    toast(ok + "개 파일을 취합했어요." + (res.length - ok ? " 못 읽은 파일 " + (res.length - ok) + "개" : ""));
+  });
+}
+function groupBy(rows, key){
+  var m = {};
+  rows.forEach(function(r){ var k = r[key] == null ? "" : r[key]; if (!m[k]) m[k] = {키:k, 건수:0, 요구:0, 전년:0}; m[k].건수++; m[k].요구 += r.요구금액; m[k].전년 += r.전년; });
+  return Object.keys(m).sort(function(a, b){ return m[b].요구 - m[a].요구; }).map(function(k){ return m[k]; });
+}
+function sgn(n){ return (n >= 0 ? "+" : "") + won(n); }
+var reqView = "dept";
+function mkReq(){
+  var store = reqStore(), rows = reqAll(), tabs = "";
+  var edit = '<div class="mk-sec"><h4>1단계 · 선생님께 보낼 서식 만들기</h4>' +
+    '<p class="mk-help">에듀파인 <b>예산편성 → 세출예산관리 → 본예산 업로드서식 다운</b> 파일을 올리면, 선생님은 노란 칸(부서·담당자·산출내역·산출식)만 채우면 되는 서식이 만들어져요. 요구금액·증감은 수식으로 자동 계산되고 매크로가 없어 보안 경고가 뜨지 않아요.</p>' +
+    '<p><label class="mk-b fill">에듀파인 기초자료 올리기<input type="file" id="mkMasterUp" accept=".xlsx,.xls" hidden></label> <button type="button" class="mk-b" data-req-blank>사업 목록 없이 빈 서식</button></p>' +
+    (reqMsg ? '<p class="mk-help">' + reqMsg + '</p>' : '');
+  if (reqBiz.length){
+    var on = reqBiz.filter(function(b){ return b.on; }), n = reqPicked().length;
+    edit += '<label class="mk-lab">엑셀 맨 윗줄 제목 (파일 이름에도 쓰여요)<input id="mkReqTitle" value="' + esc(fill("{Y}학년도 본예산 예산요구안")) + '"></label>' +
+      '<div class="mk-bizbar"><b>세부사업 ' + on.length + '개 · ' + n + '행</b> <button type="button" class="mk-x" data-biz-all="1">전체 선택</button> <button type="button" class="mk-x" data-biz-all="0">전체 해제</button></div>' +
+      '<div class="mk-biz">' + reqBiz.map(function(b, i){ return '<label><input type="checkbox" data-biz="' + i + '"' + (b.on ? " checked" : "") + '> ' + esc(b.name) + ' <small>' + b.count + '</small></label>'; }).join("") + '</div>' +
+      '<p><button type="button" class="mk-b fill" data-req-make>배포용 파일 내려받기</button></p>';
+  }
+  edit += '</div><div class="mk-sec"><h4>2단계 · 회수한 파일 취합하기</h4>' +
+    '<p><label class="mk-b fill">작성된 예산요구안 올리기 (여러 개 한 번에, 나눠 올려도 쌓여요)<input type="file" id="mkReqUp" accept=".xlsx,.xls" multiple hidden></label></p>';
+  if (store.length){
+    edit += '<table class="mk-files"><tr><th>파일</th><th>부서</th><th>건수</th><th>요구금액</th><th></th></tr>' + store.map(function(s, i){
+      return '<tr><td class="fn">' + esc(s.file) + '</td><td>' + (s.error ? '<span class="mk-warn">' + esc(s.error) + '</span>' : esc(s.dept || "") + (s.mgr ? ' <small>' + esc(s.mgr) + '</small>' : '')) + '</td><td>' + s.rows.length + '</td><td class="r">' + won(s.sum) + '</td><td><button type="button" class="mk-x" data-mk-del="' + i + '">빼기</button></td></tr>';
+    }).join("") + '</table>';
+    var total = 0, prev = 0, depts = {}; rows.forEach(function(r){ total += r.요구금액; prev += r.전년; depts[r.부서] = 1; });
+    var bad = rows.filter(function(r){ return r.어긋남; }), blank = rows.filter(function(r){ return r.빈금액; });
+    edit += '<div class="mk-stats"><div><small>요구 총액</small><b>' + won(total) + '</b></div><div><small>전년 대비</small><b>' + sgn(total - prev) + '</b></div><div><small>항목 수</small><b>' + rows.length + '</b></div><div><small>부서 수</small><b>' + Object.keys(depts).length + '</b></div><div><small>확인할 항목</small><b' + (bad.length + blank.length ? ' class="mk-warn"' : '') + '>' + (bad.length + blank.length) + '</b></div></div>';
+    var w = [];
+    if (bad.length) w.push("산출식과 요구금액이 어긋나는 항목 <b>" + bad.length + "건</b> (표에서 노란 줄)");
+    if (blank.length) w.push("요구금액이 비어 있어 산출식으로 계산한 항목 <b>" + blank.length + "건</b>");
+    var noDept = store.filter(function(s){ return !s.error && !s.dept; });
+    if (noDept.length) w.push("부서를 안 적은 파일 <b>" + noDept.length + "개</b>");
+    edit += w.length ? '<ul class="mk-warnlist"><li>' + w.join("</li><li>") + '</li></ul>' : '<p class="mk-help">모든 항목의 산출식과 요구금액이 맞아요.</p>';
+    edit += '<p><button type="button" class="mk-b fill" data-req-export>취합본 내려받기 (엑셀)</button> <button type="button" class="mk-x" data-mk-clear>모두 지우기</button> <button type="button" class="mk-b" data-make="adj">예산조정 결과표 →</button></p>';
+  }
+  edit += '</div>';
+  // 오른쪽: 취합표 (부서별 / 사업별 / 상세)
+  var paper;
+  if (!rows.length) paper = paperHead(fill("{Y}학년도 본예산 예산요구안 취합")) + '<p style="color:#888">회수한 파일을 올리면 여기에 취합표가 나와요.</p>';
+  else {
+    tabs = '<div class="mk-view">' + [["dept","부서별 소계"],["biz","사업별 소계"],["detail","상세 내역"]].map(function(v){ return '<button type="button" data-req-view="' + v[0] + '"' + (reqView === v[0] ? ' class="on"' : '') + '>' + v[1] + '</button>'; }).join("") + '</div>';
+    var tot = 0, totP = 0; rows.forEach(function(r){ tot += r.요구금액; totP += r.전년; });
+    if (reqView !== "detail"){
+      var g = groupBy(rows, reqView === "dept" ? "부서" : "사업");
+      paper = paperHead(fill("{Y}학년도 본예산 예산요구안 취합 (" + (reqView === "dept" ? "부서별" : "사업별") + ")")) + '<table ' + TS + '><tr>' + th(reqView === "dept" ? "부서" : "세부사업") + th("건수") + th("요구금액") + th("전년") + th("증감") + '</tr>' +
+        g.map(function(r){ return '<tr>' + td(esc(r.키), { al: "left" }) + td(r.건수) + td(won(r.요구), { al: "right" }) + td(won(r.전년), { al: "right" }) + td(sgn(r.요구 - r.전년), { al: "right" }) + '</tr>'; }).join("") +
+        '<tr>' + td("합계", { bg: 1 }) + td(rows.length, { bg: 1 }) + td(won(tot), { al: "right", bg: 1 }) + td(won(totP), { al: "right", bg: 1 }) + td(sgn(tot - totP), { al: "right", bg: 1 }) + '</tr></table>';
+    } else {
+      paper = paperHead(fill("{Y}학년도 본예산 예산요구안 취합 (상세)")) + '<table ' + TS + '><tr>' + th("부서") + th("세부사업") + th("세부항목") + th("비목") + th("산출내역") + th("산출식") + th("요구금액") + th("검산") + '</tr>' +
+        rows.map(function(r){
+          var chk = r.검산 == null ? "—" : won(r.검산) + (r.어긋남 ? " (불일치)" : r.빈금액 ? " (금액없음)" : "");
+          var bg = r.어긋남 || r.빈금액 ? ' style="background:#fdf4de"' : "";
+          return '<tr' + bg + '>' + td(esc(r.부서)) + td(esc(r.사업), { al: "left" }) + td(esc(r.항목), { al: "left" }) + td(esc(r.비목), { al: "left" }) + td(esc(r.내역), { al: "left" }) + td(esc(r.산출식), { al: "left" }) + td(won(r.요구금액), { al: "right" }) + td(chk, { al: "right" }) + '</tr>';
+        }).join("") + '<tr>' + td("합계 (" + rows.length + "건)", { cs: 6, bg: 1 }) + td(won(tot), { al: "right", bg: 1 }) + td("", { bg: 1 }) + '</tr></table>';
+    }
+  }
+  return { edit: edit, paper: paper, view: rows.length ? tabs : "" };
+}
+function exportReq(){
+  var rows = reqAll(); if (!rows.length) return;
+  needExcelJS().then(function(EJ){
+    var total = 0, prev = 0; rows.forEach(function(r){ total += r.요구금액; prev += r.전년; });
+    var wb = new EJ.Workbook();
+    var d = wb.addWorksheet("통합내역", {views:[{state:"frozen", ySplit:1}], pageSetup:{paperSize:9, orientation:"landscape", fitToPage:true, fitToWidth:1, fitToHeight:0}});
+    REQ_W.forEach(function(w, i){ d.getColumn(i+1).width = w; });
+    function head(ws, titles, widths){
+      if (widths) widths.forEach(function(w, i){ ws.getColumn(i+1).width = w; });
+      var r = ws.getRow(1);
+      titles.forEach(function(t, i){ var c = r.getCell(i+1); c.value = t; c.font = XF(10, true); c.alignment = {horizontal:"center", vertical:"middle", wrapText:true}; xfill(c, XHEAD); xbox(c, {top:xmed, left:xthin, bottom:xmed, right:xthin}); });
+      r.height = 28;
+    }
+    head(d, REQ_HEAD);
+    rows.forEach(function(r, i){
+      var rn = 2 + i, row = d.getRow(rn);
+      [r.부서, r.사업, r.항목, r.비목, r.내역, r.산출식, r.요구금액, "", r.전년식, r.전년, null].forEach(function(v, ci){
+        var c = row.getCell(ci+1); if (v !== null) c.value = v; c.font = XF(10);
+        c.alignment = {vertical:"middle", horizontal: (ci === 6 || ci === 9 || ci === 10) ? "right" : (ci === 7 ? "center" : "left")}; xbox(c);
+      });
+      row.getCell(7).numFmt = "#,##0"; row.getCell(10).numFmt = "#,##0";
+      row.getCell(11).value = {formula:"G" + rn + "-J" + rn}; row.getCell(11).numFmt = "#,##0";
+      if (r.어긋남 || r.빈금액) for (var ci = 1; ci <= 11; ci++) xfill(row.getCell(ci), "FFFDF4DE");
+      row.height = 18;
+    });
+    var last = rows.length + 1, tr = d.getRow(last + 1);
+    tr.getCell(1).value = "합계 (" + rows.length + "건)"; tr.getCell(7).value = total; tr.getCell(10).value = prev; tr.getCell(11).value = total - prev;
+    for (var ci = 1; ci <= 11; ci++){ var tc = tr.getCell(ci); tc.font = XF(10.5, true); tc.alignment = {vertical:"middle", horizontal: ci >= 7 ? "right" : "left"}; if (ci === 7 || ci === 10 || ci === 11) tc.numFmt = "#,##0"; xbox(tc, {top:xmed, left:xthin, bottom:xmed, right:xthin}); xfill(tc, XHEAD); }
+    tr.height = 22;
+    d.autoFilter = {from:{row:1, column:1}, to:{row:last, column:11}};
+    var flagged = rows.filter(function(r){ return r.어긋남 || r.빈금액; });
+    if (flagged.length){
+      var ck = wb.addWorksheet("확인필요", {views:[{state:"frozen", ySplit:1}]});
+      head(ck, ["사유","부서","세부사업명","세부항목명","산출내역","산출식","요구금액","산출식 검산","차이","출처파일"], [10,13,18,20,22,24,13,13,11,26]);
+      flagged.forEach(function(r, i){
+        var row = ck.getRow(2 + i), diff = (r.검산 == null) ? "" : (r.검산 - r.요구금액);
+        [r.어긋남 ? "불일치" : "금액없음", r.부서, r.사업, r.항목, r.내역, r.산출식, r.요구금액, r.검산 == null ? "" : r.검산, diff, r.파일].forEach(function(v, ci){
+          var c = row.getCell(ci+1); c.value = v; c.font = (ci === 0) ? XF(10, true, XNOTE) : XF(10);
+          c.alignment = {vertical:"middle", horizontal: (ci >= 6 && ci <= 8) ? "right" : "left"}; if (ci >= 6 && ci <= 8) c.numFmt = "#,##0"; xbox(c); xfill(c, "FFFDF4DE");
+        });
+        row.height = 18;
+      });
+    }
+    function pivot(name, key, label){
+      var g = groupBy(rows, key), ws = wb.addWorksheet(name, {views:[{state:"frozen", ySplit:1}]});
+      head(ws, [label, "건수", "요구금액", "전년요구금액", "증감"], [26,9,16,16,15]);
+      g.forEach(function(r, i){
+        var row = ws.getRow(2 + i);
+        [r.키, r.건수, r.요구, r.전년, r.요구 - r.전년].forEach(function(v, ci){ var c = row.getCell(ci+1); c.value = v; c.font = XF(10); c.alignment = {vertical:"middle", horizontal: ci === 0 ? "left" : "right"}; if (ci >= 1) c.numFmt = "#,##0"; xbox(c); });
+        row.height = 18;
+      });
+      var t2 = ws.getRow(g.length + 2);
+      ["합계", rows.length, total, prev, total - prev].forEach(function(v, ci){ var c = t2.getCell(ci+1); c.value = v; c.font = XF(10.5, true); c.alignment = {vertical:"middle", horizontal: ci === 0 ? "left" : "right"}; if (ci >= 1) c.numFmt = "#,##0"; xbox(c, {top:xmed, left:xthin, bottom:xmed, right:xthin}); xfill(c, XHEAD); });
+      t2.height = 22;
+    }
+    pivot("부서별소계", "부서", "부서");
+    pivot("사업별소계", "사업", "세부사업명");
+    var dt = new Date(), tag = dt.getFullYear() + ("0" + (dt.getMonth()+1)).slice(-2) + ("0" + dt.getDate()).slice(-2);
+    return wb.xlsx.writeBuffer().then(function(buf){ saveBuf(buf, "예산요구안_취합본_" + tag + ".xlsx"); toast("취합본을 내려받았어요."); });
+  }).catch(function(){ toast("엑셀 만들기 기능을 불러오지 못했어요. 인터넷 연결을 확인해 주세요."); });
 }
 document.addEventListener("change", function(e){
-  if (e.target.id === "mkReqUp"){
-    var fl = Array.prototype.slice.call(e.target.files); e.target.value = "";
-    if (!fl.length) return;
-    needXLSX().then(function(X){
-      var files = reqFiles(), ok = 0, bad = [];
-      var next = function(i){
-        if (i >= fl.length){ jset("budget-req-" + state.ver, files); mkDraw(true); toast(ok + "개 파일을 취합했어요." + (bad.length ? " 못 읽은 파일: " + bad.join(", ") : "")); return; }
-        var rd = new FileReader();
-        rd.onload = function(){
-          try{
-            var p = parseReq(X, X.read(new Uint8Array(rd.result), { type: "array" }), fl[i].name);
-            if (p && p.items.length){ files = files.filter(function(f){ return f.file !== p.file; }); files.push(p); ok++; } else bad.push(fl[i].name);
-          }catch(err){ bad.push(fl[i].name); }
-          next(i + 1);
-        };
-        rd.readAsArrayBuffer(fl[i]);
-      };
-      next(0);
-    }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 올려 주세요."); });
-  }
+  var t = e.target;
+  if (t.id === "mkMasterUp"){ var f = t.files[0]; t.value = ""; if (f) loadMaster(f); }
+  if (t.id === "mkReqUp"){ var fl = Array.prototype.slice.call(t.files); t.value = ""; if (fl.length) addReqFiles(fl); }
+  if (t.dataset && t.dataset.biz != null && reqBiz[+t.dataset.biz]){ reqBiz[+t.dataset.biz].on = t.checked; mkDraw(true); }
+});
+document.addEventListener("click", function(e){
+  var t = e.target;
+  if (t.closest("[data-req-blank]")){ makeForm(true); return; }
+  if (t.closest("[data-req-make]")){ makeForm(false); return; }
+  if (t.closest("[data-req-export]")){ exportReq(); return; }
+  var ba = t.closest("[data-biz-all]"); if (ba){ reqBiz.forEach(function(b){ b.on = ba.dataset.bizAll === "1"; }); mkDraw(true); return; }
+  var rv = t.closest("[data-req-view]"); if (rv){ reqView = rv.dataset.reqView; mkDraw(false); return; }
 });
 document.addEventListener("input", function(e){
   var t = e.target;
@@ -1036,8 +1328,8 @@ document.addEventListener("click", function(e){
   if (t.closest("[data-mk-close]") || t.id === "maker"){ mkClose(); return; }
   if (t.closest("[data-mk-add]")){ var rows = adjRows(); rows.push({ dept: "", biz: "", req: 0, adj: 0, why: "", manual: true }); saveAdj(rows); mkDraw(true); return; }
   var rm = t.closest("[data-mk-rm]"); if (rm){ var r2 = adjRows(); r2.splice(+rm.dataset.mkRm, 1); saveAdj(r2); mkDraw(true); return; }
-  var del = t.closest("[data-mk-del]"); if (del){ var fs = reqFiles(); fs.splice(+del.dataset.mkDel, 1); jset("budget-req-" + state.ver, fs); mkDraw(true); return; }
-  if (t.closest("[data-mk-clear]")){ jset("budget-req-" + state.ver, []); mkDraw(true); toast("올린 요구서를 모두 지웠어요."); return; }
+  var del = t.closest("[data-mk-del]"); if (del){ var fs = reqStore(); fs.splice(+del.dataset.mkDel, 1); jset("budget-req2-" + state.ver, fs); mkDraw(true); return; }
+  if (t.closest("[data-mk-clear]")){ jset("budget-req2-" + state.ver, []); mkDraw(true); toast("올린 요구안을 모두 지웠어요."); return; }
   if (t.closest("#mkPrint")){ document.body.classList.add("mk-printing"); window.print(); return; }
   if (t.closest("#mkCopy")){
     var p = document.getElementById("mkPaper"), rg = document.createRange(), sel = window.getSelection();
