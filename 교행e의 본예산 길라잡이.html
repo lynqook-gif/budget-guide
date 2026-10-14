@@ -190,6 +190,10 @@ body.mk-open{overflow:hidden}
 .mk-x{border:1px solid #e3b4b4;background:#fff;color:#b23b3b;border-radius:6px;padding:3px 9px;font:inherit;font-size:12.5px;cursor:pointer}
 .mk-help{font-size:13px;color:var(--muted)}
 .mk-warn{color:#b26a00;font-size:11.5px}
+.mk-drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:96px;margin:10px 0;padding:16px;border:2px dashed #9cc9ab;border-radius:12px;background:#f4fbf6;color:#1d6f42;font-size:14px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s}
+.mk-drop small{color:var(--muted);font-size:12.5px}
+.mk-drop:hover{background:#eaf6ee}
+label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!important;outline:3px solid #1d6f4233}
 .mk-sec{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;background:#fbfdff}
 .mk-sec h4{margin:0 0 6px;font-size:15.5px;color:var(--navy)}
 .mk-sec p{margin:8px 0}
@@ -291,6 +295,7 @@ body.mk-open{overflow:hidden}
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>엑셀 올리기 모두 끌어 놓기(드래그 앤 드롭) 지원, 사립 [서식1]·[서식35] 한글 파일이 작게 인쇄되던 문제 고침</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 [서식3] 예산총칙 파일 빼기 → 에듀파인에서 다운로드</span></li>
           <li><time>2026. 10. 14.</time><span>예산요구안 서식·취합: 에듀파인 기초자료로 노란 칸 배포 서식 만들기(요구금액 자동 수식), 회수한 파일 한꺼번에 취합·검산, 취합본 엑셀(통합내역·확인필요·부서별·사업별 소계)</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 자동 만들기: 선생님 예산요구서(엑셀) 취합 → 예산조정 결과표·회의록·편성 일정표, 한글 붙여넣기·인쇄·엑셀</span></li>
@@ -348,7 +353,7 @@ body.mk-open{overflow:hidden}
       <div class="xlbar">
         <b>엑셀로 한 번에 넣기</b>
         <button type="button" id="xlDown">① 엑셀 양식 내려받기</button>
-        <label class="xlup">② 채운 엑셀 올리기<input type="file" id="xlUp" accept=".xlsx,.xls" hidden></label>
+        <label class="xlup">② 채운 엑셀 올리기 · 끌어 놓기<input type="file" id="xlUp" accept=".xlsx,.xls" hidden></label>
         <small>양식의 '입력값' 칸만 채워서 올리면 위 칸이 한꺼번에 채워져요. 파일은 서버로 보내지 않아요.</small>
       </div>
       <p class="note">비워 두면 ○○로 나옵니다. 학년도를 바꾸면 일정 날짜와 공문 속 연도가 함께 바뀝니다. 입력값은 이 브라우저에만 저장돼요.</p>
@@ -1185,7 +1190,7 @@ function mkReq(){
   var store = reqStore(), rows = reqAll(), tabs = "";
   var edit = '<div class="mk-sec"><h4>1단계 · 선생님께 보낼 서식 만들기</h4>' +
     '<p class="mk-help">에듀파인 <b>예산편성 → 세출예산관리 → 본예산 업로드서식 다운</b> 파일을 올리면, 선생님은 노란 칸(부서·담당자·산출내역·산출식)만 채우면 되는 서식이 만들어져요. 요구금액·증감은 수식으로 자동 계산되고 매크로가 없어 보안 경고가 뜨지 않아요.</p>' +
-    '<p><label class="mk-b fill">에듀파인 기초자료 올리기<input type="file" id="mkMasterUp" accept=".xlsx,.xls" hidden></label> <button type="button" class="mk-b" data-req-blank>사업 목록 없이 빈 서식</button></p>' +
+    '<label class="mk-drop"><b>에듀파인 기초자료</b>를 여기에 끌어 놓거나 눌러서 선택<small>본예산 업로드서식 (.xls, .xlsx)</small><input type="file" id="mkMasterUp" accept=".xlsx,.xls" hidden></label><p><button type="button" class="mk-b" data-req-blank>사업 목록 없이 빈 서식</button></p>' +
     (reqMsg ? '<p class="mk-help">' + reqMsg + '</p>' : '');
   if (reqBiz.length){
     var on = reqBiz.filter(function(b){ return b.on; }), n = reqPicked().length;
@@ -1195,7 +1200,7 @@ function mkReq(){
       '<p><button type="button" class="mk-b fill" data-req-make>배포용 파일 내려받기</button></p>';
   }
   edit += '</div><div class="mk-sec"><h4>2단계 · 회수한 파일 취합하기</h4>' +
-    '<p><label class="mk-b fill">작성된 예산요구안 올리기 (여러 개 한 번에, 나눠 올려도 쌓여요)<input type="file" id="mkReqUp" accept=".xlsx,.xls" multiple hidden></label></p>';
+    '<label class="mk-drop"><b>작성된 예산요구안</b> 여러 개를 여기에 끌어 놓거나 눌러서 선택<small>한 번에 여러 개, 나눠 올려도 쌓여요</small><input type="file" id="mkReqUp" accept=".xlsx,.xls" multiple hidden></label>';
   if (store.length){
     edit += '<table class="mk-files"><tr><th>파일</th><th>부서</th><th>건수</th><th>요구금액</th><th></th></tr>' + store.map(function(s, i){
       return '<tr><td class="fn">' + esc(s.file) + '</td><td>' + (s.error ? '<span class="mk-warn">' + esc(s.error) + '</span>' : esc(s.dept || "") + (s.mgr ? ' <small>' + esc(s.mgr) + '</small>' : '')) + '</td><td>' + s.rows.length + '</td><td class="r">' + won(s.sum) + '</td><td><button type="button" class="mk-x" data-mk-del="' + i + '">빼기</button></td></tr>';
@@ -1348,6 +1353,29 @@ document.addEventListener("click", function(e){
   }
 });
 window.addEventListener("afterprint", function(){ document.body.classList.remove("mk-printing"); });
+/* 엑셀 끌어 놓기: 파일 칸이 들어 있는 상자 위에 놓으면 그 칸으로 올림 */
+function dropLabel(t){ var l = t && t.closest ? t.closest("label") : null; return l && l.querySelector('input[type="file"]') ? l : null; }
+function hasFiles(e){ return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") >= 0; }
+function clearHot(){ Array.prototype.forEach.call(document.querySelectorAll("label.hot"), function(l){ l.classList.remove("hot"); }); }
+document.addEventListener("dragover", function(e){
+  if (!hasFiles(e)) return;
+  e.preventDefault();
+  var l = dropLabel(e.target); clearHot();
+  if (l){ l.classList.add("hot"); e.dataTransfer.dropEffect = "copy"; } else e.dataTransfer.dropEffect = "none";
+});
+document.addEventListener("dragleave", function(e){ if (!e.relatedTarget || !dropLabel(e.relatedTarget)) clearHot(); });
+document.addEventListener("drop", function(e){
+  if (!hasFiles(e)) return;
+  e.preventDefault(); clearHot();
+  var l = dropLabel(e.target);
+  if (!l){ toast("초록색 상자(또는 엑셀 올리기 단추) 위에 놓아 주세요."); return; }
+  var inp = l.querySelector('input[type="file"]');
+  var fl = Array.prototype.filter.call(e.dataTransfer.files, function(f){ return /\.(xlsx|xls|xlsm)$/i.test(f.name); });
+  if (!fl.length){ toast("엑셀 파일(.xlsx, .xls)만 올릴 수 있어요."); return; }
+  if (!inp.multiple) fl = fl.slice(0, 1);
+  try{ var dt = new DataTransfer(); fl.forEach(function(f){ dt.items.add(f); }); inp.files = dt.files; }catch(err){ toast("이 브라우저는 끌어 놓기가 안 돼요. 눌러서 선택해 주세요."); return; }
+  inp.dispatchEvent(new Event("change", { bubbles: true }));
+});
 document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !document.getElementById("maker").hidden) mkClose(); });
 
 syncInputs();
