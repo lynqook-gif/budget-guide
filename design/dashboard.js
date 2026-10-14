@@ -12,6 +12,13 @@
   signImage.className = 'budget-sign-image';
   signImage.fetchPriority = 'high';
   signHeading.append(signImage); homeHero.replaceChildren(signHeading);
+  const basis = document.querySelector('.howto .basis') || document.querySelector('.basis-card');
+  const guideline = document.createElement('details'); guideline.className = 'budget-guideline';
+  const guidelineSummary = document.createElement('summary');
+  guidelineSummary.innerHTML = '<span class="budget-guideline-label">적용 지침</span><strong>2026학년도 기준</strong><span class="budget-guideline-note">2027학년도 지침 시달 시 변경사항 확인</span>';
+  guideline.append(guidelineSummary); if (basis) guideline.append(basis); homeHero.after(guideline);
+  const workGuideline = guideline.cloneNode(true); workGuideline.classList.add('budget-work-guideline');
+  document.querySelector('.vhead').after(workGuideline);
   document.querySelectorAll('.pickcard').forEach((card, index) => {
     const icon = document.createElement('span'); icon.className = 'budget-choice-icon'; icon.setAttribute('aria-hidden', 'true');
     icon.classList.add(index === 0 ? 'budget-character-male' : 'budget-character-female');
@@ -21,7 +28,7 @@
   const workspace = document.createElement('div'); workspace.className = 'budget-workspace';
   const rail = document.createElement('aside'); rail.className = 'budget-rail';
   rail.setAttribute('aria-label', '예산편성 단계');
-  rail.innerHTML = '<div class="budget-rail-title">예산편성 일정<span>단계를 선택해 준비하세요</span></div><nav aria-label="예산편성 일정"></nav><div class="budget-mascot budget-assistant-panel"><span class="budget-assistant-icon" aria-hidden="true"></span><div class="budget-assistant-copy"><b>편성 체크</b><span class="budget-assistant-status"></span><span class="budget-assistant-progress" aria-hidden="true"><i></i></span></div></div>';
+  rail.innerHTML = '<div class="budget-rail-title">예산편성 일정</div><nav aria-label="예산편성 일정"></nav>';
   steps.before(workspace); workspace.append(rail, steps);
 
   const schedule = document.querySelector('.sched');
@@ -40,15 +47,6 @@
       button.classList.toggle('selected', i === selected);
       if (i === selected) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
     });
-    updateAssistant();
-  }
-  function updateAssistant() {
-    const step = steps.children[selected]; if (!step) return;
-    const checks = Array.from(step.querySelectorAll('.todo input'));
-    const done = checks.filter(input => input.checked).length;
-    rail.querySelector('.budget-assistant-status').textContent = '확인한 할 일 ' + done + ' / ' + checks.length;
-    rail.querySelector('.budget-assistant-progress i').style.width = (checks.length ? done / checks.length * 100 : 0) + '%';
-    rail.dataset.assistant = view.className === 'v-pri' ? 'female' : 'male';
   }
   function updateProgress() {
     Array.from(steps.children).forEach((step, i) => {
@@ -59,7 +57,6 @@
       button.querySelector('.budget-rail-status').textContent = done + ' / ' + inputs.length + ' 확인';
       button.classList.toggle('complete', inputs.length > 0 && done === inputs.length);
     });
-    updateAssistant();
   }
   function chooseDoc(step, index) {
     const docs = Array.from(step.querySelectorAll('.doc'));
