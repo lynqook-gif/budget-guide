@@ -30,7 +30,7 @@
   schedule.before(scheduleDetails); scheduleDetails.append(summary, schedule);
   const vars = document.getElementById('vars');
   const schoolDetails = document.createElement('details'); schoolDetails.className = 'budget-school-details';
-  const schoolSummary = document.createElement('summary'); schoolSummary.textContent = '학교명 · 법인명 · 학년도 설정';
+  const schoolSummary = document.createElement('summary'); schoolSummary.textContent = '학교명 · 법인명 · 학년도 · 공문 날짜 설정';
   vars.before(schoolDetails); schoolDetails.append(schoolSummary, vars);
 
   function select(index) {
