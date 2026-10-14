@@ -48,6 +48,19 @@ main{max-width:1080px;margin:0 auto;padding:24px 20px 40px}
 .howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
 .howto h3{margin:0 0 8px;font-size:17px;color:var(--navy)}
 .howto ol{margin:0;padding-left:20px;color:var(--ink-2)}
+.news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;margin-bottom:16px}
+.basis-card,.updates{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+.basis-badge{display:inline-block;padding:3px 10px;border-radius:999px;background:#e8f0fb;color:var(--navy);font-size:12.5px;font-weight:800}
+.basis-year{margin:8px 0 6px;font-size:16px;color:var(--ink)}
+.basis-year b{font-size:22px;color:var(--navy);margin-right:4px}
+.basis-list{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px;line-height:1.85}
+.basis-note{margin:8px 0 0;font-size:13px;color:var(--muted)}
+.updates h3{margin:0 0 8px;font-size:17px;color:var(--navy)}
+.updates ul{list-style:none;margin:0;padding:0}
+.updates li{display:flex;gap:12px;padding:8px 0;border-top:1px solid var(--line-soft);font-size:14px;color:var(--ink-2);line-height:1.6}
+.updates li:first-child{border-top:0}
+.updates time{flex:0 0 auto;font-weight:700;color:var(--navy);font-size:13px;padding-top:1px}
+@media (max-width:760px){.news{grid-template-columns:1fr}.updates li{flex-direction:column;gap:2px}}
 .howto .basis{margin:10px 0 0;font-size:13.5px;color:var(--muted)}
 
 /* 안쪽 화면 */
@@ -194,6 +207,27 @@ footer.credit b{color:var(--ink)}
         <span class="go">사립학교로 들어가기 →</span>
       </button>
     </div>
+    <div class="news">
+      <div class="basis-card">
+        <span class="basis-badge">적용 지침</span>
+        <p class="basis-year"><b>2026학년도</b> 전북교육청 지침 기준</p>
+        <ul class="basis-list">
+          <li>공립: 학교회계 예산편성 및 운영지침</li>
+          <li>사립: 사학기관 예산편성 및 운영지침(교비회계)</li>
+          <li>법정 기한: 「초·중등교육법」 제30조의3 (법제처 확인)</li>
+        </ul>
+        <p class="basis-note">2027학년도 지침이 나오면 기한·서식을 다시 맞춰 올립니다.</p>
+      </div>
+      <div class="updates">
+        <h3>업데이트</h3>
+        <ul>
+          <li><time>2026. 10. 14.</time><span>사립 단계 정리: 법인 예산편성요령 확인 단계 빼기(8단계)</span></li>
+          <li><time>2026. 10. 14.</time><span>공문 속 날짜·장소 엑셀로 한 번에 넣기 (양식 내려받기 → 채워서 올리기)</span></li>
+          <li><time>2026. 10. 14.</time><span>공문 속 ○○ 날짜·장소·회차 입력칸 추가, 카카오 오픈채팅 문의 추가</span></li>
+          <li><time>2026. 10. 14.</time><span>첫 공개: 공립·사립 단계별 내부결재 제목·본문 복사, 붙임 한글 서식 10개</span></li>
+        </ul>
+      </div>
+    </div>
     <div class="howto">
       <h3>사용 방법</h3>
       <ol>
@@ -202,7 +236,6 @@ footer.credit b{color:var(--ink)}
         <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요.</li>
         <li>할 일 체크 표시와 입력한 학교명은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</li>
       </ol>
-      <p class="basis">기준: 전북특별자치도교육청 「2026학년도 학교회계 예산편성 및 운영지침」(학교회계규칙 변경사항 반영), 「2026학년도 사학기관 예산편성 및 운영지침(교비회계)」, 「2026 학교(교비)회계 예산편성 절차」. 2027학년도 지침이 시달되면 기한·서식 변경 여부를 다시 확인하세요. 법정 기한은 「초·중등교육법」 제30조의3(법제처 확인)을 따릅니다.</p>
     </div>
   </section>
 
