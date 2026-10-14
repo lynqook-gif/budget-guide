@@ -70,6 +70,13 @@ main{max-width:1080px;margin:0 auto;padding:24px 20px 40px}
 .vars .dates input{width:100%}
 .v-pub [data-only="pri"],.v-pri [data-only="pub"]{display:none!important}
 .vars .note{flex-basis:100%;margin:0;font-size:13px;color:var(--muted)}
+.vars .xlbar{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding-top:12px;border-top:1px dashed #c3d2e4}
+.vars .xlbar b{font-size:14px;color:var(--navy);margin-right:4px}
+.vars .xlbar button,.vars .xlbar .xlup{display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border:1px solid #1d6f42;border-radius:8px;background:#fff;color:#1d6f42;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.vars .xlbar .xlup{background:#1d6f42;color:#fff;flex-direction:row}
+.vars .xlbar button:hover{background:#eef7f1}.vars .xlbar .xlup:hover{background:#185c37}
+.vars .xlbar small{font-size:12.5px;color:var(--muted)}
+@media print{.vars .xlbar{display:none}}
 
 .sched{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:22px}
 .sched h2{margin:0 0 10px;font-size:18px;color:var(--navy)}
@@ -231,6 +238,12 @@ footer.credit b{color:var(--ink)}
         <label>학운위 심의 날짜<input type="date" data-v="com"></label>
         <label data-only="pri">이사회 의결 날짜<input type="date" data-v="brd"></label>
         <label><span><span data-only="pub">예산 공개 날짜</span><span data-only="pri">누리집 공시 날짜</span></span><input type="date" data-v="pubd"></label>
+      </div>
+      <div class="xlbar">
+        <b>엑셀로 한 번에 넣기</b>
+        <button type="button" id="xlDown">① 엑셀 양식 내려받기</button>
+        <label class="xlup">② 채운 엑셀 올리기<input type="file" id="xlUp" accept=".xlsx,.xls" hidden></label>
+        <small>양식의 '입력값' 칸만 채워서 올리면 위 칸이 한꺼번에 채워져요. 파일은 서버로 보내지 않아요.</small>
       </div>
       <p class="note">비워 두면 ○○로 나옵니다. 학년도를 바꾸면 일정 날짜와 공문 속 연도가 함께 바뀝니다. 입력값은 이 브라우저에만 저장돼요.</p>
     </div>
@@ -529,7 +542,7 @@ function show(ver){
 }
 
 /* ---------- 입력칸 ---------- */
-var inputs = document.querySelectorAll("#vars input");
+var inputs = document.querySelectorAll("#vars input[data-v]");
 function syncInputs(){
   var v = vals();
   inputs.forEach(function(el){ var k = el.dataset.v; el.value = k === "Y" ? v.Y : (k in v ? v[k] : load("budget-" + k, "")); });
@@ -576,6 +589,97 @@ document.addEventListener("click", function(e){
 document.addEventListener("change", function(e){
   var k = e.target.dataset && e.target.dataset.chk;
   if (k) save(k, e.target.checked ? "1" : "");
+});
+
+/* ---------- 엑셀 양식 내려받기·올리기 (SheetJS, 누를 때만 불러옴) ---------- */
+var XLSX_URL = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+function needXLSX(){
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  return new Promise(function(ok, no){
+    var s = document.createElement("script"); s.src = XLSX_URL;
+    s.onload = function(){ ok(window.XLSX); }; s.onerror = function(){ no(new Error("load")); };
+    document.head.appendChild(s);
+  });
+}
+// 지금 화면(공립/사립)에 보이는 칸 목록: [키, 항목 이름, 종류]
+function xlFields(){
+  var out = [];
+  inputs.forEach(function(el){
+    var lb = el.closest("label");
+    if (lb.hidden || (lb.dataset.only && lb.dataset.only !== state.ver)) return;
+    var c = lb.cloneNode(true);
+    c.querySelectorAll("input,[data-only]").forEach(function(x){ if (x.tagName === "INPUT" || x.dataset.only !== state.ver) x.remove(); });
+    out.push([el.dataset.v, c.textContent.trim(), el.type, el.placeholder || ""]);
+  });
+  return out;
+}
+var XL_HINT = { date: "날짜 (예: 2026-12-03)", time: "시각 (예: 15:30)", number: "숫자 (예: 2027)" };
+document.getElementById("xlDown").addEventListener("click", function(){
+  if (!state.ver) return;
+  needXLSX().then(function(X){
+    var v = vals(), rows = [["항목", "입력값", "적는 방법", "키(지우지 마세요)"]];
+    xlFields().forEach(function(f){
+      var k = f[0], cur = k === "Y" ? v.Y : (k in v ? v[k] : load("budget-" + k, ""));
+      var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(cur || "");
+      if (p) cur = new Date(+p[1], p[2] - 1, +p[3]);
+      rows.push([f[1], cur === "" ? null : cur, XL_HINT[f[2]] || (f[3] || "글자"), k]);
+    });
+    var ws = X.utils.aoa_to_sheet(rows, { cellDates: true, dateNF: "yyyy-mm-dd" });
+    ws["!cols"] = [{ wch: 24 }, { wch: 22 }, { wch: 26 }, { wch: 14 }];
+    var wb = X.utils.book_new();
+    X.utils.book_append_sheet(wb, ws, "설정");
+    var tag = state.ver === "pri" ? "사립" : "공립";
+    X.writeFile(wb, "본예산_설정양식_" + tag + ".xlsx");
+    toast("엑셀 양식을 내려받았어요. '입력값' 칸을 채워서 올려 주세요.");
+  }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 눌러 주세요."); });
+});
+function pad(n){ return (n < 10 ? "0" : "") + n; }
+function xlDate(X, c){
+  if (c instanceof Date) return c.getFullYear() + "-" + pad(c.getMonth()+1) + "-" + pad(c.getDate());
+  if (typeof c === "number"){ var d = X.SSF.parse_date_code(c); return d ? d.y + "-" + pad(d.m) + "-" + pad(d.d) : ""; }
+  var m = /(\d{4})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/.exec(String(c));
+  return m ? m[1] + "-" + pad(+m[2]) + "-" + pad(+m[3]) : "";
+}
+function xlTime(c){
+  if (c instanceof Date) return pad(c.getHours()) + ":" + pad(c.getMinutes());
+  if (typeof c === "number"){ var t = Math.round((c % 1) * 1440); return pad(Math.floor(t / 60) % 24) + ":" + pad(t % 60); }
+  var s = String(c), m = /(오후|PM|pm)?\s*(\d{1,2})\s*[:시]\s*(\d{1,2})?/.exec(s);
+  if (!m) return "";
+  var hh = +m[2]; if (m[1] && hh < 12) hh += 12;
+  return pad(hh) + ":" + pad(+(m[3] || 0));
+}
+function normName(s){ return String(s || "").replace(/[\s·()]/g, "").replace(/날짜|일자|일시/g, ""); }
+document.getElementById("xlUp").addEventListener("change", function(e){
+  var file = e.target.files[0]; e.target.value = "";
+  if (!file || !state.ver) return;
+  needXLSX().then(function(X){
+    var rd = new FileReader();
+    rd.onload = function(){
+      try{
+        var wb = X.read(new Uint8Array(rd.result), { type: "array", cellDates: false });
+        var rows = X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: "" });
+        var fields = xlFields(), byKey = {}, byName = {}, n = 0;
+        fields.forEach(function(f){ byKey[f[0]] = f; byName[normName(f[1])] = f; });
+        byName[normName("예산 공개 날짜")] = byName[normName("누리집 공시 날짜")] = byKey.pubd;
+        rows.forEach(function(r, i){
+          if (!r || i === 0 && /항목/.test(r[0])) return;
+          var f = byKey[String(r[3] || "").trim()] || byName[normName(r[0])];
+          if (!f) return;
+          var c = r[1], val;
+          if (c === "" || c === null || c === undefined){ val = ""; }
+          else if (f[2] === "date") val = xlDate(X, c);
+          else if (f[2] === "time") val = xlTime(c);
+          else if (f[0] === "Y"){ val = parseInt(c, 10); if (!(val >= 2000 && val <= 2100)) return; val = String(val); }
+          else val = String(c).trim();
+          if (val === "" && c !== "" && c !== null) return; // 읽을 수 없는 값은 건너뜀
+          save("budget-" + f[0], val); n++;
+        });
+        syncInputs(); render();
+        toast(n ? "엑셀에서 " + n + "칸을 불러왔어요." : "불러온 칸이 없어요. 내려받은 양식을 써 주세요.");
+      }catch(err){ toast("엑셀 파일을 읽지 못했어요. 내려받은 양식을 써 주세요."); }
+    };
+    rd.readAsArrayBuffer(file);
+  }, function(){ toast("인터넷 연결이 필요해요. 연결 후 다시 올려 주세요."); });
 });
 
 syncInputs();
