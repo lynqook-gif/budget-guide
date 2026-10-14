@@ -10,3 +10,9 @@
 AGENTS.md
 CLAUDE.md
 .claude/
+
+# Codex 디자인 작업용 시안·프롬프트 (화면에서 안 씀)
+design/*-prompt.txt
+design/home-signboard.png
+design/home-signboard-v2.png
+design/home-signboard-v3.png
