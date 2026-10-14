@@ -340,6 +340,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
         <h3>업데이트</h3>
         <ul>
           <li><time>2026. 10. 14.</time><span>글씨 전체적으로 크게(처음 쓰는 분도 읽기 쉽게)</span></li>
+          <li><time>2026. 10. 14.</time><span>붙임 한글 서식 8개를 hwpx로 바꿈 (2026. 10. 1.부터 hwp·xls 첨부 불가)</span></li>
           <li><time>2026. 10. 14.</time><span>화면 정리: 위쪽 단추를 '홈'으로, 설정을 '한 번에 일정 업로드하기'로, 일정표 글씨 크게</span></li>
           <li><time>2026. 10. 14.</time><span>엑셀 올리기 모두 끌어 놓기(드래그 앤 드롭) 지원, 사립 [서식1]·[서식35] 한글 파일이 작게 인쇄되던 문제 고침</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 [서식3] 예산총칙 파일 빼기 → 에듀파인에서 다운로드</span></li>
@@ -357,7 +358,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <ol>
         <li>공립 또는 사립을 고르고, 위쪽에 <b>학교명·학년도</b>(사립은 법인명도)를 적으세요. 아래 일정과 공문 문구가 그 값으로 바뀝니다.</li>
         <li>단계별 카드에서 <b>제목 복사 · 본문 복사</b>를 눌러 업무관리시스템(K-에듀파인) 기안문에 붙여 넣으세요. ○○ 부분은 우리 학교에 맞게 고칩니다.</li>
-        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일)을 내려받아 쓰세요. <b>붙임 만들기</b>로 선생님들 예산요구안(엑셀)을 취합하고 예산조정 결과표·회의록·편성 일정표를 만들 수 있어요.</li>
+        <li><b>붙임</b> 단추로 지침 원본 서식(한글 파일, <b>hwpx</b>)을 내려받아 쓰세요. 2026. 10. 1.부터 업무관리시스템에는 hwp·xls 첨부가 안 되므로 붙임 서식은 hwpx, 엑셀은 xlsx로 드려요. <b>붙임 만들기</b>로 선생님들 예산요구안(엑셀)을 취합하고 예산조정 결과표·회의록·편성 일정표를 만들 수 있어요.</li>
         <li>할 일 체크 표시와 입력한 학교명은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</li>
       </ol>
     </div>
@@ -453,14 +454,14 @@ function lastFeb(Y){ return new Date(Y, 2, 0); }
 
 /* ---------- 공통 문구 ---------- */
 var FILES = {
-  pubLetter: ["files/pub-parent-letter.hwp", "가정통신문(본예산 편성 의견 참여).hwp", "가정통신문 — 본예산 편성 의견 참여"],
-  pub1: ["files/pub-form1-revenue-request.hwp", "[서식1] 세입예산요구서.hwp", "[서식1] 세입예산요구서"],
-  pub2: ["files/pub-form2-expense-request.hwp", "[서식2] 세출예산요구서.hwp", "[서식2] 세출예산요구서"],
-  pub18: ["files/pub-form18-subcommittee-rules.hwp", "[서식18] 예결산소위원회 규정(안).hwp", "[서식18] 예·결산소위원회 규정(안)"],
-  pub19: ["files/pub-form19-subcommittee-report.hwp", "[서식19] 예결산소위원회 심사보고서.hwp", "[서식19] 예·결산소위원회 심사보고서"],
-  priLetter: ["files/pri-parent-letter.hwp", "가정통신문(교비회계 본예산 편성 의견 참여).hwp", "가정통신문 — 본예산 편성 의견 참여"],
-  pri1: ["files/pri-form1-budget-request.hwp", "[서식1] 세입·세출예산요구서.hwp", "[서식1] 세입·세출예산요구서"],
-  pri35: ["files/pri-form35-checklist.hwp", "[서식35] 교비회계 예산편성 및 결산 확인사항.hwp", "[서식35] 예산편성 및 결산 확인사항"]
+  pubLetter: ["files/pub-parent-letter.hwpx", "가정통신문(본예산 편성 의견 참여).hwpx", "가정통신문 — 본예산 편성 의견 참여"],
+  pub1: ["files/pub-form1-revenue-request.hwpx", "[서식1] 세입예산요구서.hwpx", "[서식1] 세입예산요구서"],
+  pub2: ["files/pub-form2-expense-request.hwpx", "[서식2] 세출예산요구서.hwpx", "[서식2] 세출예산요구서"],
+  pub18: ["files/pub-form18-subcommittee-rules.hwpx", "[서식18] 예결산소위원회 규정(안).hwpx", "[서식18] 예·결산소위원회 규정(안)"],
+  pub19: ["files/pub-form19-subcommittee-report.hwpx", "[서식19] 예결산소위원회 심사보고서.hwpx", "[서식19] 예·결산소위원회 심사보고서"],
+  priLetter: ["files/pri-parent-letter.hwpx", "가정통신문(교비회계 본예산 편성 의견 참여).hwpx", "가정통신문 — 본예산 편성 의견 참여"],
+  pri1: ["files/pri-form1-budget-request.hwpx", "[서식1] 세입·세출예산요구서.hwpx", "[서식1] 세입·세출예산요구서"],
+  pri35: ["files/pri-form35-checklist.hwpx", "[서식35] 교비회계 예산편성 및 결산 확인사항.hwpx", "[서식35] 예산편성 및 결산 확인사항"]
 };
 
 /* 단계 데이터
@@ -683,7 +684,7 @@ function render(){
       }
       if (d.attach.length || d.self){
         html += '<div class="attach"><span class="lb">붙임</span>' + d.attach.map(function(a){
-          var f = FILES[a]; return '<a href="' + f[0] + '" download="' + esc(f[1]) + '"><span class="ext">HWP</span>' + esc(f[2]) + '</a>';
+          var f = FILES[a]; return '<a href="' + f[0] + '" download="' + esc(f[1]) + '"><span class="ext">HWPX</span>' + esc(f[2]) + '</a>';
         }).join("") + (d.self ? '<span class="self">' + esc(d.self) + '</span>' : '') + '</div>';
       }
       html += '</div>';
