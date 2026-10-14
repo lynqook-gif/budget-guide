@@ -26,11 +26,11 @@
 
   const schedule = document.querySelector('.sched');
   const scheduleDetails = document.createElement('details'); scheduleDetails.className = 'budget-schedule-details';
-  const summary = document.createElement('summary'); summary.textContent = '전체 일정과 근거 한눈에 보기';
+  const summary = document.createElement('summary'); summary.textContent = '예산 편성 일정 한눈에 보기 — 언제까지 무엇을 하나요?';
   schedule.before(scheduleDetails); scheduleDetails.append(summary, schedule);
   const vars = document.getElementById('vars');
   const schoolDetails = document.createElement('details'); schoolDetails.className = 'budget-school-details';
-  const schoolSummary = document.createElement('summary'); schoolSummary.textContent = '학교명 · 법인명 · 학년도 · 공문 날짜 설정';
+  const schoolSummary = document.createElement('summary'); schoolSummary.textContent = '한 번에 일정 업로드하기 — 학교 정보·공문 날짜 넣기 (엑셀 양식 받기 → 올리기)';
   vars.before(schoolDetails); schoolDetails.append(schoolSummary, vars);
 
   function select(index) {

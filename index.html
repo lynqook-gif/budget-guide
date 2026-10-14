@@ -190,6 +190,17 @@ body.mk-open{overflow:hidden}
 .mk-x{border:1px solid #e3b4b4;background:#fff;color:#b23b3b;border-radius:6px;padding:3px 9px;font:inherit;font-size:12.5px;cursor:pointer}
 .mk-help{font-size:13px;color:var(--muted)}
 .mk-warn{color:#b26a00;font-size:11.5px}
+/* 처음 쓰는 사람도 보이게: 설정·일정 펼치기 제목 크게 */
+#view .budget-school-details,#view .budget-schedule-details{margin-bottom:12px}
+#view .budget-school-details>summary,#view .budget-schedule-details>summary{display:flex;align-items:center;gap:10px;width:auto!important;padding:14px 18px!important;font-size:17px!important;font-weight:800!important;color:var(--navy)!important;background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;list-style:none}
+#view .v-pri .budget-school-details>summary,#view.v-pri .budget-school-details>summary,#view.v-pri .budget-schedule-details>summary{border-left-color:var(--pri)}
+#view .budget-school-details>summary::-webkit-details-marker,#view .budget-schedule-details>summary::-webkit-details-marker{display:none}
+#view .budget-school-details>summary::after,#view .budget-schedule-details>summary::after{content:"펼치기 ▾";margin-left:auto;font-size:13px;font-weight:700;color:var(--muted)}
+#view .budget-school-details[open]>summary::after,#view .budget-schedule-details[open]>summary::after{content:"접기 ▴"}
+#view .sched h2{font-size:19px}
+#view .sched table{font-size:15.5px}
+#view .sched th{font-size:14.5px}
+@media (max-width:760px){#view .budget-school-details>summary,#view .budget-schedule-details>summary{font-size:15.5px!important;padding:12px 14px!important}}
 .mk-drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:96px;margin:10px 0;padding:16px;border:2px dashed #9cc9ab;border-radius:12px;background:#f4fbf6;color:#1d6f42;font-size:14px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s}
 .mk-drop small{color:var(--muted);font-size:12.5px}
 .mk-drop:hover{background:#eaf6ee}
@@ -246,7 +257,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
   <div class="top-in">
     <button class="brand" type="button" data-home><span>교행<span class="e">e</span>의 본예산 길라잡이</span></button>
     <span class="ver" id="verName"></span>
-    <button class="switch" type="button" data-home id="switchBtn" hidden>공립·사립 다시 고르기</button>
+    <button class="switch" type="button" data-home id="switchBtn" hidden>홈</button>
   </div>
 </header>
 
@@ -295,6 +306,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 10. 14.</time><span>화면 정리: 위쪽 단추를 '홈'으로, 설정을 '한 번에 일정 업로드하기'로, 일정표 글씨 크게</span></li>
           <li><time>2026. 10. 14.</time><span>엑셀 올리기 모두 끌어 놓기(드래그 앤 드롭) 지원, 사립 [서식1]·[서식35] 한글 파일이 작게 인쇄되던 문제 고침</span></li>
           <li><time>2026. 10. 14.</time><span>붙임 [서식3] 예산총칙 파일 빼기 → 에듀파인에서 다운로드</span></li>
           <li><time>2026. 10. 14.</time><span>예산요구안 서식·취합: 에듀파인 기초자료로 노란 칸 배포 서식 만들기(요구금액 자동 수식), 회수한 파일 한꺼번에 취합·검산, 취합본 엑셀(통합내역·확인필요·부서별·사업별 소계)</span></li>
@@ -359,14 +371,13 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <p class="note">비워 두면 ○○로 나옵니다. 학년도를 바꾸면 일정 날짜와 공문 속 연도가 함께 바뀝니다. 입력값은 이 브라우저에만 저장돼요.</p>
     </div>
     <div class="sched">
-      <h2>편성 일정 한눈에 보기</h2>
+      <h2>단계별로 언제까지 해야 하나요?</h2>
       <table>
-        <thead><tr><th>단계</th><th>할 일</th><th>기한</th><th class="law">근거</th></tr></thead>
+        <thead><tr><th>순서</th><th>할 일 (누르면 그 단계로 가요)</th><th>언제까지</th><th class="law">근거 (법령·지침)</th></tr></thead>
         <tbody id="schedBody"></tbody>
       </table>
     </div>
     <div class="steps" id="steps"></div>
-    <div class="backbar"><button type="button" data-home>← 공립·사립 다시 고르기</button></div>
   </section>
 </main>
 
