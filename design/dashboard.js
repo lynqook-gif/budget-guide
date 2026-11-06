@@ -114,3 +114,14 @@
  const credit=document.querySelector('footer.credit');
  if(credit && contact){credit.replaceChildren();const author=document.createElement('div');author.textContent='제작자: 정주고등학교 박지은';const link=contact.cloneNode(true);link.textContent='문의·건의: 카카오톡 오픈채팅 ↗';credit.append(author,link);}
 })();
+
+/* BANNER-IMAGE-20261106: 그림 배너(글씨·캐릭터 포함, 법인회계·교복과 같은 시리즈). 원래 제목 글은 화면 읽기용으로 남긴다. */
+(()=>{
+ const hero=document.querySelector('#home>.hero');if(!hero)return;
+ const copy=document.createElement('div');copy.className='budget-banner-copy';copy.append(...hero.childNodes);
+ const picture=document.createElement('picture');
+ const narrow=document.createElement('source');narrow.media='(max-width:560px)';narrow.srcset='design/budget-banner-narrow.webp';
+ const image=document.createElement('img');image.className='budget-banner-image';image.src='design/budget-banner-wide.webp';
+ image.alt='교행e의 본예산 길라잡이 — 편성 절차부터 내부결재·붙임 서식까지 한곳에서';image.width=3300;image.height=440;image.decoding='async';
+ picture.append(narrow,image);hero.replaceChildren(picture,copy);hero.classList.add('budget-image-hero');
+})();

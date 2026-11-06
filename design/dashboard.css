@@ -83,3 +83,13 @@
   #home>.news{padding:20px!important}#home>.news li{display:flex;flex-direction:column;gap:3px;padding-bottom:11px}
  }
 }
+
+/* BANNER-IMAGE-20261106: 그림 배너 자리 */
+@media screen{
+ html body #home>.hero.budget-image-hero{display:block!important;padding:0!important;min-height:0!important;height:max(200px,calc((100vw - 280px)/7.5))!important;max-height:300px!important;overflow:hidden!important;border:0!important;border-radius:16px!important;background:#eef5ff!important}
+ html body #home>.hero.budget-image-hero picture{display:contents}
+ html body #home>.hero.budget-image-hero .budget-banner-image{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center 40%!important;margin:0!important;border:0!important}
+ html body #home>.hero.budget-image-hero .budget-banner-copy{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;margin:0!important;padding:0!important}
+}
+@media screen and (max-width:800px){html body #home>.hero.budget-image-hero{height:170px!important;border-radius:12px!important}}
+@media screen and (max-width:560px){html body #home>.hero.budget-image-hero{height:auto!important;max-height:none!important;aspect-ratio:2016/672}}
