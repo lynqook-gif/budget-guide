@@ -239,6 +239,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
 .mk-tools button{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:8px;padding:7px 13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .mk-tools button.main{background:var(--navy);color:#fff}
 .mk-tools #mkXl{border-color:#1d6f42;color:#1d6f42}
+.mk-tools #mkHwp{border-color:#1f5fa8;color:#1f5fa8}
 .mk-paper{border:1px solid #d5deea;border-radius:6px;background:#fff;padding:28px 30px;box-shadow:0 6px 18px -12px rgba(30,58,95,.45);color:#000;overflow-x:auto}
 @media (max-width:860px){.mk-main{grid-template-columns:1fr}.mk-paper{padding:18px 14px}}
 @media print{
@@ -346,6 +347,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
       <div class="updates">
         <h3>업데이트</h3>
         <ul>
+          <li><time>2026. 11. 12.</time><span>붙임 만들기의 예산조정 결과표·회의록·편성 일정표를 표가 들어간 <b>한글 파일(hwpx)</b>로 바로 받을 수 있어요. 엑셀로 받기에도 칸 테두리가 들어가요.</span></li>
           <li><time>2026. 11. 6.</time><span>첫 화면 위쪽을 새 배너 그림으로 바꿨어요. 식단표·법인회계·교복 길라잡이와 같은 모양이에요. (기능은 그대로)</span></li>
           <li><time>2026. 10. 25.</time><span>디자인을 새로 정리했어요. 글씨를 더 크고 또렷하게, 단계와 할 일을 알아보기 쉽게 바꿨어요. (기능은 그대로)</span></li>
           <li><time>2026. 10. 14.</time><span>본예산 길라잡이가 만들어졌습니다.</span></li>
@@ -437,7 +439,7 @@ label.hot,.mk-drop.hot{background:#dff2e6!important;border-color:#1d6f42!importa
     <div class="mk-main">
       <div class="mk-edit" id="mkEdit"></div>
       <div class="mk-out">
-        <div class="mk-tools"><button type="button" class="main" id="mkCopy">한글에 붙여넣기용 복사</button><button type="button" id="mkPrint">인쇄 · PDF 저장</button><button type="button" id="mkXl">엑셀로 받기</button></div>
+        <div class="mk-tools"><button type="button" class="main" id="mkCopy">한글에 붙여넣기용 복사</button><button type="button" id="mkPrint">인쇄 · PDF 저장</button><button type="button" id="mkHwp" title="표가 들어간 한글 파일(hwpx)로 바로 받아요.">한글 파일로 받기</button><button type="button" id="mkXl">엑셀로 받기</button></div>
         <div class="mk-viewbar" id="mkView"></div>
         <div class="mk-paper" id="mkPaper"></div>
       </div>
@@ -997,7 +999,6 @@ function mkDraw(full){
   if (full) document.getElementById("mkEdit").innerHTML = mkData.edit;
   document.getElementById("mkView").innerHTML = mkData.view || "";
   document.getElementById("mkPaper").innerHTML = mkData.paper;
-  document.getElementById("mkXl").hidden = !mkData.xl;
 }
 function mkClose(){ document.getElementById("maker").hidden = true; document.body.classList.remove("mk-open"); if (state.ver) render(); }
 
@@ -1391,51 +1392,191 @@ document.addEventListener("click", function(e){
   if (t.closest("[data-mk-clear]")){ jset("budget-req2-" + state.ver, []); mkDraw(true); toast("올린 요구안을 모두 지웠어요."); return; }
   if (t.closest("#mkPrint")){ document.body.classList.add("mk-printing"); window.print(); return; }
   if (t.closest("#mkCopy")){
-    var p = document.getElementById("mkPaper"), rg = document.createRange(), sel = window.getSelection();
-    rg.selectNodeContents(p); sel.removeAllRanges(); sel.addRange(rg);
-    var ok = false; try{ ok = document.execCommand("copy"); }catch(er){}
-    sel.removeAllRanges();
-    toast(ok ? "복사했어요. 한글 문서에 붙여 넣으면 표 그대로 들어가요." : "복사가 안 되면 표를 직접 끌어서 복사하세요.");
+    mkCopyPaper().then(function(){ toast("복사했어요. 한글에서 Ctrl+V — 창이 뜨면 '원본 형식 유지'를 고르세요."); },
+      function(){ toast("복사가 안 되면 [한글 파일로 받기]를 쓰세요."); });
     return;
   }
-  if (t.closest("#mkXl") && mkData && mkData.xl){
-    needXLSX().then(function(X){
-      var d = mkData.xl(), wb = X.utils.book_new();
-      if (Array.isArray(d)) X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(d), MK_NAME[mkCur].slice(0, 30));
-      else for (var n in d) X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(d[n]), n);
-      X.writeFile(wb, fill("{Y}학년도_") + MK_NAME[mkCur].replace(/\s/g, "_") + ".xlsx");
-    }, function(){ toast("인터넷 연결이 필요해요."); });
+  if (t.closest("#mkXl")){
+    needExcelJS().then(mkSaveXlsx).catch(function(){ toast("엑셀을 만들지 못했어요. 인터넷 연결을 확인하세요."); });
+    return;
+  }
+  if (t.closest("#mkHwp")){
+    needJSZip().then(mkSaveHwpx).then(function(){ toast("한글 파일(hwpx)로 받았어요."); })
+      .catch(function(){ toast("한글 파일을 만들지 못했어요. 인터넷 연결을 확인하세요."); });
+    return;
   }
 });
-window.addEventListener("afterprint", function(){ document.body.classList.remove("mk-printing"); });
-/* 엑셀 끌어 놓기: 파일 칸이 들어 있는 상자 위에 놓으면 그 칸으로 올림 */
-function dropLabel(t){ var l = t && t.closest ? t.closest("label") : null; return l && l.querySelector('input[type="file"]') ? l : null; }
-function hasFiles(e){ return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") >= 0; }
-function clearHot(){ Array.prototype.forEach.call(document.querySelectorAll("label.hot"), function(l){ l.classList.remove("hot"); }); }
-document.addEventListener("dragover", function(e){
-  if (!hasFiles(e)) return;
-  e.preventDefault();
-  var l = dropLabel(e.target); clearHot();
-  if (l){ l.classList.add("hot"); e.dataTransfer.dropEffect = "copy"; } else e.dataTransfer.dropEffect = "none";
-});
-document.addEventListener("dragleave", function(e){ if (!e.relatedTarget || !dropLabel(e.relatedTarget)) clearHot(); });
-document.addEventListener("drop", function(e){
-  if (!hasFiles(e)) return;
-  e.preventDefault(); clearHot();
-  var l = dropLabel(e.target);
-  if (!l){ toast("초록색 상자(또는 엑셀 올리기 단추) 위에 놓아 주세요."); return; }
-  var inp = l.querySelector('input[type="file"]');
-  var fl = Array.prototype.filter.call(e.dataTransfer.files, function(f){ return /\.(xlsx|xls|xlsm)$/i.test(f.name); });
-  if (!fl.length){ toast("엑셀 파일(.xlsx, .xls)만 올릴 수 있어요."); return; }
-  if (!inp.multiple) fl = fl.slice(0, 1);
-  try{ var dt = new DataTransfer(); fl.forEach(function(f){ dt.items.add(f); }); inp.files = dt.files; }catch(err){ toast("이 브라우저는 끌어 놓기가 안 돼요. 눌러서 선택해 주세요."); return; }
-  inp.dispatchEvent(new Event("change", { bubbles: true }));
-});
-document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !document.getElementById("maker").hidden) mkClose(); });
 
-syncInputs();
-var start = (location.hash || "").replace("#", "");
-show(VERS[start] ? start : null);
+/* ---------- 붙임(미리보기 종이) 내보내기: 복사 · 엑셀 · 한글/워드 ---------- */
+// 미리보기 종이를 문단·표 덩어리로 읽어 둠 (세 가지 내보내기가 같은 내용을 씀)
+function mkBlocks(){
+  var out = [];
+  Array.prototype.forEach.call(document.getElementById("mkPaper").children, function(el){
+    var st = el.style;
+    if (el.tagName === "TABLE"){
+      out.push({ t: "table", rows: Array.prototype.map.call(el.rows, function(tr){
+        return Array.prototype.map.call(tr.cells, function(c){
+          return { text: (c.innerText || "").replace(/\u00a0/g, " ").replace(/\s+$/, ""), cs: c.colSpan || 1,
+            head: /background/.test(c.getAttribute("style") || ""), al: c.style.textAlign || "center" };
+        });
+      }) });
+    } else {
+      out.push({ t: "p", text: (el.innerText || "").replace(/\u00a0/g, " "),
+        al: st.textAlign || "left", pt: parseFloat(st.fontSize) || 10.5, bold: st.fontWeight === "bold" || +st.fontWeight >= 600 });
+    }
+  });
+  return out;
+}
+function mkFileName(ext){ return fill("{Y}학년도_") + MK_NAME[mkCur].replace(/\s/g, "_") + ext; }
+function saveBlob(blob, name){
+  var url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
+}
+function isAmt(s){ return /^[+-]?\d{1,3}(,\d{3})+$|^[+-]?\d+$/.test(s) && s.replace(/\D/g, "").length < 16; }
+
+// 1) 복사: 표(HTML)를 클립보드에 직접 실어 한글이 글자만 받지 않게 함
+function mkCopyPaper(){
+  var p = document.getElementById("mkPaper");
+  var html = '<html><head><meta charset="utf-8"></head><body>' +
+    p.innerHTML.replace(/<table /g, '<table border="1" cellspacing="0" cellpadding="5" ') + '</body></html>';
+  var plain = p.innerText, done = false;
+  function on(ev){ if (!ev.clipboardData) return; ev.clipboardData.setData("text/html", html); ev.clipboardData.setData("text/plain", plain); ev.preventDefault(); done = true; }
+  var rg = document.createRange(), sel = window.getSelection();
+  rg.selectNodeContents(p); sel.removeAllRanges(); sel.addRange(rg);
+  document.addEventListener("copy", on);
+  try{ document.execCommand("copy"); }catch(er){}
+  document.removeEventListener("copy", on);
+  sel.removeAllRanges();
+  if (done) return Promise.resolve();
+  if (navigator.clipboard && window.ClipboardItem && window.isSecureContext)
+    return navigator.clipboard.write([new ClipboardItem({ "text/html": new Blob([html], {type:"text/html"}), "text/plain": new Blob([plain], {type:"text/plain"}) })]);
+  return Promise.reject(new Error("copy"));
+}
+
+// 표의 열 수·열별 글자 너비(칸 합치기 고려)
+function mkCols(tb){
+  var n = 0, w = [];
+  tb.rows.forEach(function(r){ var k = 0; r.forEach(function(c){ k += c.cs; }); n = Math.max(n, k); });
+  for (var i = 0; i < n; i++) w.push(4);
+  tb.rows.forEach(function(r){ var k = 0; r.forEach(function(c){
+    if (c.cs === 1){ var len = 0; c.text.split("\n").forEach(function(l){ var x = 0; for (var j = 0; j < l.length; j++) x += l.charCodeAt(j) > 255 ? 2 : 1.1; len = Math.max(len, x); }); w[k] = Math.max(w[k], len); }
+    k += c.cs; }); });
+  return { n: n, w: w };
+}
+
+// 2) 엑셀: 테두리·머리글 색·열 너비·천 단위 쉼표까지
+function mkSaveXlsx(ExcelJS){
+  var bl = mkBlocks(), wb = new ExcelJS.Workbook(), ws = wb.addWorksheet(MK_NAME[mkCur].slice(0, 30));
+  var tb = bl.filter(function(b){ return b.t === "table"; })[0], cols = tb ? mkCols(tb) : { n: 1, w: [60] }, N = Math.max(cols.n, 1);
+  ws.columns = cols.w.map(function(x){ return { width: Math.min(Math.max(x + 2, 6), 60) }; });
+  ws.pageSetup = { paperSize: 9, orientation: N > 5 ? "landscape" : "portrait", fitToPage: true, fitToWidth: 1, fitToHeight: 0, horizontalCentered: true,
+    margins: { left: 0.5, right: 0.5, top: 0.6, bottom: 0.6, header: 0.3, footer: 0.3 } };
+  var thin = { style: "thin", color: { argb: "FF000000" } }, box = { top: thin, left: thin, bottom: thin, right: thin }, r = 1;
+  bl.forEach(function(b, bi){
+    if (b.t === "p"){
+      b.text.split("\n").forEach(function(line){
+        ws.mergeCells(r, 1, r, N); var c = ws.getCell(r, 1); c.value = line.replace(/\s+$/, "");
+        c.font = { name: "맑은 고딕", size: Math.round(b.pt), bold: b.bold };
+        c.alignment = { horizontal: b.al === "right" ? "right" : b.al === "center" ? "center" : "left", vertical: "middle" };
+        if (b.pt >= 14) ws.getRow(r).height = 30;
+        r++;
+      });
+      if (bi === 0) r++;
+      return;
+    }
+    b.rows.forEach(function(row){
+      var k = 1, lines = 1;
+      row.forEach(function(c){
+        if (c.cs > 1) ws.mergeCells(r, k, r, k + c.cs - 1);
+        for (var j = 0; j < c.cs; j++) ws.getCell(r, k + j).border = box;
+        var cell = ws.getCell(r, k), amt = !c.head && isAmt(c.text);
+        cell.value = amt ? Number(c.text.replace(/,/g, "")) : c.text;
+        if (amt) cell.numFmt = "#,##0";
+        cell.font = { name: "맑은 고딕", size: 10, bold: c.head };
+        cell.alignment = { horizontal: c.al === "right" ? "right" : c.al === "left" ? "left" : "center", vertical: "middle", wrapText: true };
+        if (c.head) for (var h = 0; h < c.cs; h++) ws.getCell(r, k + h).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE8EEF6" } };
+        var span = 0, cl = 0; for (var s = 0; s < c.cs; s++) span += ws.columns[k - 1 + s].width;
+        c.text.split("\n").forEach(function(l){ var x = 0; for (var q = 0; q < l.length; q++) x += l.charCodeAt(q) > 255 ? 2 : 1.1; cl += Math.max(1, Math.ceil(x / Math.max(span - 1, 4))); });
+        lines = Math.max(lines, cl);
+        k += c.cs;
+      });
+      ws.getRow(r).height = Math.max(20, lines * 15 + 5);
+      r++;
+    });
+    r++;
+  });
+  return wb.xlsx.writeBuffer().then(function(buf){ saveBuf(buf, mkFileName(".xlsx")); });
+}
+
+// 3) 한글 파일(.hwpx): 지침 서식(한글에서 만든 hwpx)의 머리 정보를 틀로 쓰고, 본문만 새로 씀
+//    틀에 더한 것 — 글꼴: 맑은 고딕 / 테두리 7: 실선, 8: 실선+머리글 바탕 / 글자 14:10pt, 15:10pt 굵게, 16:16pt 굵게, 17:9.5pt / 문단 28 왼쪽, 29 가운데, 30 오른쪽
+var HWPX_BASE = "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";
+var JSZIP_URL = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+function needJSZip(){
+  if (window.JSZip) return Promise.resolve(window.JSZip);
+  return new Promise(function(ok, no){
+    var s = document.createElement("script"); s.src = JSZIP_URL;
+    s.onload = function(){ window.JSZip ? ok(window.JSZip) : no(new Error("jszip")); }; s.onerror = function(){ no(new Error("load")); };
+    document.head.appendChild(s);
+  });
+}
+function hx(s){ return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+var HP_AL = { left: 28, center: 29, right: 30 };
+function hpP(text, al, cp, pre){
+  return '<hp:p id="2147483648" paraPrIDRef="' + (HP_AL[al] || 28) + '" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0">' + (pre || "") +
+    (text ? '<hp:run charPrIDRef="' + cp + '"><hp:t>' + hx(text) + '</hp:t></hp:run>' : '<hp:run charPrIDRef="' + cp + '"/>') + '</hp:p>';
+}
+function hpTable(b, n){
+  var W = 48000, cols = mkCols(b), tot = 0, cw, acc = 0, H = 1700;
+  cols.w.forEach(function(x){ tot += Math.min(x, 70); });
+  cw = cols.w.map(function(x, i){ var v = i === cols.n - 1 ? W - acc : Math.round(W * Math.min(x, 70) / tot); acc += v; return v; });
+  var trs = b.rows.map(function(row, ri){
+    var k = 0;
+    return '<hp:tr>' + row.map(function(c){
+      var w = 0; for (var j = 0; j < c.cs; j++) w += cw[k + j] || 0;
+      var ps = (c.text || "").split("\n").map(function(l){ return hpP(l, c.al === "right" ? "right" : c.al === "left" ? "left" : "center", c.head ? 15 : 14); }).join("");
+      var tc = '<hp:tc name="" header="' + (ri === 0 ? 1 : 0) + '" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="' + (c.head ? 8 : 7) + '">' +
+        '<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">' + ps + '</hp:subList>' +
+        '<hp:cellAddr colAddr="' + k + '" rowAddr="' + ri + '"/><hp:cellSpan colSpan="' + c.cs + '" rowSpan="1"/><hp:cellSz width="' + w + '" height="' + H + '"/>' +
+        '<hp:cellMargin left="141" right="141" top="141" bottom="141"/></hp:tc>';
+      k += c.cs; return tc;
+    }).join("") + '</hp:tr>';
+  }).join("");
+  return '<hp:p id="2147483648" paraPrIDRef="29" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14">' +
+    '<hp:tbl id="' + (1700000000 + n) + '" zOrder="' + n + '" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="CELL" repeatHeader="1" rowCnt="' + b.rows.length + '" colCnt="' + cols.n + '" cellSpacing="0" borderFillIDRef="7" noAdjust="0">' +
+    '<hp:sz width="' + W + '" widthRelTo="ABSOLUTE" height="' + (H * b.rows.length) + '" heightRelTo="ABSOLUTE" protect="0"/>' +
+    '<hp:pos treatAsChar="0" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>' +
+    '<hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="141" right="141" top="141" bottom="141"/>' + trs + '</hp:tbl><hp:t/></hp:run></hp:p>';
+}
+function mkHwpxSection(secRun){
+  var out = [], first = true, tn = 0;
+  secRun = '<hp:run charPrIDRef="14">' + secRun + '</hp:run>'; // 용지·여백 설정은 첫 문단의 첫 run에
+  mkBlocks().forEach(function(b){
+    if (b.t === "table"){
+      if (first){ out.push(hpP("", "left", 14, secRun)); first = false; }
+      out.push(hpTable(b, ++tn)); out.push(hpP("", "left", 14)); return;
+    }
+    var cp = b.pt >= 14 ? 16 : b.bold ? 15 : b.pt < 10 ? 17 : 14;
+    b.text.split("\n").forEach(function(l){ out.push(hpP(l.replace(/\s+$/, ""), b.al, cp, first ? secRun : "")); first = false; });
+  });
+  return out.join("");
+}
+function mkSaveHwpx(JSZip){
+  var names = ["version.xml", "settings.xml", "META-INF/container.xml", "META-INF/container.rdf", "META-INF/manifest.xml", "Contents/header.xml", "Contents/content.hpf", "Contents/_sechead.xml", "Contents/_secrun.xml"];
+  return JSZip.loadAsync(HWPX_BASE, { base64: true }).then(function(base){
+    return Promise.all(names.map(function(n){ return base.file(n).async("string"); }));
+  }).then(function(t){
+    var f = {}; names.forEach(function(n, i){ f[n] = t[i]; });
+    var title = fill("{Y}학년도 ") + MK_NAME[mkCur];
+    var z = new JSZip();
+    z.file("mimetype", "application/hwp+zip", { compression: "STORE" });
+    names.slice(0, 7).forEach(function(n){ z.file(n, n === "Contents/content.hpf" ? f[n].replace("<opf:title>TITLE</opf:title>", "<opf:title>" + hx(title) + "</opf:title>") : f[n]); });
+    z.file("Contents/section0.xml", f["Contents/_sechead.xml"] + mkHwpxSection(f["Contents/_secrun.xml"]) + "</hs:sec>");
+    z.file("Preview/PrvText.txt", document.getElementById("mkPaper").innerText.slice(0, 1000));
+    return z.generateAsync({ type: "blob", mimeType: "application/hwp+zip", compression: "DEFLATE" });
+  }).then(function(blob){ saveBlob(blob, mkFileName(".hwpx")); });
+}
 })();
 </script>
 <script src="design/dashboard.js?v=20261106-banner1"></script>
